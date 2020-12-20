@@ -23,6 +23,7 @@ class SignUp extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.state.password === this.state.confirmPassword) {
+            //validate password length here
             const newUser = { username: this.state.username, email: this.state.email, password: this.state.password };
             axios
                 .post(`${REACT_APP_SERVER_URL}/api/users/register`, newUser)
