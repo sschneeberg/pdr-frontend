@@ -6,7 +6,7 @@ function Nav(props) {
         <div className="">
             <nav className=" navbar navbar-dark bg-dark  ">
                 <Link className="navbar-brand" to="/">
-                    MERN Auth
+                    Pest Damage Report
                 </Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="#navbarsExample07" aria-label="Toggle Navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@ function Nav(props) {
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
                         <NavLink className="nav-link" exact to="/">
-                            Home
+                            Submit Bug
                         </NavLink>
                     </li>
                     <li className="nav-item">
@@ -29,7 +29,7 @@ function Nav(props) {
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/profile">
-                                Profile
+                                Dashboard
                             </NavLink>
                         </li>
                         <li className="nav-item">
