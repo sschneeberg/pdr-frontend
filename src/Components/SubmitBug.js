@@ -1,10 +1,11 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 function SubmitBug(props) {
 
   const onSubmitHandler = (e) => {
       e.preventDefault();
-      
+      props.history.push('/sbpt2')
   }
 
     return (
@@ -13,7 +14,7 @@ function SubmitBug(props) {
         <form action="">
           <label for="text">image</label>
           <input type="text" placeholder='Image submit' />
-          <input type="submit" name="" id="" />
+          <input type="submit" name="" id="" onClick={onSubmitHandler} />
         </form>
         <form action="">
           <label for="text">text</label>
