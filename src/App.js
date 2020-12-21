@@ -10,6 +10,9 @@ import SignUp from './Components/Signup';
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
 import SubmitBug2 from './Components/SubmitBug2';
+import FormSubmitted from './Components/FormSubmitted';
+import KanbanDev from './Components/Dev/KanbanDev';
+
 import './App.css';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -72,6 +75,8 @@ function App() {
                         }}
                     />
                     <Route path='/sbpt2' component={SubmitBug2} />
+                    <Route path='/formsubmitted' component={FormSubmitted} />
+                    <Route path='/devhome' component={KanbanDev} />
                 </Switch>
             </div>
             <Footer />
