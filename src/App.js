@@ -11,7 +11,9 @@ import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
 import SubmitBug2 from './Components/SubmitBug2';
 import FormSubmitted from './Components/FormSubmitted';
-import KanbanDev from './Components/Dev/KanbanDev';
+import DevHome from './Components/Dev/DevHome';
+import AdminHome from './Components/Admin/AdminHome';
+import UserHome from './Components/User/UserHome';
 
 import './App.css';
 
@@ -76,7 +78,9 @@ function App() {
                     />
                     <Route path='/sbpt2' component={SubmitBug2} />
                     <Route path='/formsubmitted' component={FormSubmitted} />
-                    <Route path='/devhome' component={KanbanDev} />
+                    <Route path='/devhome' component={DevHome} />
+                    <Route path='/adminhome' component={AdminHome} />
+                    <Route path='/userhome' component={UserHome} />
                 </Switch>
             </div>
             <Footer />

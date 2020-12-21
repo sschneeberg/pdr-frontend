@@ -15,9 +15,6 @@ function SubmitBug2(props) {
       <div>
         <h1>Bug Submit Form</h1>
         <form action="">
-        <label for="text">Summary</label>
-            <input type="text" name="summary" id="" />
-            <br />
             <label for="text">Description</label>
             <input type="text" name="description" id="" />
             <br />
