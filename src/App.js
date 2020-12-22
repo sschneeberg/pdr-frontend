@@ -67,7 +67,7 @@ function App() {
             <div className="container mt-5">
                 <Switch>
                     <Route path="/" exact component={SubmitBug} />
-                    <PrivateRoute path="/profile" component={Profile} user={currentUser} />
+                    {/* <PrivateRoute path="/profile" component={Profile} user={currentUser} /> */}
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
                     <Route
@@ -80,7 +80,7 @@ function App() {
                     <Route path='/formsubmitted' component={FormSubmitted} />
                     <Route path='/devhome' component={DevHome} />
                     <Route path='/adminhome' component={AdminHome} />
-                    <Route path='/userhome' component={UserHome} />
+                    <PrivateRoute path='/profile' component={UserHome} user={currentUser} />
                 </Switch>
             </div>
             <Footer />

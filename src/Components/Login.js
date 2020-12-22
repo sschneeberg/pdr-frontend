@@ -4,8 +4,7 @@ import { Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utilities/setAuthToken';
 import FormField from './FormField';
-
-import REACT_APP_SERVER_URL from '../keys';
+import REACT_APP_SERVER_URL from '../keys'
 
 class Login extends Component {
     constructor(props) {
