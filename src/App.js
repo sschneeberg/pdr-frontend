@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utilities/setAuthToken';
-import Welcome from './Components/Welcome';
 import About from './Components/About';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
 import Profile from './Components/Profile';
 import SignUp from './Components/Signup';
 import Login from './Components/Login';
+import SubmitBug from './Components/SubmitBug';
+import SubmitBug2 from './Components/SubmitBug2';
+import FormSubmitted from './Components/FormSubmitted';
+import DevHome from './Components/Dev/DevHome';
+import AdminHome from './Components/Admin/AdminHome';
+import UserHome from './Components/User/UserHome';
+
 import './App.css';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -60,8 +66,8 @@ function App() {
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} />
             <div className="container mt-5">
                 <Switch>
-                    <Route path="/" exact component={Welcome} />
-                    <PrivateRoute path="/profile" component={Profile} user={currentUser} />
+                    <Route path="/" exact component={SubmitBug} />
+                    {/* <PrivateRoute path="/profile" component={Profile} user={currentUser} /> */}
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
                     <Route
@@ -70,6 +76,11 @@ function App() {
                             return <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser} />;
                         }}
                     />
+                    <Route path='/sbpt2' component={SubmitBug2} />
+                    <Route path='/formsubmitted' component={FormSubmitted} />
+                    <Route path='/devhome' component={DevHome} />
+                    <Route path='/adminhome' component={AdminHome} />
+                    <PrivateRoute path='/profile' component={UserHome} user={currentUser} />
                 </Switch>
             </div>
             <Footer />
