@@ -4,7 +4,15 @@ class AdminHome extends Component {
     constructor(props) {
         super(props)
         this.state ={
-
+            description: '',
+            projectDescription: '',
+            date: '',
+            website: '',
+            status: '',
+            image: '',
+            severity: '',
+            numOfBugsAssinged: '',
+            devs: ''
         }
     }
     render() {
@@ -18,8 +26,8 @@ class AdminHome extends Component {
                 Date/time submitted: 
                 Website:
                 Select status:
-                button to assign bug to dev:
                 Image of bug:
+                button to assign bug to dev:
             </div>
             <div className='devs' >
                 Dev names:
@@ -30,7 +38,5 @@ class AdminHome extends Component {
         );
     }
 }
-
-
 
 export default AdminHome;

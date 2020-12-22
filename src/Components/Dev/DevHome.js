@@ -4,7 +4,12 @@ class DevHome extends Component {
     constructor(props) {
         super(props)
         this.state ={
-
+            description: '',
+            date: '',
+            website: '',
+            status: '',
+            image: '',
+            severity: ''
         }
     }
     render() {

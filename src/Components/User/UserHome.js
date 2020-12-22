@@ -4,14 +4,18 @@ class UserHome extends Component {
     constructor(props) {
         super(props)
         this.state ={
-
+            description: '',
+            date: '',
+            website: '',
+            status: '',
+            image: ''
         }
     }
     render() {
         return(
         <div>
             Description of bug:
-            Date/time submitted: 
+            Date/time submitted:
             Website:
             Status:
             Image of bug:
