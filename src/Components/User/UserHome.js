@@ -9,16 +9,21 @@ class UserHome extends Component {
             date: [],
             website: [],
             status: [],
-            image: []
+            image: [],
+            userId: ''
         }
     }
 
+
+
     componentDidMount() {
-        axios.get("http://localhost:8000/api/tickets/companies")
+        console.log(this.props.user);
+        axios.get(`http://localhost:8000/api/users/current`)
         .then(({ data }) => console.log(data))
         .catch(e => {
             console.log(e);
         })
+
     }
 
     render() {
