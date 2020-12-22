@@ -19,8 +19,10 @@ function SubmitBug(props) {
         <form action="">
           <label htmlFor="text">text</label>
           <input type="text" placeholder='Text submit' />
-          <label htmlFor="text">text</label>
-          <input type="text" placeholder='Text submit' />
+          <select name="" id="">
+            <option value=""></option>
+          </select>
+
           <input type="submit" name="" id="" onClick={onSubmitHandler}/>
         </form>
       </div>
