@@ -12,14 +12,14 @@ function SubmitBug(props) {
       <div>
         <h1>Bug Submit Form</h1>
         <form action="">
-          <label for="text">image</label>
+          <label htmlFor="text">image</label>
           <input type="text" placeholder='Image submit' />
           <input type="submit" name="" id="" onClick={onSubmitHandler} />
         </form>
         <form action="">
-          <label for="text">text</label>
+          <label htmlFor="text">text</label>
           <input type="text" placeholder='Text submit' />
-          <label for="text">text</label>
+          <label htmlFor="text">text</label>
           <input type="text" placeholder='Text submit' />
           <input type="submit" name="" id="" onClick={onSubmitHandler}/>
         </form>
