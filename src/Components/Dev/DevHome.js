@@ -12,6 +12,15 @@ class DevHome extends Component {
             severity: ''
         }
     }
+
+    // componentDidMount() {
+    //     axios.get(`http://localhost:8000/api/tickets/`)
+    //     .then(({ data }) => console.log(data))
+    //     .catch(e => {
+    //         console.log(e);
+    //     })
+    // }
+
     render() {
         return(
         <div>
