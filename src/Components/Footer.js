@@ -2,9 +2,8 @@ function Footer() {
     return (
         <footer className="footer bg-dark">
             <div className="container text-center">
-                Footer
                 <span className="text-muted">
-                    @Dec 2020 Mern Auth Front End Template
+                    @2020 Orca inc.
                 </span>
             </div>
         </footer>
