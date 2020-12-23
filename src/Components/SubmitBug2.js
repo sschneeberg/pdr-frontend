@@ -15,16 +15,16 @@ function SubmitBug2(props) {
       <div>
         <h1>Bug Submit Form</h1>
         <form action="">
-            <label for="text">Description</label>
+            <label HTMLfor="text">Description</label>
             <input type="text" name="description" id="" />
             <br />
-            <label for="text">Image</label>
+            <label HTMLfor="text">Image</label>
             <input type="text" name="image" id="" />
             <br />
-            <label for="text">Company</label>
+            <label HTMLfor="text">Company</label>
             <input type="text" name="company" id="" />
             <br />
-            <label for="text">Product</label>
+            <label HTMLfor="text">Product</label>
             <input type="text" name="product" id="" />
             <br />
             <input type="submit" name="" id="" value='Login/Signup and submit' onClick={onSubmitHandler} />
