@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import axios from 'axios';
 
-class UserHome extends Component {
+class BugDetails extends Component {
     constructor(props) {
         super(props)
         this.state ={
@@ -10,11 +10,12 @@ class UserHome extends Component {
     }
 
     async componentDidMount() {
-        await axios.get(`http://localhost:8000/api/dashboard`)
+        await axios.get(`http://localhost:8000/api/tickets/${this.props.tickets.id}`)
         .then((response) => {
             const data = response.data.tickets;
             this.setState({ bugs: data });
             console.log('Data was recived');
+            console.log(data);
         })
         .catch(e => {
             console.log(e);
@@ -40,13 +41,17 @@ class UserHome extends Component {
         )
     }
 
+
+
     render() {
         return(
         <div>
-            {this.displaybugs()}
+             {this.displaybugs()}
         </div>
         );
     }
 }
 
-export default UserHome;
+
+
+export default BugDetails;

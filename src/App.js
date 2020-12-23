@@ -5,7 +5,6 @@ import setAuthToken from './utilities/setAuthToken';
 import About from './Components/About';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
-import Profile from './Components/Profile';
 import SignUp from './Components/Signup';
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
@@ -14,6 +13,7 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
+import BugDetails from './Components/BugDetails';
 
 import './App.css';
 
@@ -67,7 +67,6 @@ function App() {
             <div className="container mt-5">
                 <Switch>
                     <Route path="/" exact component={SubmitBug} />
-                    {/* <PrivateRoute path="/profile" component={Profile} user={currentUser} /> */}
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
                     <Route
@@ -76,11 +75,18 @@ function App() {
                             return <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser} />;
                         }}
                     />
-                    <Route path='/sbpt2' component={SubmitBug2} />
+                    <Route path='/submitbug2' component={SubmitBug2} />
                     <Route path='/formsubmitted' component={FormSubmitted} />
-                    <Route path='/devhome' component={DevHome} />
-                    <Route path='/adminhome' component={AdminHome} />
-                    <PrivateRoute path='/profile' component={UserHome} user={currentUser} />
+                    <Route path='/home' render={() => {
+                        if (currentUser.permissions === "admin") {
+                            return <AdminHome />
+                        } else if (currentUser.permissions === "dev") {
+                            return <DevHome />
+                        } else {
+                            return <UserHome />
+                        }
+                    }} />
+                    <Route path='/bugdetails' component={BugDetails} />
                 </Switch>
             </div>
             <Footer />
