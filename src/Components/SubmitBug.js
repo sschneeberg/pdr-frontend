@@ -13,7 +13,7 @@ function SubmitBug(props) {
         <h1>Bug Submit Form</h1>
         <form action="">
           <label htmlFor="text">image</label>
-          <input type="text" placeholder='Image submit' />
+          <input type="file" placeholder='Image submit' />
           <input type="submit" name="" id="" onClick={onSubmitHandler} />
         </form>
         <form action="">

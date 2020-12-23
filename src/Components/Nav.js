@@ -28,7 +28,7 @@ function Nav(props) {
                 {props.isAuth ? (
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/profile">
+                            <NavLink className="nav-link" to="/home">
                                 Dashboard
                             </NavLink>
                         </li>
