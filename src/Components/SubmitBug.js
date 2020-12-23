@@ -29,6 +29,7 @@ import SubmitBug2 from './SubmitBug2';
       <h1>Submit Bug</h1>
       <form>
 
+
         <div className="form-group">
           <input onChange={handleChange} name="title" value={input.title} className="form-control" autoComplete="off" placeholder="Title"></input>
         </div>
@@ -39,6 +40,7 @@ import SubmitBug2 from './SubmitBug2';
 
         <button onClick={handleClick} className="btn btn-lg btn-info">Next</button>
       </form>
+    
       </div>
   }
   

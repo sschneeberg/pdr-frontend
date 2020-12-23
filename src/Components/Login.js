@@ -34,8 +34,8 @@ class Login extends Component {
 
     render() {
         if (this.props.user) {
-            return <Redirect to="/profile" />;
-        }
+            return <Redirect to='/home' />
+         }
 
         return (
             <div className="row mt-4">
