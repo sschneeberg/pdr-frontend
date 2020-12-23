@@ -76,7 +76,7 @@ function App() {
                             return <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser} />;
                         }}
                     />
-                    <Route path='/sbpt2' component={SubmitBug2} />
+                    <Route path='/submitbug2' component={SubmitBug2} />
                     <Route path='/formsubmitted' component={FormSubmitted} />
                     <Route path='/devhome' component={DevHome} />
                     <Route path='/adminhome' component={AdminHome} />
