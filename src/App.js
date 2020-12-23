@@ -13,6 +13,7 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
+import BugDetails from './Components/BugDetails';
 
 import './App.css';
 
@@ -85,6 +86,7 @@ function App() {
                             return <UserHome />
                         }
                     }} />
+                    <Route path='/bugdetails' component={BugDetails} />
                 </Switch>
             </div>
             <Footer />
