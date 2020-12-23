@@ -3,29 +3,49 @@ import axios from 'axios';
 
 class UserHome extends Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            description: [],
-            date: [],
-            website: [],
-            status: [],
-            image: [],
-            userId: ''
-        };
+        super(props)
+        this.state ={
+            bugs: []
+        }
     }
 
-    componentDidMount() {
-        console.log(this.props.user);
-        axios
-            .get(`http://localhost:8000/api/dashboard`)
-            .then(({ data }) => console.log(data))
-            .catch((e) => {
-                console.log(e);
-            });
+    async componentDidMount() {
+        await axios.get(`http://localhost:8000/api/dashboard`)
+        .then((response) => {
+            const data = response.data.tickets;
+            this.setState({ bugs: data });
+            console.log('Data was recived');
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+
+    displaybugs = () => {
+        return (
+            this.state.bugs.map((bug, index) => {
+                return (
+                    <div>
+                        <ul key={index}>
+                            <li>{bug.title}</li>
+                            <li>{bug.company}</li>
+                            <li>{bug.product}</li>
+                            <li>{bug.description}</li>
+                            <li>{bug.status}</li>
+                            <li>{bug.createdAt}</li>
+                        </ul>
+                    </div>
+                )
+            })
+        )
     }
 
     render() {
-        return <div></div>;
+        return(
+        <div>
+            {this.displaybugs()}
+        </div>
+        );
     }
 }
 

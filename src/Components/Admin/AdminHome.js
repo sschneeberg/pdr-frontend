@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
 class AdminHome extends Component {
     constructor(props) {
@@ -12,9 +13,43 @@ class AdminHome extends Component {
             image: '',
             severity: '',
             numOfBugsAssinged: '',
-            devs: ''
+            devs: '',
+            bugs: []
         }
     }
+
+    async componentDidMount() {
+        await axios.get(`http://localhost:8000api/dashboard/admin-dashboard`)
+        .then((response) => {
+            const data = response;
+            console.log(data);
+            // this.setState({ bugs: data });
+            // console.log('Data was recived');
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+
+    // displaybugs = () => {
+    //     return (
+    //         this.state.bugs.map((bug, index) => {
+    //             return (
+    //                 <div>
+    //                     <ul key={index}>
+    //                         <li>{bug.title}</li>
+    //                         <li>{bug.company}</li>
+    //                         <li>{bug.product}</li>
+    //                         <li>{bug.description}</li>
+    //                         <li>{bug.status}</li>
+    //                         <li>{bug.createdAt}</li>
+    //                     </ul>
+    //                 </div>
+    //             )
+    //         })
+    //     )
+    // }
+
     render() {
         return(
         <div>

@@ -1,31 +1,52 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
 class DevHome extends Component {
     constructor(props) {
         super(props)
         this.state ={
-            description: '',
-            date: '',
-            website: '',
-            status: '',
-            image: '',
-            severity: ''
+            bugs: []
         }
     }
+
+    async componentDidMount() {
+        await axios.get(`http://localhost:8000/api/dashboard`)
+        .then((response) => {
+            const data = response.data.tickets;
+            this.setState({ bugs: data });
+            console.log('Data was recived');
+            console.log(data);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+
+    displaybugs = () => {
+        return (
+            this.state.bugs.map((bug, index) => {
+                return (
+                    <div>
+                        <ul key={index}>
+                            <li>{bug.title}</li>
+                            <li>{bug.company}</li>
+                            <li>{bug.product}</li>
+                            <li>{bug.description}</li>
+                            <li>{bug.status}</li>
+                            <li>{bug.createdAt}</li>
+                        </ul>
+                    </div>
+                )
+            })
+        )
+    }
+
+
+
     render() {
         return(
         <div>
-            <div>
-                Description of bug:
-                Date/time submitted: 
-                Website:
-                Severity:
-                Image of bug:
-                button to move to in progess:
-            </div>
-            <div>
-                Button to move to done:
-            </div>
+             {this.displaybugs()}
         </div>
         );
     }
