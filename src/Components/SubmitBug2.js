@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-// import axios from "axios";
+import axios from "axios";
 
 
 
@@ -32,15 +32,15 @@ import { NavLink, Link } from 'react-router-dom';
       event.preventDefault();
       console.log(input)
 
-      // const newTicket = {
-      //   title: input.title,
-      //   company: input.company,
-      //   product: input.product,
-      //   picture: input.picture,      
-      //   description: input.description,
-      //   createdBy: input.createdBy,
-      // }
-      // axios.post('http://localhost:8000/', newTicket)
+      const newTicket = {
+        title: input.title,
+        company: input.company,
+        product: input.product,
+        picture: input.picture,      
+        description: input.description,
+        createdBy: input.createdBy,
+      }
+      axios.post('http://localhost:8000/api/tickets', newTicket)
     }
       return <div className="container">
       <h1>Submit Bug</h1>
