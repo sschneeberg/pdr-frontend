@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import axios from 'axios';
 
 class UserHome extends Component {
@@ -48,7 +48,5 @@ class UserHome extends Component {
         );
     }
 }
-
-
 
 export default UserHome;
