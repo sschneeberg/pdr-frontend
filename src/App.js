@@ -6,6 +6,7 @@ import About from './Components/About';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
 import SignUp from './Components/Signup';
+import CompanySignup from './Components/CompanySignup'
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
 import SubmitBug2 from './Components/SubmitBug2';
@@ -13,7 +14,7 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
-
+import axios from 'axios'
 import './App.css';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -27,11 +28,24 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     );
 };
 
+
+
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [currentUser, setCurrentUser] = useState('');
-
+    const [company, setCompany] = useState('')
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
+
+        axios.get(`http://localhost:8000/api/tickets/companies`)
+        .then((response) => {
+            setCompany(response.data.companies)
+            setLoading(false)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        
         let token;
         //if no token in local storage, then user is not authenticated
         if (!localStorage.getItem('jwtToken')) {
@@ -57,9 +71,9 @@ function App() {
             setIsAuthenticated(false);
         }
     };
-
-    console.log(currentUser);
-
+    if (loading) {
+        return <div>Loading....</div> 
+    }
     return (
         <div className="App">
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} />
@@ -68,6 +82,7 @@ function App() {
                     <Route path="/" exact component={SubmitBug} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
+                    <Route path="/company-signup" render={(props) => {return <CompanySignup {...props}companies={company} />}} />
                     <Route
                         path="/login"
                         render={(props) => {
