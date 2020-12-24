@@ -37,7 +37,7 @@ class CompanySignup extends Component {
         e.preventDefault();
         if (this.state.password === this.state.confirmPassword) {
             //validate password length here
-            const newUser = { username: this.state.username, email: this.state.email, password: this.state.password, company: this.state.company, companyKey: this.state.company, permissions: this.state.permissions};
+            const newUser = { username: this.state.username, email: this.state.email, password: this.state.password, company: this.state.company, companyKey: this.state.companyKey, permissions: this.state.permissions};
             axios
                 .post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
