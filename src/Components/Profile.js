@@ -127,7 +127,7 @@ class Profile extends Component {
 
                             {this.state.user.company ? (
                                 <p>
-                                    <strong>Email:</strong> {this.state.user.company}
+                                    <strong>Company:</strong> {this.state.user.company}
                                 </p>
                             ) : (
                                 <p></p>
