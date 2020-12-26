@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import FormField from './FormField';
 import REACT_APP_SERVER_URL from '../keys';
 
@@ -68,6 +68,10 @@ class CompanySignup extends Component {
                             onSubmit={(e) => {
                                 this.handleSubmit(e);
                             }}>
+                                
+                            <p>Don't see your company listed?</p>
+                            <Link to="/signup-a-company">Signup your company here!</Link>
+
                             <div className="form-group">
                                 <FormField type="text" label="username" display="Username: " value={this.state.username} onChange={this.onChange} />
 

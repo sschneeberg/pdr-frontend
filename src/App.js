@@ -7,6 +7,7 @@ import Nav from './Components/Nav';
 import Footer from './Components/Footer';
 import SignUp from './Components/Signup';
 import CompanySignup from './Components/CompanySignup'
+import SignupACompany from './Components/SignupACompany'
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
 import SubmitBug2 from './Components/SubmitBug2';
@@ -82,6 +83,7 @@ function App() {
                     <Route path="/" exact component={SubmitBug} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
+                    <Route path="/signup-a-company" component={SignupACompany} />
                     <Route path="/company-signup" render={(props) => {return <CompanySignup {...props}companies={company} />}} />
                     <Route
                         path="/login"
