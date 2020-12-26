@@ -43,7 +43,9 @@ class UserHome extends Component {
     render() {
         return (
             <div>
-                <Link to="/profile">Account Information</Link>
+                <Link className="btn btn-primary" to="/profile">
+                    Account Information
+                </Link>
                 {this.displaybugs()}
             </div>
         );

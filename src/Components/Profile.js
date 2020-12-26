@@ -9,6 +9,7 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: this.props.user,
             password: '',
             confirmPassword: '',
             email: '',
@@ -33,6 +34,7 @@ class Profile extends Component {
     componentDidUpdate() {
         if (this.changed) {
             //pull new user info
+            axios.get();
             return;
         }
     }
@@ -40,24 +42,34 @@ class Profile extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         //submit info to backend
+        console.log('submit');
         if (this.state.changedField === 'password') {
             //check passwords match
             if (this.state.password !== this.state.confirmPassword) {
-                this.setState({ error: 'Password do not match' });
+                this.setState({ error: 'Passwords do not match' });
+                return;
+            } else if (this.state.password.length < 8) {
+                this.setState({ error: 'Password must be at least 8 characters' });
+                return;
             }
         }
         axios
-            .put(`${REACT_APP_SERVER_URL}/api/users/${this.props.user.id}`, {
+            .put(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
                 //can this be a variable to make this one function?
-                [this.state.changedField]: this.state.changedField
+                [this.state.changedField]: this.state[this.state.changedField]
             })
             .then((response) => {
                 //check for error
-                if (response.msg.includes('updated')) {
-                    this.setState({ error: false });
+                console.log(response.data);
+                if (response.data.msg.includes('updated')) {
+                    this.setState({ error: false, changed: true });
+                } else if (response.data.msg.includes('in use')) {
+                    //cannot have duplicate email
+                    this.setState({ error: 'Email in use by another account, please try another.' });
                 } else {
                     this.setState({ error: true });
                 }
+                this.handleClose();
             });
 
         //reset form fields to blank
@@ -77,6 +89,9 @@ class Profile extends Component {
             username: '',
             show: false
         });
+        if (this.state.error.toString().includes('match')) {
+            this.setState({ error: false });
+        }
     };
 
     handleShow = () => this.setState({ show: true });
@@ -91,21 +106,35 @@ class Profile extends Component {
     };
 
     render() {
+        console.log(this.state.error);
         const userData = (
             <>
                 <div className="userInfo">
                     <h1>Account Information</h1>
                     <p>
-                        <strong>Username:</strong> {this.props.user.username}
+                        <strong>Username:</strong> {this.state.user.username}
                     </p>
                     <p>
-                        <strong>Email:</strong> {this.props.user.email}
+                        <strong>Email:</strong> {this.state.user.email}
                     </p>
-                    {this.state.error === true ? (
+
+                    {this.state.user.company ? (
                         <p>
+                            <strong>Email:</strong> {this.state.user.company}
+                        </p>
+                    ) : (
+                        <p></p>
+                    )}
+                    {this.state.error === true ? (
+                        <p style={{ color: 'red' }}>
                             An error occurred, please try updating your information again or contact us if the problem
                             persists.
                         </p>
+                    ) : (
+                        <p></p>
+                    )}
+                    {this.state.error.toString().includes('Email') ? (
+                        <p style={{ color: 'red' }}>{this.state.error}</p>
                     ) : (
                         <p></p>
                     )}
@@ -131,31 +160,35 @@ class Profile extends Component {
                                 />
                                 <hr />
                                 <FormField
-                                    type="text"
+                                    type="email"
                                     label="email"
                                     display="Change Email: "
-                                    value={this.state.username}
+                                    value={this.state.email}
                                     onChange={this.onChange}
                                 />
                                 <hr />
                                 <FormField
-                                    type="text"
+                                    type="password"
                                     label="password"
                                     display="Change Password: "
-                                    value={this.state.username}
+                                    value={this.state.password}
                                     onChange={this.onChange}
                                 />
                                 <FormField
-                                    type="text"
+                                    type="password"
                                     label="confirmPassword"
                                     display="Confirm New Password: "
-                                    value={this.state.username}
+                                    value={this.state.confirmPassword}
                                     onChange={this.onChange}
                                 />
-                                {this.state.error.toString().includes('match') ? <p>{this.state.error}</p> : <p></p>}
+                                {this.state.error.toString().includes('Password') ? (
+                                    <p style={{ color: 'red' }}>{this.state.error}</p>
+                                ) : (
+                                    <p></p>
+                                )}
                             </Modal.Body>
                             <Modal.Footer>
-                                <Button variant="secondary" onClick={this.handleClose}>
+                                <Button type="submit" variant="secondary">
                                     Save
                                 </Button>
                                 <Button variant="primary" onClick={this.handleClose}>
@@ -181,7 +214,7 @@ class Profile extends Component {
         return (
             <div>
                 <p>Profile page</p>
-                {this.props.user ? userData : errorDiv()}
+                {this.state.user ? userData : errorDiv()}
             </div>
         );
     }
