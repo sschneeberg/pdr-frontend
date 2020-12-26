@@ -17,7 +17,8 @@ class Profile extends Component {
             changed: false,
             changedField: '',
             error: false,
-            show: false
+            show: false,
+            loading: false
         };
     }
 
@@ -32,10 +33,12 @@ class Profile extends Component {
     }
 
     componentDidUpdate() {
-        if (this.changed) {
+        if (this.state.changed) {
             //pull new user info
-            axios.get();
-            return;
+            if (!this.state.loading) this.setState({ loading: true });
+            axios.get(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`).then((updatedUser) => {
+                this.setState({ user: updatedUser.data.user, changed: false, loading: false });
+            });
         }
     }
 
@@ -61,9 +64,9 @@ class Profile extends Component {
             .then((response) => {
                 //check for error
                 console.log(response.data);
-                if (response.data.msg.includes('updated')) {
+                if (typeof response.data.msg === 'string' && response.data.msg.includes('updated')) {
                     this.setState({ error: false, changed: true });
-                } else if (response.data.msg.includes('in use')) {
+                } else if (typeof response.data.msg === 'string' && response.data.msg.includes('in use')) {
                     //cannot have duplicate email
                     this.setState({ error: 'Email in use by another account, please try another.' });
                 } else {
@@ -106,24 +109,30 @@ class Profile extends Component {
     };
 
     render() {
-        console.log(this.state.error);
+        console.log(this.state.user);
         const userData = (
             <>
                 <div className="userInfo">
                     <h1>Account Information</h1>
-                    <p>
-                        <strong>Username:</strong> {this.state.user.username}
-                    </p>
-                    <p>
-                        <strong>Email:</strong> {this.state.user.email}
-                    </p>
-
-                    {this.state.user.company ? (
-                        <p>
-                            <strong>Email:</strong> {this.state.user.company}
-                        </p>
+                    {this.state.loading ? (
+                        <p>Loading User Information ... </p>
                     ) : (
-                        <p></p>
+                        <>
+                            <p>
+                                <strong>Username:</strong> {this.state.user.username}
+                            </p>
+                            <p>
+                                <strong>Email:</strong> {this.state.user.email}
+                            </p>
+
+                            {this.state.user.company ? (
+                                <p>
+                                    <strong>Email:</strong> {this.state.user.company}
+                                </p>
+                            ) : (
+                                <p></p>
+                            )}
+                        </>
                     )}
                     {this.state.error === true ? (
                         <p style={{ color: 'red' }}>

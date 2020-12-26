@@ -26,8 +26,8 @@ class UserHome extends Component {
     displaybugs = () => {
         return this.state.bugs.map((bug, index) => {
             return (
-                <div>
-                    <ul key={index}>
+                <div key={index}>
+                    <ul>
                         <li>{bug.title}</li>
                         <li>{bug.company}</li>
                         <li>{bug.product}</li>
