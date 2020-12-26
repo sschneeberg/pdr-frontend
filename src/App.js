@@ -13,6 +13,7 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
+import Profile from './Components/Profile';
 
 import './App.css';
 
@@ -71,20 +72,36 @@ function App() {
                     <Route
                         path="/login"
                         render={(props) => {
-                            return <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser} />;
+                            return (
+                                <Login
+                                    {...props}
+                                    nowCurrentUser={nowCurrentUser}
+                                    setIsAuthenticated={setIsAuthenticated}
+                                    user={currentUser}
+                                />
+                            );
                         }}
                     />
-                    <Route path='/submitbug2' component={SubmitBug2} />
-                    <Route path='/formsubmitted' component={FormSubmitted} />
-                    <Route path='/home' render={() => {
-                        if (currentUser.permissions === "admin") {
-                            return <AdminHome />
-                        } else if (currentUser.permissions === "dev") {
-                            return <DevHome />
-                        } else {
-                            return <UserHome />
-                        }
-                    }} />
+                    <Route path="/submitbug2" component={SubmitBug2} />
+                    <Route path="/formsubmitted" component={FormSubmitted} />
+                    <Route
+                        path="/home"
+                        render={() => {
+                            if (currentUser.permissions === 'admin') {
+                                return <AdminHome />;
+                            } else if (currentUser.permissions === 'dev') {
+                                return <DevHome />;
+                            } else {
+                                return <UserHome />;
+                            }
+                        }}
+                    />
+                    <Route
+                        path="/profile"
+                        render={() => {
+                            return <Profile user={currentUser} />;
+                        }}
+                    />
                 </Switch>
             </div>
             <Footer />

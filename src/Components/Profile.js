@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
 import REACT_APP_SERVER_URL from '../keys';
 
@@ -14,8 +15,19 @@ class Profile extends Component {
             username: '',
             changed: false,
             changedField: '',
-            error: false
+            error: false,
+            show: false
         };
+    }
+
+    componentDidCatch() {
+        //from Bootstrap Docs
+        var myModal = document.getElementById('myModal');
+        var myInput = document.getElementById('myInput');
+
+        myModal.addEventListener('shown.bs.modal', function () {
+            myInput.focus();
+        });
     }
 
     componentDidUpdate() {
@@ -41,7 +53,7 @@ class Profile extends Component {
             })
             .then((response) => {
                 //check for error
-                if (response.msg.inludes('updated')) {
+                if (response.msg.includes('updated')) {
                     this.setState({ error: false });
                 } else {
                     this.setState({ error: true });
@@ -56,6 +68,18 @@ class Profile extends Component {
             username: ''
         });
     };
+
+    handleClose = () => {
+        this.setState({
+            password: '',
+            confirmPassword: '',
+            email: '',
+            username: '',
+            show: false
+        });
+    };
+
+    handleShow = () => this.setState({ show: true });
 
     onChange = (e) => {
         this.setState({
@@ -87,82 +111,59 @@ class Profile extends Component {
                     )}
                 </div>
                 <div className="changeInfo">
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
+                    <Button variant="primary" onClick={this.handleShow}>
                         Update Account Information
-                    </button>
+                    </Button>
 
-                    <div className="modal" tabindex="-1">
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Update Account Information</h5>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <form onSubmit={(e) => this.handleSubmit(e)}>
-                                    <div className="modal-body">
-                                        <FormField
-                                            type="text"
-                                            label="username"
-                                            display="Change Username: "
-                                            value={this.state.username}
-                                            onChange={this.onChange}
-                                        />
-                                        <hr />
-                                        <FormField
-                                            type="text"
-                                            label="email"
-                                            display="Change Email: "
-                                            value={this.state.username}
-                                            onChange={this.onChange}
-                                        />
-                                        <hr />
-                                        <FormField
-                                            type="text"
-                                            label="password"
-                                            display="Change Password: "
-                                            value={this.state.username}
-                                            onChange={this.onChange}
-                                        />
-                                        <FormField
-                                            type="text"
-                                            label="confirmPassword"
-                                            display="Confirm New Password: "
-                                            value={this.state.username}
-                                            onChange={this.onChange}
-                                        />
-                                        {this.state.error.inludes('match') ? <p>{this.state.error}</p> : <p></p>}
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
-                                            Save
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                this.setState({
-                                                    password: '',
-                                                    confirmPassword: '',
-                                                    email: '',
-                                                    username: ''
-                                                })
-                                            }
-                                            className="btn btn-secondary"
-                                            data-bs-dismiss="modal">
-                                            Close
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <Modal show={this.state.show} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Update Account information</Modal.Title>
+                        </Modal.Header>
+
+                        <form onSubmit={(e) => this.handleSubmit(e)}>
+                            <Modal.Body>
+                                <FormField
+                                    type="text"
+                                    label="username"
+                                    display="Change Username: "
+                                    value={this.state.username}
+                                    onChange={this.onChange}
+                                />
+                                <hr />
+                                <FormField
+                                    type="text"
+                                    label="email"
+                                    display="Change Email: "
+                                    value={this.state.username}
+                                    onChange={this.onChange}
+                                />
+                                <hr />
+                                <FormField
+                                    type="text"
+                                    label="password"
+                                    display="Change Password: "
+                                    value={this.state.username}
+                                    onChange={this.onChange}
+                                />
+                                <FormField
+                                    type="text"
+                                    label="confirmPassword"
+                                    display="Confirm New Password: "
+                                    value={this.state.username}
+                                    onChange={this.onChange}
+                                />
+                                {this.state.error.toString().includes('match') ? <p>{this.state.error}</p> : <p></p>}
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={this.handleClose}>
+                                    Save
+                                </Button>
+                                <Button variant="primary" onClick={this.handleClose}>
+                                    Close
+                                </Button>
+                            </Modal.Footer>
+                        </form>
+                    </Modal>
                 </div>
             </>
         );
@@ -177,7 +178,12 @@ class Profile extends Component {
             );
         };
 
-        return <div>{this.props.user ? userData : errorDiv()}</div>;
+        return (
+            <div>
+                <p>Profile page</p>
+                {this.props.user ? userData : errorDiv()}
+            </div>
+        );
     }
 }
 export default Profile;
