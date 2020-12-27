@@ -6,6 +6,8 @@ import About from './Components/About';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
 import SignUp from './Components/Signup';
+import CompanySignup from './Components/CompanySignup';
+import SignupACompany from './Components/SignupACompany';
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
 import SubmitBug2 from './Components/SubmitBug2';
@@ -13,6 +15,8 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
+import Profile from './Components/Profile';
+import axios from 'axios';
 import BugDetails from './Components/BugDetails';
 
 import './App.css';
@@ -31,8 +35,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [currentUser, setCurrentUser] = useState('');
-
+    const [company, setCompany] = useState('');
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
+        axios
+            .get(`http://localhost:8000/api/tickets/companies`)
+            .then((response) => {
+                setCompany(response.data.companies);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
         let token;
         //if no token in local storage, then user is not authenticated
         if (!localStorage.getItem('jwtToken')) {
@@ -59,8 +74,19 @@ function App() {
         }
     };
 
+    const handleExpiration = () => {
+        //check session end
+        if (Date(this.state.user.exp * 1000) <= Date.now()) {
+            handleLogout();
+            alert('Session ended');
+        }
+    };
+
     console.log(currentUser);
 
+    if (loading) {
+        return <div>Loading....</div>;
+    }
     return (
         <div className="App">
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} />
@@ -69,24 +95,47 @@ function App() {
                     <Route path="/" exact component={SubmitBug} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
+                    <Route path="/signup-a-company" component={SignupACompany} />
+                    <Route
+                        path="/company-signup"
+                        render={(props) => {
+                            return <CompanySignup {...props} companies={company} />;
+                        }}
+                    />
                     <Route
                         path="/login"
                         render={(props) => {
-                            return <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser} />;
+                            return (
+                                <Login
+                                    {...props}
+                                    nowCurrentUser={nowCurrentUser}
+                                    setIsAuthenticated={setIsAuthenticated}
+                                    user={currentUser}
+                                />
+                            );
                         }}
                     />
-                    <Route path='/submitbug2' component={SubmitBug2} />
-                    <Route path='/formsubmitted' component={FormSubmitted} />
-                    <Route path='/home' render={() => {
-                        if (currentUser.permissions === "admin") {
-                            return <AdminHome />
-                        } else if (currentUser.permissions === "dev") {
-                            return <DevHome />
-                        } else {
-                            return <UserHome />
-                        }
-                    }} />
-                    <Route path='/bugdetails' component={BugDetails} />
+                    <Route path="/submitbug2" component={SubmitBug2} />
+                    <Route path="/formsubmitted" component={FormSubmitted} />
+                    <Route
+                        path="/home"
+                        render={() => {
+                            if (currentUser.permissions === 'admin') {
+                                return <AdminHome user={currentUser} />;
+                            } else if (currentUser.permissions === 'dev') {
+                                return <DevHome user={currentUser} />;
+                            } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
+                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
+                            }
+                        }}
+                    />
+                    <Route
+                        path="/profile"
+                        render={({ location }) => {
+                            return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
+                        }}
+                    />
+                    <Route path="/bugdetails" component={BugDetails} />
                 </Switch>
             </div>
             <Footer />

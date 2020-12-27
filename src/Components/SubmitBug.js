@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import SubmitStepOne from './SubmitStepOne';
 import SubmitStepTwo from './SubmitStepTwo';
