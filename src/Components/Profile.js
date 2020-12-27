@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
 import AdminControls from './Admin/AdminControls';
+import CompanyKey from './Admin/CompanyKey';
 import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
@@ -117,11 +118,12 @@ class Profile extends Component {
                                 <p>
                                     <strong>Company:</strong> {this.state.user.company}
                                 </p>
-                            ) : (
-                                <p></p>
-                            )}
+                            ) : null}
                             {this.state.user.permissions === 'admin' ? (
-                                <AdminControls users={this.props.location.state.users} user={this.state.user} />
+                                <>
+                                    <AdminControls users={this.props.location.state.users} user={this.state.user} />
+                                    <CompanyKey user={this.state.user} />
+                                </>
                             ) : null}
                         </>
                     )}
@@ -130,14 +132,10 @@ class Profile extends Component {
                             An error occurred, please try updating your information again or contact us if the problem
                             persists.
                         </p>
-                    ) : (
-                        <p></p>
-                    )}
+                    ) : null}
                     {this.state.error.toString().includes('Email') ? (
                         <p style={{ color: 'red' }}>{this.state.error}</p>
-                    ) : (
-                        <p></p>
-                    )}
+                    ) : null}
                 </div>
                 <div className="changeInfo">
                     <Button variant="primary" onClick={this.handleShow}>
@@ -183,9 +181,7 @@ class Profile extends Component {
                                 />
                                 {this.state.error.toString().includes('Password') ? (
                                     <p style={{ color: 'red' }}>{this.state.error}</p>
-                                ) : (
-                                    <p></p>
-                                )}
+                                ) : null}
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button type="submit" variant="secondary">

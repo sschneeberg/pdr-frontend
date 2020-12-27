@@ -31,7 +31,6 @@ class AdminControls extends Component {
             })
             .then((response) => {
                 //handle errors
-                console.log(response);
                 if (typeof response.data.msg === 'string' && response.data.msg.includes('updated')) {
                     this.setState({ error: false, changed: true });
                 } else {
@@ -42,7 +41,6 @@ class AdminControls extends Component {
 
     handleDelete(e, id) {
         e.preventDefault();
-        console.log(id);
         axios.delete(`${REACT_APP_SERVER_URL}/api/users/${id}`).then((response) => {
             console.log(response);
             //handle errors
@@ -55,7 +53,6 @@ class AdminControls extends Component {
     }
 
     render() {
-        console.log(this.props);
         const users = this.state.users.map((user, index) => {
             return (
                 <div key={`user ${index}`} style={{ display: 'inline' }}>
