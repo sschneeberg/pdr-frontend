@@ -59,6 +59,14 @@ function App() {
         }
     };
 
+    const handleExpiration = () => {
+        //check session end
+        if (Date(this.state.user.exp * 1000) <= Date.now()) {
+            handleLogout();
+            alert('Session ended');
+        }
+    };
+
     console.log(currentUser);
 
     return (
@@ -88,11 +96,11 @@ function App() {
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
-                                return <AdminHome />;
+                                return <AdminHome user={currentUser} />;
                             } else if (currentUser.permissions === 'dev') {
-                                return <DevHome />;
+                                return <DevHome user={currentUser} />;
                             } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
-                                return <UserHome />;
+                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
                             }
                         }}
                     />

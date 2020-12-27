@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import REACT_APP_SERVER_URL from '../../keys';
 
 class UserHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bugs: []
+            bugs: [],
+            user: this.props.user,
+            loading: true,
+            redirect: false
         };
     }
 
-    async componentDidMount() {
-        await axios
+    componentDidMount() {
+        axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
-                this.setState({ bugs: data });
+                this.setState({ bugs: data, loading: false });
                 console.log('Data was recived');
             })
-            .catch((e) => {
-                console.log(e);
+            .catch((err) => {
+                if (err.toString().includes('401')) {
+                    this.setState({ redirect: true });
+                    this.props.handleLogout();
+                }
+                console.log(err);
             });
     }
 
@@ -42,16 +49,6 @@ class UserHome extends Component {
     };
 
     render() {
-        const errorDiv = () => {
-            return (
-                <div className="text-center pt-4">
-                    <h3>
-                        Please <Link to="/login">login</Link> to view this page
-                    </h3>
-                </div>
-            );
-        };
-
         const pageDisplay = () => {
             return (
                 <div>
@@ -63,7 +60,14 @@ class UserHome extends Component {
             );
         };
 
-        return <div>{this.state.bugs.length > 0 ? pageDisplay() : errorDiv()}</div>;
+        console.log('userhome', this.props.user);
+
+        return (
+            <div>
+                {pageDisplay()}
+                {this.state.redirect ? <Redirect to="/" /> : null}
+            </div>
+        );
     }
 }
 

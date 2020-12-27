@@ -42,7 +42,6 @@ class Login extends Component {
 
     render() {
         if (this.props.user) {
-            //logged in successfully
             return <Redirect to="/home" />;
         }
 

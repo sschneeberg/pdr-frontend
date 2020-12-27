@@ -78,7 +78,10 @@ class Profile extends Component {
             <>
                 <div>
                     {this.state.error === true ? (
-                        <p style={{ color: 'red' }}>Account not found, cannot reset password.</p>
+                        <p style={{ color: 'red' }}>
+                            Account not found, cannot reset password. If you believe this to be in error, please contact
+                            us.
+                        </p>
                     ) : null}
                 </div>
                 <div className="resetPassword">

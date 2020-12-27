@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
@@ -21,8 +21,16 @@ class Profile extends Component {
             changedField: '',
             error: false,
             show: false,
-            loading: false
+            loading: false,
+            redirect: false
         };
+    }
+
+    componentDidMount() {
+        if (!this.props.user) {
+            this.setState({ redirect: true });
+            this.props.handleLogout();
+        }
     }
 
     componentDidUpdate() {
@@ -198,17 +206,12 @@ class Profile extends Component {
             </>
         );
 
-        const errorDiv = () => {
-            return (
-                <div className="text-center pt-4">
-                    <h3>
-                        Please <Link to="/login">login</Link> to view this page
-                    </h3>
-                </div>
-            );
-        };
-
-        return <div>{this.state.user ? userData : errorDiv()}</div>;
+        return (
+            <div>
+                {this.state.redirect ? <Redirect to="/" /> : null}
+                {userData}
+            </div>
+        );
     }
 }
 export default Profile;
