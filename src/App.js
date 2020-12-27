@@ -99,7 +99,7 @@ function App() {
                     <Route
                         path="/profile"
                         render={({ location }) => {
-                            return <Profile location={location} user={currentUser} />;
+                            return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
                         }}
                     />
                 </Switch>

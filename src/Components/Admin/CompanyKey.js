@@ -20,7 +20,7 @@ class CompanyKey extends Component {
         this.setState({ loading: true });
         axios.get(`${REACT_APP_SERVER_URL}/api/company`).then((response) => {
             if (response.data.msg) {
-                this.setState({ error: true });
+                this.setState({ error: true, loading: false });
             } else {
                 this.setState({ key: response.data.key, loading: false, error: false });
             }
@@ -37,7 +37,7 @@ class CompanyKey extends Component {
 
     render() {
         const key = (
-            <div className="changeInfo">
+            <div className="key">
                 <Button variant="outline-primary" onClick={this.handleShow}>
                     View Company Key
                 </Button>

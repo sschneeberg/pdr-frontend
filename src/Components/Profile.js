@@ -5,6 +5,7 @@ import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
 import AdminControls from './Admin/AdminControls';
 import CompanyKey from './Admin/CompanyKey';
+import DeleteCompany from './Admin/DeleteCompany';
 import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
@@ -122,6 +123,7 @@ class Profile extends Component {
                             {this.state.user.permissions === 'admin' ? (
                                 <>
                                     <CompanyKey user={this.state.user} />
+                                    <DeleteCompany user={this.state.user} handleLogout={this.props.handleLogout} />
                                     <AdminControls users={this.props.location.state.users} user={this.state.user} />
                                 </>
                             ) : null}
