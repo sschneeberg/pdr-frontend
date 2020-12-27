@@ -116,18 +116,23 @@ function App() {
                         }}
                     />
                     <Route path="/submitbug2" component={SubmitBug2} />
-                    <Route path="/sbpt2" component={SubmitBug2} />
                     <Route path="/formsubmitted" component={FormSubmitted} />
                     <Route
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
-                                return <AdminHome />;
+                                return <AdminHome user={currentUser} />;
                             } else if (currentUser.permissions === 'dev') {
-                                return <DevHome />;
-                            } else {
-                                return <UserHome />;
+                                return <DevHome user={currentUser} />;
+                            } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
+                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
                             }
+                        }}
+                    />
+                    <Route
+                        path="/profile"
+                        render={({ location }) => {
+                            return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
                         }}
                     />
                     <Route path="/bugdetails" component={BugDetails} />
