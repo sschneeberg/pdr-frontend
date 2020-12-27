@@ -15,12 +15,9 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
-<<<<<<< HEAD
 import Profile from './Components/Profile';
-=======
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
->>>>>>> 3749f208ce1e8a5a8b437d60f08e59cd8d1d800f
 
 import './App.css';
 
@@ -76,7 +73,6 @@ function App() {
             setIsAuthenticated(false);
         }
     };
-<<<<<<< HEAD
 
     const handleExpiration = () => {
         //check session end
@@ -88,11 +84,9 @@ function App() {
 
     console.log(currentUser);
 
-=======
     if (loading) {
         return <div>Loading....</div>;
     }
->>>>>>> 3749f208ce1e8a5a8b437d60f08e59cd8d1d800f
     return (
         <div className="App">
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} />
@@ -121,32 +115,13 @@ function App() {
                             );
                         }}
                     />
-<<<<<<< HEAD
                     <Route path="/submitbug2" component={SubmitBug2} />
-=======
                     <Route path="/sbpt2" component={SubmitBug2} />
->>>>>>> 3749f208ce1e8a5a8b437d60f08e59cd8d1d800f
                     <Route path="/formsubmitted" component={FormSubmitted} />
                     <Route
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
-<<<<<<< HEAD
-                                return <AdminHome user={currentUser} />;
-                            } else if (currentUser.permissions === 'dev') {
-                                return <DevHome user={currentUser} />;
-                            } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
-                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
-                            }
-                        }}
-                    />
-                    <Route
-                        path="/profile"
-                        render={({ location }) => {
-                            return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
-                        }}
-                    />
-=======
                                 return <AdminHome />;
                             } else if (currentUser.permissions === 'dev') {
                                 return <DevHome />;
@@ -156,7 +131,6 @@ function App() {
                         }}
                     />
                     <Route path="/bugdetails" component={BugDetails} />
->>>>>>> 3749f208ce1e8a5a8b437d60f08e59cd8d1d800f
                 </Switch>
             </div>
             <Footer />

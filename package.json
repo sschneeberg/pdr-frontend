@@ -10,11 +10,6 @@
     "dotenv": "^8.2.0",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
-<<<<<<< HEAD
-    "react-beautiful-dnd": "^13.0.0",
-    "react-bootstrap": "^1.4.0",
-=======
->>>>>>> 3749f208ce1e8a5a8b437d60f08e59cd8d1d800f
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",

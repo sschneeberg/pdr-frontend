@@ -12,15 +12,6 @@ class DevHome extends Component {
     }
 
     async componentDidMount() {
-<<<<<<< HEAD
-        await axios
-            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => {
-                const data = response.data.tickets;
-                this.setState({ bugs: data });
-                console.log('Data was recived');
-                console.log(data);
-=======
         await axios.get(`http://localhost:8000/api/dashboard`)
         .then((response) => {
             const data = response.data.tickets;
@@ -47,11 +38,10 @@ class DevHome extends Component {
                         </ul>
                     </div>
                 )
->>>>>>> 3749f208ce1e8a5a8b437d60f08e59cd8d1d800f
-            })
+            }))
             .catch((e) => {
                 console.log(e);
-            });
+            })
     }
 
     displaybugs = () => {
