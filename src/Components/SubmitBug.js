@@ -1,48 +1,71 @@
 
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import SubmitBug2 from './SubmitBug2';
-
-  function SubmitBug() {
-    const [input, setInput] = useState({
-      title: '',
-      description: ''
-    })
-
-    function handleChange(event) {
-      const {name, value} = event.target ;
-    
-      setInput(prevInput => {
-        return {
-          ...prevInput,
-          [name]: value
-        }
-      })
+import React, { Component } from 'react';
+import SubmitStepOne from './SubmitStepOne';
+import SubmitStepTwo from './SubmitStepTwo';
+import SubmitAll from './SubmitAll';
+export class SubmitBug extends Component {
+    state = {
+        step: 1,
+        // step 1
+        company: '',
+        product: '',
+        // step 2
+        title: '',             
+        description: '',
+        picture: '',         
+        // createdBy: '',
     }
-
-    function handleClick(event) { 
-      event.preventDefault();
-      console.log(input);
-      // input.history.push("/submitbug2")
+    nextStep = () => {
+        const { step } = this.state;
+        this.setState({
+            step: step + 1
+        });
     }
-      return <div className="container">
-      <h1>Submit Bug</h1>
-      <form>
-
-
-        <div className="form-group">
-          <input onChange={handleChange} name="title" value={input.title} className="form-control" autoComplete="off" placeholder="Title"></input>
-        </div>
-
-        <div className="form-group">
-        <textarea onChange={handleChange} name="description" value={input.description} className="form-control" autoComplete="off" placeholder="Short description of bug"></textarea>
-        </div>
-
-        <button onClick={handleClick} className="btn btn-lg btn-info">Next</button>
-      </form>
-    
-      </div>
-  }
-  
-  
-  export default SubmitBug;
+    prevStep = () => {
+        const { step } = this.state;
+        this.setState({
+            step: step - 1
+        });
+    }
+    handleChange = input => e => {
+        this.setState({[input]: e.target.value});
+    }
+    showStep = () => {
+        const { step, company, product, title, description, picture } = this.state;
+        if(step === 1)
+            return (<SubmitStepOne 
+                nextStep = {this.nextStep} 
+                handleChange = {this.handleChange} 
+                company= {company}
+                product= {product}
+            />);
+        if(step === 2)
+            return (<SubmitStepTwo 
+                nextStep = {this.nextStep} 
+                prevStep = {this.prevStep}
+                handleChange = {this.handleChange} 
+                title={title} 
+                description={description}
+                picture={picture}
+            />);
+        if(step === 3)
+            return (<SubmitAll 
+                company={company} 
+                product={product}
+                title={title} 
+                description={description}
+                picture={picture}
+                prevStep = {this.prevStep}
+            />);
+    }
+    render(){
+        const { step } = this.state;
+        return(
+            <>
+                <h2>Step {step} of 3.</h2>
+                {this.showStep()}
+            </>
+        );
+    }
+}
+export default SubmitBug;
