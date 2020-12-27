@@ -91,15 +91,15 @@ function App() {
                                 return <AdminHome />;
                             } else if (currentUser.permissions === 'dev') {
                                 return <DevHome />;
-                            } else {
+                            } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
                                 return <UserHome />;
                             }
                         }}
                     />
                     <Route
                         path="/profile"
-                        render={() => {
-                            return <Profile user={currentUser} />;
+                        render={({ location }) => {
+                            return <Profile location={location} user={currentUser} />;
                         }}
                     />
                 </Switch>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import REACT_APP_SERVER_URL from '../../keys';
 
 class DevHome extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class DevHome extends Component {
 
     async componentDidMount() {
         await axios
-            .get(`http://localhost:8000/api/dashboard`)
+            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
                 this.setState({ bugs: data });
@@ -27,8 +28,8 @@ class DevHome extends Component {
     displaybugs = () => {
         return this.state.bugs.map((bug, index) => {
             return (
-                <div>
-                    <ul key={index}>
+                <div key={`ticket ${index}`}>
+                    <ul>
                         <li>{bug.title}</li>
                         <li>{bug.company}</li>
                         <li>{bug.product}</li>

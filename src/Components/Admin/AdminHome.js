@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import REACT_APP_SERVER_URL from '../../keys';
 
 class AdminHome extends Component {
     constructor(props) {
@@ -19,14 +20,15 @@ class AdminHome extends Component {
         };
     }
 
-    async componentDidMount() {
-        await axios
-            .get(`http://localhost:8000api/dashboard/admin-dashboard`)
+    componentDidMount() {
+        console.log('mounted');
+        axios
+            .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
-                const data = response;
-                console.log(data);
-                // this.setState({ bugs: data });
-                // console.log('Data was recived');
+                const data = response.data;
+                console.log(response.data);
+                this.setState({ bugs: data.tickets, devs: data.users });
+                console.log('Data was recived');
             })
             .catch((e) => {
                 console.log(e);
@@ -55,7 +57,7 @@ class AdminHome extends Component {
     render() {
         return (
             <div>
-                <Link className="btn btn-primary" to="/profile">
+                <Link className="btn btn-primary" to={{ pathname: '/profile', state: { users: this.state.devs } }}>
                     Account Information
                 </Link>
                 <div className="Project-details">Description of project:</div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
+import AdminControls from './Admin/AdminControls';
 import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
@@ -22,16 +23,6 @@ class Profile extends Component {
         };
     }
 
-    componentDidCatch() {
-        //from Bootstrap Docs
-        var myModal = document.getElementById('myModal');
-        var myInput = document.getElementById('myInput');
-
-        myModal.addEventListener('shown.bs.modal', function () {
-            myInput.focus();
-        });
-    }
-
     componentDidUpdate() {
         if (this.state.changed) {
             //pull new user info
@@ -45,7 +36,6 @@ class Profile extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         //submit info to backend
-        console.log('submit');
         if (this.state.changedField === 'password') {
             //check passwords match
             if (this.state.password !== this.state.confirmPassword) {
@@ -63,7 +53,6 @@ class Profile extends Component {
             })
             .then((response) => {
                 //check for error
-                console.log(response.data);
                 if (typeof response.data.msg === 'string' && response.data.msg.includes('updated')) {
                     this.setState({ error: false, changed: true });
                 } else if (typeof response.data.msg === 'string' && response.data.msg.includes('in use')) {
@@ -109,7 +98,6 @@ class Profile extends Component {
     };
 
     render() {
-        console.log(this.state.user);
         const userData = (
             <>
                 <div className="userInfo">
@@ -132,6 +120,9 @@ class Profile extends Component {
                             ) : (
                                 <p></p>
                             )}
+                            {this.state.user.permissions === 'admin' ? (
+                                <AdminControls users={this.props.location.state.users} user={this.state.user} />
+                            ) : null}
                         </>
                     )}
                     {this.state.error === true ? (
