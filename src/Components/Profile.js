@@ -50,7 +50,6 @@ class Profile extends Component {
         }
         axios
             .put(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
-                //can this be a variable to make this one function?
                 [this.state.changedField]: this.state[this.state.changedField]
             })
             .then((response) => {
@@ -83,7 +82,7 @@ class Profile extends Component {
             username: '',
             show: false
         });
-        if (this.state.error.toString().includes('match')) {
+        if (this.state.error.toString().includes('Password')) {
             this.setState({ error: false });
         }
     };

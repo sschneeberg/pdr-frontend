@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utilities/setAuthToken';
 import FormField from './FormField';
+import ResetPassword from './ResetPassword';
 import REACT_APP_SERVER_URL from '../keys';
 
 class Login extends Component {
@@ -23,18 +24,20 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const userData = { email: this.state.email, password: this.state.password };
-        axios.post(`${REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
-            if (response.data.msg) {
-                this.setState({ email: '', password: '', error: true });
-            } else {
-                const { token } = response.data;
-                //set token, headers, and current user
-                localStorage.setItem('jwtToken', token);
-                setAuthToken(token);
-                const decoded = jwt_decode(token);
-                this.props.nowCurrentUser(decoded);
-            }
-        });
+        if (this.state.email.length > 0) {
+            axios.post(`${REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
+                if (response.data.msg) {
+                    this.setState({ email: '', password: '', error: true });
+                } else {
+                    const { token } = response.data;
+                    //set token, headers, and current user
+                    localStorage.setItem('jwtToken', token);
+                    setAuthToken(token);
+                    const decoded = jwt_decode(token);
+                    this.props.nowCurrentUser(decoded);
+                }
+            });
+        }
     };
 
     render() {
@@ -71,6 +74,11 @@ class Login extends Component {
                                     value={this.state.password}
                                     onChange={this.onChange}
                                 />
+
+                                <div style={{ display: 'inline' }}>
+                                    <p>Forgot password?</p>
+                                    <ResetPassword />
+                                </div>
 
                                 <input type="submit" className="btn btn-primary float-right" value="Submit" />
                             </div>
