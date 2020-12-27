@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 
-class DevHome extends Component {
+class BugDetails extends Component {
     constructor(props) {
         super(props)
         this.state ={
@@ -10,7 +10,7 @@ class DevHome extends Component {
     }
 
     async componentDidMount() {
-        await axios.get(`http://localhost:8000/api/dashboard`)
+        await axios.get(`http://localhost:8000/api/tickets/${this.props.tickets.id}`)
         .then((response) => {
             const data = response.data.tickets;
             this.setState({ bugs: data });
@@ -26,9 +26,10 @@ class DevHome extends Component {
         return (
             this.state.bugs.map((bug, index) => {
                 return (
-                    <div key={index}>
-                        <ul>
+                    <div>
+                        <ul key={index}>
                             <li>{bug.title}</li>
+                            <li>{bug.company}</li>
                             <li>{bug.product}</li>
                             <li>{bug.description}</li>
                             <li>{bug.status}</li>
@@ -53,4 +54,4 @@ class DevHome extends Component {
 
 
 
-export default DevHome;
+export default BugDetails;
