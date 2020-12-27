@@ -8,7 +8,13 @@ function Nav(props) {
                 <Link className="navbar-brand" to="/">
                     Pest Damage Report
                 </Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="#navbarsExample07" aria-label="Toggle Navigation">
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarsExample07"
+                    aria-controls="#navbarsExample07"
+                    aria-label="Toggle Navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
             </nav>
@@ -33,9 +39,9 @@ function Nav(props) {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link logout-link" onClick={props.handleLogout}>
+                            <NavLink className="nav-link logout-link" onClick={props.handleLogout} to="/">
                                 Logout
-                            </span>
+                            </NavLink>
                         </li>
                     </ul>
                 ) : (

@@ -13,6 +13,7 @@ import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
 import UserHome from './Components/User/UserHome';
+import Profile from './Components/Profile';
 
 import './App.css';
 
@@ -58,6 +59,14 @@ function App() {
         }
     };
 
+    const handleExpiration = () => {
+        //check session end
+        if (Date(this.state.user.exp * 1000) <= Date.now()) {
+            handleLogout();
+            alert('Session ended');
+        }
+    };
+
     console.log(currentUser);
 
     return (
@@ -71,20 +80,36 @@ function App() {
                     <Route
                         path="/login"
                         render={(props) => {
-                            return <Login {...props} nowCurrentUser={nowCurrentUser} setIsAuthenticated={setIsAuthenticated} user={currentUser} />;
+                            return (
+                                <Login
+                                    {...props}
+                                    nowCurrentUser={nowCurrentUser}
+                                    setIsAuthenticated={setIsAuthenticated}
+                                    user={currentUser}
+                                />
+                            );
                         }}
                     />
-                    <Route path='/submitbug2' component={SubmitBug2} />
-                    <Route path='/formsubmitted' component={FormSubmitted} />
-                    <Route path='/home' render={() => {
-                        if (currentUser.permissions === "admin") {
-                            return <AdminHome />
-                        } else if (currentUser.permissions === "dev") {
-                            return <DevHome />
-                        } else {
-                            return <UserHome />
-                        }
-                    }} />
+                    <Route path="/submitbug2" component={SubmitBug2} />
+                    <Route path="/formsubmitted" component={FormSubmitted} />
+                    <Route
+                        path="/home"
+                        render={() => {
+                            if (currentUser.permissions === 'admin') {
+                                return <AdminHome user={currentUser} />;
+                            } else if (currentUser.permissions === 'dev') {
+                                return <DevHome user={currentUser} />;
+                            } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
+                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
+                            }
+                        }}
+                    />
+                    <Route
+                        path="/profile"
+                        render={({ location }) => {
+                            return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
+                        }}
+                    />
                 </Switch>
             </div>
             <Footer />
