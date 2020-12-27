@@ -10,7 +10,8 @@ class CompanyKey extends Component {
             users: this.props.users,
             show: false,
             key: '',
-            loading: false
+            loading: false,
+            error: false
         };
     }
 
@@ -18,7 +19,11 @@ class CompanyKey extends Component {
         //get company key
         this.setState({ loading: true });
         axios.get(`${REACT_APP_SERVER_URL}/api/company`).then((response) => {
-            this.setState({ key: response.data.key, loading: false });
+            if (response.data.msg) {
+                this.setState({ error: true });
+            } else {
+                this.setState({ key: response.data.key, loading: false, error: false });
+            }
         });
     }
 
@@ -41,7 +46,18 @@ class CompanyKey extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Company Key</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{this.state.loading ? <p>Loading...</p> : <p>{this.state.key}</p>}</Modal.Body>
+                    <Modal.Body>
+                        {this.state.error ? (
+                            <p>
+                                An error occurred, please reload the page to try again. Contact us if the problem
+                                persists.
+                            </p>
+                        ) : this.state.loading ? (
+                            <p>Loading...</p>
+                        ) : (
+                            <p>{this.state.key}</p>
+                        )}
+                    </Modal.Body>
                 </Modal>
             </div>
         );

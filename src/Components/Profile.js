@@ -121,8 +121,8 @@ class Profile extends Component {
                             ) : null}
                             {this.state.user.permissions === 'admin' ? (
                                 <>
-                                    <AdminControls users={this.props.location.state.users} user={this.state.user} />
                                     <CompanyKey user={this.state.user} />
+                                    <AdminControls users={this.props.location.state.users} user={this.state.user} />
                                 </>
                             ) : null}
                         </>
@@ -207,12 +207,7 @@ class Profile extends Component {
             );
         };
 
-        return (
-            <div>
-                <p>Profile page</p>
-                {this.state.user ? userData : errorDiv()}
-            </div>
-        );
+        return <div>{this.state.user ? userData : errorDiv()}</div>;
     }
 }
 export default Profile;
