@@ -13,99 +13,85 @@ import GetNewBugs from './GetNewBugs';
 //     {id: uuid(), content: 'Second Bug'}
 // ]
 
-const columnsFromBackend = {
-    [0] : {
-        name: 'Assigned Bugs',
-        items: []
-    },
-    [1] : {
-        name: 'In Review',
-        items: []
-    },
-    [2] : {
-        name: 'Complete',
-        items: []
-    }
-};
-
-// Make loading screen between moves
-const updateTicket = (id, status) => {
-    axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, {status})
-    .then(response => {
-        console.log(response);
-    }).catch((e) => {
-        console.log(e);
-    })
-}
-
-const onDragEnd = (result, columns, setColumns) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
-    if (source.droppableId !== destination.droppableId) {
-        const sourceColumn = columns[source.droppableId];
-        const destColumn = columns[destination.droppableId];
-        const sourceItems = [...sourceColumn.items];
-        const destItems = [...destColumn.items];
-        const [removed] = sourceItems.splice(source.index, 1);
-        destItems.splice(destination.index, 0, removed);
-        setColumns({
-            ...columns,
-            [source.droppableId]: {
-                ...sourceColumn,
-                items: sourceItems
-            },
-            [destination.droppableId]: {
-                ...destColumn,
-                items: destItems
-            }
-        })
-        console.log(source.droppableId, destination.droppableId, source);
-        updateTicket(source.index, destination.droppableId);
-    } else {
-        const column = columns[source.droppableId];
-        const copiedItems = [...column.items];
-        const [removed] = copiedItems.splice(source.index, 1);
-        copiedItems.splice(destination.index, 0, removed);
-        setColumns({
-            ...columns,
-            [source.droppableId]: {
-                ...column,
-                items: copiedItems
-            }
-        });
-    }
-};
-
-
 
 
 
 function DevHome() {
-    const [columns, setColumns] = useState(columnsFromBackend);
     // const [bugs, setBugs] = useState([]);
-
-     const getBugs = () => {
-        axios.get(`${REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => {
-                const data = response.data.tickets;
-                // setBugs(data);
-                console.log('Data was recived');
-                displaybugs(data);
-                console.log(data);
+    
+    const columnsFromBackend = {
+        [1] : {
+            name: 'Assigned Bugs',
+            items: []
+        },
+        [2] : {
+            name: 'In Review',
+            items: []
+        },
+        [3] : {
+            name: 'Complete',
+            items: []
+        }
+    };
+    
+    const [columns, setColumns] = useState(columnsFromBackend);
+    // Make loading screen between moves
+    const updateTicket = (id, status) => {
+        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, {status})
+        .then(response => {
+            console.log(response);
+        }).catch((e) => {
+            console.log(e);
+        })
+    }
+    
+    const onDragEnd = (result, columns, setColumns) => {
+        if (!result.destination) return;
+        const { source, destination } = result;
+        if (source.droppableId !== destination.droppableId) {
+            const sourceColumn = columns[source.droppableId];
+            const destColumn = columns[destination.droppableId];
+            const sourceItems = [...sourceColumn.items];
+            const destItems = [...destColumn.items];
+            const [removed] = sourceItems.splice(source.index, 1);
+            destItems.splice(destination.index, 0, removed);
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...sourceColumn,
+                    items: sourceItems
+                },
+                [destination.droppableId]: {
+                    ...destColumn,
+                    items: destItems
+                }
             })
-            .catch((e) => {
-                console.log(e);
-            })}
-
+            
+            updateTicket(source.index, destination.droppableId);
+        } else {
+            const column = columns[source.droppableId];
+            const copiedItems = [...column.items];
+            const [removed] = copiedItems.splice(source.index, 1);
+            copiedItems.splice(destination.index, 0, removed);
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...column,
+                    items: copiedItems
+                }
+            });
+        }
+    };
+    
     const displaybugs = (bugs) => {
         const updatedColumns = {...columns}
         bugs.forEach(bug => {
-            if (bug.status === 0) {
-                updatedColumns['0'].items.push(bug);
-            } else if (bug.status === 1) {
+            if (bug.status === 1) {
                 updatedColumns['1'].items.push(bug);
-            } else {
+            } else if (bug.status === 2) {
                 updatedColumns['2'].items.push(bug);
+            } else {
+                updatedColumns['3'].items.push(bug);
             }
         })
         setColumns(updatedColumns);
@@ -125,10 +111,28 @@ function DevHome() {
         //         )
         //     })
         // )
-
+    
     }
+    
+    const getBugs = () => {
+       axios.get(`${REACT_APP_SERVER_URL}/api/dashboard`)
+           .then((response) => {
+               const data = response.data.tickets;
+               // setBugs(data);
+               console.log('Data was recived');
+               displaybugs(data);
+               console.log(data);
+           })
+           .catch((e) => {
+               console.log(e);
+           })}
+    
     useEffect(() => {
+        console.log('here');
         getBugs();
+        return function cleanup() {
+            setColumns(columnsFromBackend)
+        }
     }, [])
 
     return(
