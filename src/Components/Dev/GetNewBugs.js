@@ -45,15 +45,17 @@ class GetNewBugs extends Component {
     render() {
         return(
             <div>
-                <Link className="btn btn-primary" to="/profile">
-                    Account Information
-                </Link>
                 {this.displaybugs()}
             </div>
         );
     }
 }
 
-
-
 export default GetNewBugs;
+
+
+
+
+                // <Link className="btn btn-primary" to="/profile">
+                //     Account Information
+                // </Link>
