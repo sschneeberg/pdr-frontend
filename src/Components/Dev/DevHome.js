@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import axios from 'axios';
-import { v4 as uuid } from 'uuid';
 import { ButtonGroup } from "react-bootstrap";
 import REACT_APP_SERVER_URL from '../../keys';
 import { Link } from 'react-router-dom';
 
-import GetNewBugs from './GetNewBugs';
-
-// const itemsFromBackend = [
-//     {id: uuid(), content: },
-//     {id: uuid(), content: 'Second Bug'}
-// ]
-
-
-
-
 function DevHome() {
-    // const [bugs, setBugs] = useState([]);
-    
     const columnsFromBackend = {
         [1] : {
             name: 'Assigned Bugs',
@@ -35,7 +22,8 @@ function DevHome() {
     };
     
     const [columns, setColumns] = useState(columnsFromBackend);
-    // Make loading screen between moves
+
+    // Route to update status of ticket
     const updateTicket = (id, status) => {
         axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, {status})
         .then(response => {
@@ -66,7 +54,7 @@ function DevHome() {
                     items: destItems
                 }
             })
-            
+            console.log(result);
             updateTicket(source.index, destination.droppableId);
         } else {
             const column = columns[source.droppableId];
@@ -95,40 +83,20 @@ function DevHome() {
             }
         })
         setColumns(updatedColumns);
-        // return (
-        //     bugs.map((bug, index) => {
-        //         return (
-        //             <div key={index}>
-        //                 {id: uuid(), content: }
-        //                 {/* <ul>
-        //                     <li>{bug.title}</li>
-        //                     <li>{bug.product}</li>
-        //                     <li>{bug.description}</li>
-        //                     <li>{bug.status}</li>
-        //                     <li>{bug.createdAt}</li>
-        //                 </ul> */}
-        //             </div>
-        //         )
-        //     })
-        // )
-    
     }
     
     const getBugs = () => {
        axios.get(`${REACT_APP_SERVER_URL}/api/dashboard`)
            .then((response) => {
                const data = response.data.tickets;
-               // setBugs(data);
                console.log('Data was recived');
                displaybugs(data);
-               console.log(data);
            })
            .catch((e) => {
                console.log(e);
            })}
     
     useEffect(() => {
-        console.log('here');
         getBugs();
         return function cleanup() {
             setColumns(columnsFromBackend)
@@ -175,7 +143,7 @@ function DevHome() {
                                                                             ...provided.draggableProps.style
                                                                         }}
                                                                     >
-                                                                        {item.title}
+                                                                        <Link to={`/bugdetails/${item._id}`}>{item.title}</Link>
                                                                     </div>
                                                                 )
                                                             }}
@@ -192,6 +160,7 @@ function DevHome() {
                     )
                 })}
             </DragDropContext>
+            <div id='account-info'><Link className="btn btn-primary" to="/profile">Account Information</Link></div>
         </div>
     );
 }
