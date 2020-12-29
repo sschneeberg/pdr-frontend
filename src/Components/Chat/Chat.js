@@ -7,7 +7,13 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages: [{ text: 'hi', id: 1 }],
+            messages: [
+                {
+                    text:
+                        'Hello, Welcome to chat. If you leave the page or close this window the chat session will end',
+                    id: 1
+                }
+            ],
             message: '',
             user: this.props.user,
             hide: true,
