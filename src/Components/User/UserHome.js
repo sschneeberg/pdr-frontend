@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
+import Chat from '../Chat/Chat';
 import REACT_APP_SERVER_URL from '../../keys';
 
 class UserHome extends Component {
@@ -66,6 +67,7 @@ class UserHome extends Component {
             <div>
                 {pageDisplay()}
                 {this.state.redirect ? <Redirect to="/" /> : null}
+                <Chat user={this.state.user} />
             </div>
         );
     }
