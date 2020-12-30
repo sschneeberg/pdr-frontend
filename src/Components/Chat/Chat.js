@@ -9,7 +9,8 @@ class Chat extends Component {
         this.state = {
             messages: [
                 {
-                    text: 'Hello, Welcome to chat. If you leave the page the chat session will end',
+                    text:
+                        'Hello, Welcome to Quick Chat. If you leave the page or close the chat, this chat session will end',
                     id: 1
                 }
             ],
@@ -24,36 +25,52 @@ class Chat extends Component {
 
     componentDidMount() {
         const socket = io(REACT_APP_SERVER_URL);
-        this.setState({ socket });
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
+
+            if (this.state.user.company) {
+                this.setState({ company: this.state.user.company });
+                socket.emit('join-company', this.state.user.company, socket.id);
+            }
         });
-        if (this.state.user.company) {
-            this.setState({ company: this.state.user.company });
-        }
+        socket.on('sent-message', (msg) => {
+            console.log('recieved');
+            let msgs = this.state.messages.slice(0, this.state.messages.length);
+            msgs.push(msg);
+            this.setState({ messages: msgs });
+        });
+        this.setState({ socket });
     }
 
     expandChat = () => {
-        this.setState({ hide: !this.state.hide });
+        this.setState({
+            hide: !this.state.hide,
+            company: this.state.user.company || '',
+            messages: this.state.messages.slice(0, 1),
+            message: ''
+        });
     };
 
     handleChange = (e) => {
-        console.log(e.target.value);
         this.setState({ message: e.target.value });
     };
 
     onChangeSelect = (e) => {
-        this.setState({ company: e.target.value });
+        let msgs = this.state.messages.slice(0, this.state.messages.length);
+        msgs.push({ text: `You are connected to ${e.target.value}`, id: 2 });
+        this.setState({ company: e.target.value, messages: msgs });
+        this.state.socket.emit('join-company', e.target.value, this.state.socket.id);
     };
 
     sendMessage = (e) => {
         e.preventDefault();
         console.log('send');
+        let message = { text: this.state.message, id: this.state.user.id };
         //take message, add to array of messages {text: text, id: user.id}
         let msgs = this.state.messages.slice(0, this.state.messages.length);
-        msgs.push({ text: this.state.message, id: this.state.user.id });
+        msgs.push(message);
         //emit to reciever's socket
-        this.state.socket.emit('send-message', (message) => {});
+        this.state.socket.emit('send-message', message);
         this.setState({ messages: msgs, message: '' });
     };
 
@@ -64,7 +81,6 @@ class Chat extends Component {
 
     render() {
         const msgList = this.state.messages.map((m, index) => {
-            console.log(m);
             return this.state.user.id === m.id ? (
                 <li key={index} style={{ backgroundColor: 'slategray', textAlign: 'right' }}>
                     {m.text}
@@ -87,7 +103,11 @@ class Chat extends Component {
         const companyForm = (
             <div className="form-group chatForm">
                 <label htmlFor="company">Companies: </label>
-                <select className="form-control" id="company" value={this.state.company} onChange={this.onChangeSelect}>
+                <select
+                    className="form-control"
+                    id="company"
+                    value={this.state.company}
+                    onChange={(e) => this.onChangeSelect(e)}>
                     <option>Select a company</option>
                     {companyInfo}
                 </select>
