@@ -67,7 +67,7 @@ class UserHome extends Component {
             <div>
                 {pageDisplay()}
                 {this.state.redirect ? <Redirect to="/" /> : null}
-                <Chat user={this.state.user} />
+                <Chat user={this.state.user} companies={this.props.companies} />
             </div>
         );
     }

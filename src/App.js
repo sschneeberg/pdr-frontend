@@ -125,7 +125,7 @@ function App() {
                             } else if (currentUser.permissions === 'dev') {
                                 return <DevHome user={currentUser} />;
                             } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
-                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
+                                return <UserHome handleLogout={handleLogout} user={currentUser} companies={company} />;
                             }
                         }}
                     />

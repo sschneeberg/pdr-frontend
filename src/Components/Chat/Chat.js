@@ -9,15 +9,16 @@ class Chat extends Component {
         this.state = {
             messages: [
                 {
-                    text:
-                        'Hello, Welcome to chat. If you leave the page or close this window the chat session will end',
+                    text: 'Hello, Welcome to chat. If you leave the page the chat session will end',
                     id: 1
                 }
             ],
             message: '',
             user: this.props.user,
             hide: true,
-            socket: ''
+            socket: '',
+            company: '',
+            companies: this.props.companies
         };
     }
 
@@ -27,6 +28,9 @@ class Chat extends Component {
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
         });
+        if (this.state.user.company) {
+            this.setState({ company: this.state.user.company });
+        }
     }
 
     expandChat = () => {
@@ -38,14 +42,18 @@ class Chat extends Component {
         this.setState({ message: e.target.value });
     };
 
+    onChangeSelect = (e) => {
+        this.setState({ company: e.target.value });
+    };
+
     sendMessage = () => {
         console.log('send');
         //take message, add to array of messages {text: text, id: user.id}
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push({ text: this.state.message, id: this.state.user.id });
-        this.setState({ messages: msgs, message: ' ' });
         //emit to reciever's socket
-        this.state.socket.emit('send-message', () => {});
+        this.state.socket.emit('send-message', (message) => {});
+        this.setState({ messages: msgs, message: '' });
     };
 
     //when do we do this?
@@ -67,7 +75,23 @@ class Chat extends Component {
             );
         });
 
-        console.log(msgList);
+        let companyInfo = this.state.companies.map((c, i) => {
+            return (
+                <option value={c.name} key={i}>
+                    {c.name}
+                </option>
+            );
+        });
+
+        const companyForm = (
+            <div className="form-group chatForm">
+                <label htmlFor="company">Companies: </label>
+                <select className="form-control" id="company" value={this.state.company} onChange={this.onChangeSelect}>
+                    <option>Select a company</option>
+                    {companyInfo}
+                </select>
+            </div>
+        );
 
         return (
             <div className="chat">
@@ -82,6 +106,7 @@ class Chat extends Component {
                 ) : (
                     <div className="chatWindow">
                         <ul className="messages">{msgList}</ul>
+                        {this.state.company ? null : companyForm}
                         <div className="input" style={{ display: 'flex' }}>
                             <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
                             <input type="button" onClick={this.sendMessage} value="Send" />
