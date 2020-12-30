@@ -19,7 +19,9 @@ class Chat extends Component {
             hide: true,
             socket: '',
             company: '',
-            companies: this.props.companies || []
+            notifications: '',
+            companies: this.props.companies || [],
+            online: false
         };
     }
 
@@ -30,25 +32,54 @@ class Chat extends Component {
 
             if (this.state.user.company) {
                 this.setState({ company: this.state.user.company });
-                socket.emit('join-company', this.state.user.company, socket.id);
+                socket.emit(
+                    'join-company',
+                    this.state.user.company,
+                    socket.id,
+                    this.state.user.permissions || 'customer'
+                );
             }
         });
         socket.on('sent-message', (msg) => {
-            console.log('recieved');
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             msgs.push(msg);
+            if (this.state.hide) {
+                let ntf = parseInt(this.state.notifications) + 1 || 1;
+                this.setState({ notifications: ntf });
+            }
             this.setState({ messages: msgs });
         });
+
+        socket.on('joined-room', (active) => {
+            let msgs = this.state.messages.slice(0, this.state.messages.length);
+            if (active >= 1) {
+                msgs.push({ text: 'Company representatives are currently online', id: 3 });
+            } else {
+                msgs.push({
+                    text:
+                        'No company representatives are currently online. Please try again at another time or submit a report to formally register your issue.',
+                    id: 3
+                });
+            }
+            this.setState({ messages: msgs });
+        });
+
         this.setState({ socket });
     }
 
     expandChat = () => {
-        this.setState({
-            hide: !this.state.hide,
-            company: this.state.user.company || '',
-            messages: this.state.messages.slice(0, 1),
-            message: ''
-        });
+        //if closing this chat, clear the messages
+        if (!this.state.hide) {
+            this.setState({
+                company: this.state.user.company || '',
+                messages: this.state.messages.slice(0, 1),
+                message: '',
+                online: false
+            });
+        } else {
+            this.setState({ notifications: '' });
+        }
+        this.setState({ hide: !this.state.hide });
     };
 
     handleChange = (e) => {
@@ -73,11 +104,6 @@ class Chat extends Component {
         this.state.socket.emit('send-message', message);
         this.setState({ messages: msgs, message: '' });
     };
-
-    //when do we do this?
-    //receive messages
-    //socket.on?
-    //render new li - if id == curUser id then one color, else another color
 
     render() {
         const msgList = this.state.messages.map((m, index) => {
@@ -116,7 +142,13 @@ class Chat extends Component {
 
         return (
             <div className="chat">
-                {this.state.hide ? null : (
+                {this.state.hide ? (
+                    this.state.user.company && this.state.notifications ? (
+                        <button type="button" className="notificationsBubble btn btn-danger">
+                            <p>{this.state.notifications}</p>
+                        </button>
+                    ) : null
+                ) : (
                     <div className="chatWindow">
                         <ul className="messages">{msgList}</ul>
                         {this.state.company ? (
