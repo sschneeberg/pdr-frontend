@@ -7,7 +7,7 @@ class BugDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bug: {title: '', product: '', description: '', createdAt: ''}
+            bug: {title: '', product: '', description: '', createdAt: '', priority: '', status: ''}
         };
     }
 
@@ -27,6 +27,8 @@ class BugDetails extends Component {
             <div>
                 <ul>
                     <li>Title: {bug.title}</li>
+                    <li>Priority: {bug.priority}</li>
+                    <li>Status: {bug.status}</li>
                     <li>Product: {bug.product}</li>
                     <li>Description: {bug.description}</li>
                     <li>Created: {bug.createdAt}</li>
