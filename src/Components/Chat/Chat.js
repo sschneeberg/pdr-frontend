@@ -18,7 +18,7 @@ class Chat extends Component {
             hide: true,
             socket: '',
             company: '',
-            companies: this.props.companies
+            companies: this.props.companies || []
         };
     }
 
@@ -46,7 +46,8 @@ class Chat extends Component {
         this.setState({ company: e.target.value });
     };
 
-    sendMessage = () => {
+    sendMessage = (e) => {
+        e.preventDefault();
         console.log('send');
         //take message, add to array of messages {text: text, id: user.id}
         let msgs = this.state.messages.slice(0, this.state.messages.length);
@@ -95,22 +96,17 @@ class Chat extends Component {
 
         return (
             <div className="chat">
-                {this.state.hide ? (
-                    <div className="chatWindow hide">
-                        <ul className="messages">{msgList}</ul>
-                        <div className="input" style={{ display: 'flex' }}>
-                            <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
-                            <input type="button" onClick={this.sendMessage} value="Send" />
-                        </div>
-                    </div>
-                ) : (
+                {this.state.hide ? null : (
                     <div className="chatWindow">
                         <ul className="messages">{msgList}</ul>
-                        {this.state.company ? null : companyForm}
-                        <div className="input" style={{ display: 'flex' }}>
-                            <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
-                            <input type="button" onClick={this.sendMessage} value="Send" />
-                        </div>
+                        {this.state.company ? (
+                            <form onSubmit={(e) => this.sendMessage(e)} className="chatBar" style={{ display: 'flex' }}>
+                                <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
+                                <input type="submit" value="Send" />
+                            </form>
+                        ) : (
+                            companyForm
+                        )}
                     </div>
                 )}
 

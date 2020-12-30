@@ -48,11 +48,7 @@ ul.messages li {
     width: 100%;
 }
 
-div.input {
+form.chatBar {
     position: absolute;
     bottom: 0;
-}
-
-.hide {
-    visibility: hidden;
 }
