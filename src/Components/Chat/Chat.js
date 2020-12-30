@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
-import REACT_APP_SERVER_URL from '../../keys';
 import '../../App.css';
 
 class Chat extends Component {
@@ -17,7 +15,7 @@ class Chat extends Component {
             message: '',
             user: this.props.user,
             hide: true,
-            socket: '',
+            socket: this.props.socket,
             company: '',
             notifications: '',
             companies: this.props.companies || [],
@@ -26,7 +24,7 @@ class Chat extends Component {
     }
 
     componentDidMount() {
-        const socket = io(REACT_APP_SERVER_URL);
+        let socket = this.state.socket;
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
 
@@ -65,6 +63,10 @@ class Chat extends Component {
         });
 
         this.setState({ socket });
+    }
+
+    componentWillUnmount() {
+        this.state.socket.disconnect();
     }
 
     expandChat = () => {

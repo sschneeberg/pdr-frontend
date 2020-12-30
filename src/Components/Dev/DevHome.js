@@ -107,7 +107,7 @@ function DevHome(props) {
                     })}
                 </DragDropContext>
             </div>
-            <Chat user={user} />
+            <Chat user={user} socket={props.socket} />
         </>
     );
 }

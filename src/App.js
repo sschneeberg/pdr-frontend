@@ -18,6 +18,8 @@ import UserHome from './Components/User/UserHome';
 import Profile from './Components/Profile';
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
+import io from 'socket.io-client';
+import REACT_APP_SERVER_URL from './keys';
 
 import './App.css';
 
@@ -37,6 +39,8 @@ function App() {
     const [currentUser, setCurrentUser] = useState('');
     const [company, setCompany] = useState('');
     const [loading, setLoading] = useState(true);
+    const [socket, setSocket] = useState(io(REACT_APP_SERVER_URL));
+
     useEffect(() => {
         axios
             .get(`http://localhost:8000/api/tickets/companies`)
@@ -121,11 +125,18 @@ function App() {
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
-                                return <AdminHome user={currentUser} />;
+                                return <AdminHome user={currentUser} socket={socket} />;
                             } else if (currentUser.permissions === 'dev') {
-                                return <DevHome user={currentUser} />;
+                                return <DevHome user={currentUser} socket={socket} />;
                             } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
-                                return <UserHome handleLogout={handleLogout} user={currentUser} companies={company} />;
+                                return (
+                                    <UserHome
+                                        handleLogout={handleLogout}
+                                        user={currentUser}
+                                        companies={company}
+                                        socket={socket}
+                                    />
+                                );
                             }
                         }}
                     />
