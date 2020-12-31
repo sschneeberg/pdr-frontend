@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import io from 'socket.io-client';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utilities/setAuthToken';
 import About from './Components/About';
@@ -18,7 +19,6 @@ import UserHome from './Components/User/UserHome';
 import Profile from './Components/Profile';
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
-import io from 'socket.io-client';
 import REACT_APP_SERVER_URL from './keys';
 
 import './App.css';
