@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
-import Chat from '../Chat/Chat';
+import Chat from '../Chat/ChatBubble';
 
 class AdminHome extends Component {
     constructor(props) {

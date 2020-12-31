@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../App.css';
+import './Chat.css';
 
 class Chat extends Component {
     constructor(props) {
@@ -19,7 +19,8 @@ class Chat extends Component {
             company: '',
             notifications: '',
             companies: this.props.companies || [],
-            online: false
+            online: false,
+            supportSocket: ''
         };
     }
 
@@ -27,18 +28,15 @@ class Chat extends Component {
         let socket = this.state.socket;
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
-
+            //if not a customer, join the company chat channel
             if (this.state.user.company) {
                 this.setState({ company: this.state.user.company });
-                socket.emit(
-                    'join-company',
-                    this.state.user.company,
-                    socket.id,
-                    this.state.user.permissions || 'customer'
-                );
+                socket.emit('join-company', this.state.user.company, this.state.user.permissions);
             }
         });
-        socket.on('sent-message', (msg) => {
+        //devs recieving a comapny mesasge
+        socket.on('sent-company-message', (msg) => {
+            if (!this.state.user.permissions) return;
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             msgs.push(msg);
             if (this.state.hide) {
@@ -47,26 +45,31 @@ class Chat extends Component {
             }
             this.setState({ messages: msgs });
         });
+        //customer recieving a support message
+        socket.on('sent-support-message', (msg) => {
+            if (this.state.user.permissions) return;
+            let msgs = this.state.messages.slice(0, this.state.messages.length);
+            msgs.push(msg);
+            this.setState({ messages: msgs });
+        });
 
-        socket.on('joined-room', (active) => {
+        //user connect with company
+        socket.on('company-connected', (active, supportSocket) => {
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             if (active >= 1) {
-                msgs.push({ text: 'Company representatives are currently online', id: 3 });
+                msgs.push({ text: 'Company representatives are currently online, send a message to connect.', id: 3 });
             } else {
                 msgs.push({
                     text:
                         'No company representatives are currently online. Please try again at another time or submit a report to formally register your issue.',
                     id: 3
                 });
+                this.setState({ supportSocket });
             }
             this.setState({ messages: msgs });
         });
 
         this.setState({ socket });
-    }
-
-    componentWillUnmount() {
-        this.state.socket.disconnect();
     }
 
     expandChat = () => {
@@ -76,7 +79,8 @@ class Chat extends Component {
                 company: this.state.user.company || '',
                 messages: this.state.messages.slice(0, 1),
                 message: '',
-                online: false
+                online: false,
+                supportSocket: ''
             });
         } else {
             this.setState({ notifications: '' });
@@ -92,7 +96,7 @@ class Chat extends Component {
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push({ text: `You are connected to ${e.target.value}`, id: 2 });
         this.setState({ company: e.target.value, messages: msgs });
-        this.state.socket.emit('join-company', e.target.value, this.state.socket.id);
+        this.state.socket.emit('company-connect', e.target.value);
     };
 
     sendMessage = (e) => {
@@ -103,7 +107,7 @@ class Chat extends Component {
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push(message);
         //emit to reciever's socket
-        this.state.socket.emit('send-message', message);
+        this.state.socket.emit('send-message', message, this.state.supportSocket, this.state.socket.id);
         this.setState({ messages: msgs, message: '' });
     };
 

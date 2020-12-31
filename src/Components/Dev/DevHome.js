@@ -4,9 +4,9 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
 import { Link } from 'react-router-dom';
-import Chat from '../Chat/Chat';
+import Chat from '../Chat/ChatBubble';
 
-function DevHome() {
+function DevHome(props) {
     const columnsFromBackend = {
         [1]: {
             name: 'Assigned Bugs',
@@ -106,6 +106,7 @@ function DevHome() {
         return function cleanup() {
             setColumns(columnsFromBackend);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -169,10 +170,10 @@ function DevHome() {
                 })}
             </DragDropContext>
             <div id="account-info">
-                <Link className="btn btn-primary" to="/profile">
+                <Link className="btn btn-primary float-left" to="/profile">
                     Account Information
                 </Link>
-                <Chat user={user} socket={props.socket} />
+                <Chat user={props.user} socket={props.socket} />
             </div>
         </div>
     );

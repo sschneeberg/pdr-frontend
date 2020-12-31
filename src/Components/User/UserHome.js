@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
-import Chat from '../Chat/Chat';
+import Chat from '../Chat/ChatBubble';
 import REACT_APP_SERVER_URL from '../../keys';
 
 class UserHome extends Component {

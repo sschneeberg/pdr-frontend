@@ -20,7 +20,7 @@ import Profile from './Components/Profile';
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
 import REACT_APP_SERVER_URL from './keys';
-
+import ChatPortal from './Components/Chat/ChatPortal';
 import './App.css';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -93,7 +93,7 @@ function App() {
     }
     return (
         <div className="App">
-            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} />
+            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} />
             <div className="container mt-5">
                 <Switch>
                     <Route path="/" exact component={SubmitBug} />
@@ -147,6 +147,7 @@ function App() {
                         }}
                     />
                     <Route path="/bugdetails/:id" component={BugDetails} />
+                    <Route path="/chat" render={() => <ChatPortal socket={socket} user={currentUser} />} />
                 </Switch>
             </div>
             <Footer />
