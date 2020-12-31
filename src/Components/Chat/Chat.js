@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
-import REACT_APP_SERVER_URL from '../../keys';
 import '../../App.css';
 
 class Chat extends Component {
@@ -10,52 +8,107 @@ class Chat extends Component {
             messages: [
                 {
                     text:
-                        'Hello, Welcome to chat. If you leave the page or close this window the chat session will end',
+                        'Hello, Welcome to Quick Chat. If you leave the page or close the chat, this chat session will end',
                     id: 1
                 }
             ],
             message: '',
             user: this.props.user,
             hide: true,
-            socket: ''
+            socket: this.props.socket,
+            company: '',
+            notifications: '',
+            companies: this.props.companies || [],
+            online: false
         };
     }
 
     componentDidMount() {
-        const socket = io(REACT_APP_SERVER_URL);
-        this.setState({ socket });
+        let socket = this.state.socket;
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
+
+            if (this.state.user.company) {
+                this.setState({ company: this.state.user.company });
+                socket.emit(
+                    'join-company',
+                    this.state.user.company,
+                    socket.id,
+                    this.state.user.permissions || 'customer'
+                );
+            }
         });
+        socket.on('sent-message', (msg) => {
+            let msgs = this.state.messages.slice(0, this.state.messages.length);
+            msgs.push(msg);
+            if (this.state.hide) {
+                let ntf = parseInt(this.state.notifications) + 1 || 1;
+                this.setState({ notifications: ntf });
+            }
+            this.setState({ messages: msgs });
+        });
+
+        socket.on('joined-room', (active) => {
+            let msgs = this.state.messages.slice(0, this.state.messages.length);
+            if (active >= 1) {
+                msgs.push({ text: 'Company representatives are currently online', id: 3 });
+            } else {
+                msgs.push({
+                    text:
+                        'No company representatives are currently online. Please try again at another time or submit a report to formally register your issue.',
+                    id: 3
+                });
+            }
+            this.setState({ messages: msgs });
+        });
+
+        this.setState({ socket });
+    }
+
+    componentWillUnmount() {
+        this.state.socket.disconnect();
     }
 
     expandChat = () => {
+        //if closing this chat, clear the messages
+        if (!this.state.hide) {
+            this.setState({
+                company: this.state.user.company || '',
+                messages: this.state.messages.slice(0, 1),
+                message: '',
+                online: false
+            });
+        } else {
+            this.setState({ notifications: '' });
+        }
         this.setState({ hide: !this.state.hide });
     };
 
     handleChange = (e) => {
-        console.log(e.target.value);
         this.setState({ message: e.target.value });
     };
 
-    sendMessage = () => {
-        console.log('send');
-        //take message, add to array of messages {text: text, id: user.id}
+    onChangeSelect = (e) => {
         let msgs = this.state.messages.slice(0, this.state.messages.length);
-        msgs.push({ text: this.state.message, id: this.state.user.id });
-        this.setState({ messages: msgs, message: ' ' });
-        //emit to reciever's socket
-        this.state.socket.emit('send-message', () => {});
+        msgs.push({ text: `You are connected to ${e.target.value}`, id: 2 });
+        this.setState({ company: e.target.value, messages: msgs });
+        this.state.socket.emit('join-company', e.target.value, this.state.socket.id);
     };
 
-    //when do we do this?
-    //receive messages
-    //socket.on?
-    //render new li - if id == curUser id then one color, else another color
+    sendMessage = (e) => {
+        e.preventDefault();
+        console.log('send');
+        let message = { text: this.state.message, id: this.state.user.id };
+        //take message, add to array of messages {text: text, id: user.id}
+        let msgs = this.state.messages.slice(0, this.state.messages.length);
+        msgs.push(message);
+        //emit to reciever's socket
+        this.state.socket.emit('send-message', message);
+        this.setState({ messages: msgs, message: '' });
+    };
 
     render() {
         const msgList = this.state.messages.map((m, index) => {
-            console.log(m);
             return this.state.user.id === m.id ? (
                 <li key={index} style={{ backgroundColor: 'slategray', textAlign: 'right' }}>
                     {m.text}
@@ -67,25 +120,47 @@ class Chat extends Component {
             );
         });
 
-        console.log(msgList);
+        let companyInfo = this.state.companies.map((c, i) => {
+            return (
+                <option value={c.name} key={i}>
+                    {c.name}
+                </option>
+            );
+        });
+
+        const companyForm = (
+            <div className="form-group chatForm">
+                <label htmlFor="company">Companies: </label>
+                <select
+                    className="form-control"
+                    id="company"
+                    value={this.state.company}
+                    onChange={(e) => this.onChangeSelect(e)}>
+                    <option>Select a company</option>
+                    {companyInfo}
+                </select>
+            </div>
+        );
 
         return (
             <div className="chat">
                 {this.state.hide ? (
-                    <div className="chatWindow hide">
-                        <ul className="messages">{msgList}</ul>
-                        <div className="input" style={{ display: 'flex' }}>
-                            <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
-                            <input type="button" onClick={this.sendMessage} value="Send" />
-                        </div>
-                    </div>
+                    this.state.user.company && this.state.notifications ? (
+                        <button type="button" className="notificationsBubble btn btn-danger">
+                            <p>{this.state.notifications}</p>
+                        </button>
+                    ) : null
                 ) : (
                     <div className="chatWindow">
                         <ul className="messages">{msgList}</ul>
-                        <div className="input" style={{ display: 'flex' }}>
-                            <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
-                            <input type="button" onClick={this.sendMessage} value="Send" />
-                        </div>
+                        {this.state.company ? (
+                            <form onSubmit={(e) => this.sendMessage(e)} className="chatBar" style={{ display: 'flex' }}>
+                                <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
+                                <input type="submit" value="Send" />
+                            </form>
+                        ) : (
+                            companyForm
+                        )}
                     </div>
                 )}
 
