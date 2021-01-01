@@ -22,7 +22,7 @@ function DevHome() {
   };
 
   const [columns, setColumns] = useState(columnsFromBackend);
-
+ 
   // Route to update status of ticket
   const updateTicket = (id, status) => {
     axios
@@ -118,6 +118,8 @@ function DevHome() {
               <h2>{column.name}</h2>
               <div style={{ margin: 8 }}>
                 <Droppable droppableId={id} key={id}>
+
+
                   {(provided, snapshot) => {
                     return (
                       <div
@@ -129,7 +131,9 @@ function DevHome() {
                             : "lightgrey",
                           padding: 4,
                           width: 250,
-                          minHeight: 500,
+                          minHeight: 550,
+                          maxHeight: 550,
+                          overflow: 'scroll'
                         }}
                       >
                         {column.items.map((item, index) => {
@@ -153,13 +157,16 @@ function DevHome() {
                                       backgroundColor: snapshot.isDragging
                                         ? "#263B4A"
                                         : "#456C86",
-                                      color: "white",
                                       textAlign: "center",
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    <Link to={`/bugdetails/${item._id}`}>
+                                    <Link style={{color: 'white'}} to={`/bugdetails/${item._id}`}>
                                       {item.title}
+                                      <br></br>
+                                      {item.product}
+                                      <br></br>
+                                      Priority: {item.priority}
                                     </Link>
                                   </div>
                                 );

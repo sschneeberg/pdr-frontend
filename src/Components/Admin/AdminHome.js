@@ -7,15 +7,6 @@ class AdminHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            description: '',
-            projectDescription: '',
-            date: '',
-            website: '',
-            status: '',
-            image: '',
-            severity: '',
-            numOfBugsAssinged: '',
-            devs: '',
             bugs: [],
             loading: false
         };
@@ -69,6 +60,11 @@ class AdminHome extends Component {
                 </div>
                 <div className="devs">
                     Dev names: Severity for each bug they have been assigned: How many bugs the dev is already assigned:
+                </div>
+                <div id="account-info">
+                    <Link className="btn btn-primary" to="/devhome">
+                        Developer Dashboard
+                    </Link>
                 </div>
             </div>
         );

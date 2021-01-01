@@ -14,7 +14,8 @@ class SignupACompany extends Component {
             confirmPassword: '',
             products: '',
             company: "",
-            redirect: false
+            redirect: false,
+            error: false
         };
     }
 
@@ -32,8 +33,11 @@ class SignupACompany extends Component {
             axios
                 .post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
-                    console.log(response);
-                    this.setState({ redirect: true });
+                    if (response.data.msg) {
+                        this.setState({ error: true });
+                    } else {
+                        this.setState({ redirect: true });
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -57,6 +61,9 @@ class SignupACompany extends Component {
                                 this.handleSubmit(e);
                             }}>
                             <div className="form-group">
+                                {this.state.error ? (
+                                    <p style={{ color: 'red' }}>Company name already registered</p>
+                                ) : null}
                                 <FormField type="text" label="username" display="Username: " value={this.state.username} onChange={this.onChange} />
 
                                 <FormField type="email" label="email" display="Email: " value={this.state.email} onChange={this.onChange} />

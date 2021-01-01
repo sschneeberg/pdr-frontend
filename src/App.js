@@ -129,6 +129,7 @@ function App() {
                             }
                         }}
                     />
+                    <Route path='/devhome' component={DevHome} />
                     <Route
                         path="/profile"
                         render={({ location }) => {

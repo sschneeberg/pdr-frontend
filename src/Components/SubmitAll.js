@@ -16,7 +16,11 @@ class SubmitAll extends Component {
             description: this.props.description,
             createdBy: this.props.createdBy,
           }
-          axios.post('http://localhost:8000/api/tickets', newTicket)
+          axios.post('http://localhost:8000/api/tickets', newTicket).then(res => {
+              console.log(res);
+          }).catch(err => {
+              console.log(err);
+          })
         }
     render(){
         const { company, product, title, description, picture } = this.props;
