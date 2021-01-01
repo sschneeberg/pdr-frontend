@@ -13,12 +13,29 @@ class ChatPortal extends Component {
             socket: this.props.socket,
             user: this.props.user,
             activeChat: '',
+            chats: { 1234: { msgs: ['c-hi', 's-hello'], name: 'bob' } },
             online: false
         };
     }
 
+    componentDidMount() {
+        this.state.socket.on('sent-client-message', (msg, customerSocket, username) => {
+            if (this.state.online) {
+                let chats = Object.assign({}, this.state.chats);
+                if (chats[customerSocket]) {
+                    chats[customerSocket].msgs.push(msg);
+                } else {
+                    chats[customerSocket] = { msgs: [msg], name: username };
+                }
+                this.setState({ chats });
+            }
+        });
+    }
+
     selectChat = (chat) => {
-        this.setState({ activeChat: chat });
+        this.setState({
+            activeChat: { socket: chat, name: this.state.chats[chat].name, msgs: this.state.chats[chat].msgs }
+        });
     };
 
     sendMessage = (e) => {
@@ -58,6 +75,10 @@ class ChatPortal extends Component {
         this.setState({ online: !this.state.online });
     };
 
+    endChat = () => {
+        this.socket.emit('end-chat', this.state.activeChat.socket);
+    };
+
     render() {
         return (
             <div className="container">
@@ -73,11 +94,12 @@ class ChatPortal extends Component {
                             </Button>
                         )}
                         <div className="ChatPortal">
-                            <ChatSideBar selectChat={this.selectChat} />
+                            <ChatSideBar selectChat={this.selectChat} chats={this.state.chats} />
                             <MessagePanel
                                 sendMessage={this.sendMessage}
                                 handleChange={this.handleChange}
                                 activeChat={this.state.activeChat}
+                                endChat={this.endChat}
                             />
                         </div>
                     </>

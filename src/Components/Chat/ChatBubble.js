@@ -107,7 +107,13 @@ class Chat extends Component {
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push(message);
         //emit to reciever's socket
-        this.state.socket.emit('send-message', message, this.state.supportSocket, this.state.socket.id);
+        this.state.socket.emit(
+            'send-message',
+            message,
+            this.state.supportSocket,
+            this.state.socket.id,
+            this.state.user.username
+        );
         this.setState({ messages: msgs, message: '' });
     };
 
@@ -156,7 +162,9 @@ class Chat extends Component {
                     ) : null
                 ) : (
                     <div className="chatWindow">
-                        <ul className="messages">{msgList}</ul>
+                        <div className="messageWindow">
+                            <ul className="messages">{msgList}</ul>
+                        </div>
                         {this.state.company ? (
                             <form onSubmit={(e) => this.sendMessage(e)} className="chatBar" style={{ display: 'flex' }}>
                                 <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />

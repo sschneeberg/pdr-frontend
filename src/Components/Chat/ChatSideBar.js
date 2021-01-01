@@ -9,15 +9,20 @@ class ChatSideBar extends Component {
         };
     }
     render() {
-        const openChats = this.state.openChats ? (
-            this.state.openChats.map((chat, index) => (
-                <li key={index} className="customerChat" onClick={() => this.props.selectChat(chat)}>
-                    {chat.name} ({chat.notifications})
+        let openChats = [];
+        for (const chat in this.state.openChats) {
+            openChats.push(
+                <li
+                    key={this.state.openChats[chat].name}
+                    className="customerChat"
+                    onClick={() => this.props.selectChat(chat)}>
+                    {this.state.openChats[chat].name}
                 </li>
-            ))
-        ) : (
-            <li className="customerChat"> No chats currently active</li>
-        );
+            );
+        }
+        if (openChats.length === 0) {
+            openChats = <li className="customerChat"> No chats currently active</li>;
+        }
 
         return (
             <div className="sideBar">
