@@ -93,7 +93,7 @@ function DevHome(props) {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
-                console.log('Data was recived');
+                console.log('Data was received');
                 displaybugs(data);
             })
             .catch((e) => {

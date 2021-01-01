@@ -9,9 +9,24 @@ class ChatSideBar extends Component {
         };
     }
     render() {
+        const openChats = this.state.openChats ? (
+            this.state.openChats.map((chat, index) => (
+                <li key={index} className="customerChat" onClick={() => this.props.selectChat(chat)}>
+                    {chat.name} ({chat.notifications})
+                </li>
+            ))
+        ) : (
+            <li className="customerChat"> No chats currently active</li>
+        );
+
         return (
             <div className="sideBar">
-                <ul>{this.state.openChats}</ul>
+                <ul className="chats">
+                    <li className="customerChat" style={{ backgroundColor: 'lightblue' }}>
+                        Active Customer Conversations
+                    </li>
+                    {openChats}
+                </ul>
             </div>
         );
     }

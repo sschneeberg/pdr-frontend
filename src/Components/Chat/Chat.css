@@ -60,3 +60,14 @@ button.notificationsBubble p {
     height: 100%;
     border: 2px solid grey;
 }
+
+ul.chats {
+    padding: 0;
+    text-align: center;
+}
+
+.customerChat {
+    list-style: none;
+    line-height: 40px;
+    border: 1px lightgrey solid;
+}
