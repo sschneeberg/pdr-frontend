@@ -70,6 +70,10 @@ class Chat extends Component {
             this.setState({ messages: msgs });
         });
 
+        socket.on('chat-closed', () => {
+            this.endChat();
+        });
+
         this.setState({ socket });
     }
 
@@ -87,6 +91,16 @@ class Chat extends Component {
             this.setState({ notifications: '' });
         }
         this.setState({ hide: !this.state.hide });
+    };
+
+    endChat = () => {
+        this.setState({
+            company: this.state.user.company || '',
+            messages: this.state.messages.slice(0, 1),
+            message: '',
+            online: false,
+            supportSocket: ''
+        });
     };
 
     handleChange = (e) => {

@@ -15,7 +15,7 @@ class ChatPortal extends Component {
             socket: this.props.socket,
             user: this.props.user,
             activeChat: '',
-            chats: { 1234: { msgs: ['c-hi', 's-hello'], name: 'bob' } },
+            chats: {},
             online: false
         };
     }
@@ -97,7 +97,10 @@ class ChatPortal extends Component {
     }
 
     endChat = () => {
-        this.socket.emit('end-chat', this.state.activeChat.socket);
+        this.state.socket.emit('end-chat', this.state.activeChat.socket);
+        let chats = Object.assign({}, this.state.chats);
+        delete chats[this.state.activeChat.socket];
+        this.setState({ chats, activeChat: '' });
     };
 
     render() {
