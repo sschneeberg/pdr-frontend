@@ -86,8 +86,6 @@ function App() {
         }
     };
 
-    console.log(currentUser);
-
     if (loading) {
         return <div>Loading....</div>;
     }

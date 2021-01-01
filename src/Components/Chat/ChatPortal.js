@@ -19,35 +19,52 @@ class ChatPortal extends Component {
     }
 
     componentDidMount() {
-        this.state.socket.on('sent-client-message', (msg, customerSocket, username) => {
+        console.log(this.state.socket);
+        this.state.socket.on('sent-customer-message', (msg, customerSocket, username) => {
             if (this.state.online) {
                 let chats = Object.assign({}, this.state.chats);
-                if (chats[customerSocket]) {
-                    chats[customerSocket].msgs.push(msg);
+                let activeChat = this.state.activeChat;
+                chats[customerSocket]
+                    ? chats[customerSocket].msgs.push('c-' + msg)
+                    : (chats[customerSocket] = { msgs: ['c-' + msg], name: username });
+                if (activeChat.socket === customerSocket) {
+                    activeChat.msgs.push('c-' + msg);
+                    this.setState({
+                        chats,
+                        activeChat: {
+                            socket: activeChat.socket,
+                            name: activeChat.name,
+                            msgs: activeChat.msgs
+                        }
+                    });
                 } else {
-                    chats[customerSocket] = { msgs: [msg], name: username };
+                    this.setState({ chats });
                 }
-                this.setState({ chats });
             }
         });
     }
 
     selectChat = (chat) => {
         this.setState({
-            activeChat: { socket: chat, name: this.state.chats[chat].name, msgs: this.state.chats[chat].msgs }
+            activeChat: { socket: chat, name: this.state.chats[chat].name, msgs: this.state.chats[chat].msgs },
+            messages: this.state.chats[chat].msgs
         });
     };
 
     sendMessage = (e) => {
         e.preventDefault();
         console.log('send');
-        let message = { text: this.state.message, id: this.state.user.id };
+        let message = { text: 's-' + this.state.message, id: this.state.user.id };
         //take message, add to array of messages {text: text, id: user.id}
-        let msgs = this.state.messages.slice(0, this.state.messages.length);
-        msgs.push(message);
+        let msgs = this.state.activeChat.msgs.slice(0, this.state.activeChat.msgs.length);
+        msgs.push(message.text);
+        let activeChat = this.state.activeChat;
+        activeChat.msgs = msgs;
+        let openChats = this.state.chats;
+        openChats[activeChat.socket].msgs = activeChat.msgs;
         //emit to reciever's socket
-        this.state.socket.emit('send-message', message);
-        this.setState({ messages: msgs, message: '' });
+        this.state.socket.emit('send-support-message', this.state.message, this.state.activeChat.socket);
+        this.setState({ activeChat, message: '', chats: openChats });
     };
 
     handleChange = (e) => {
@@ -80,6 +97,7 @@ class ChatPortal extends Component {
     };
 
     render() {
+        console.log('updated', this.state.chats);
         return (
             <div className="container">
                 {this.state.user.permissions ? (

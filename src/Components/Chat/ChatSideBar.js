@@ -2,21 +2,15 @@ import React, { Component } from 'react';
 import './Chat.css';
 
 class ChatSideBar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            openChats: this.props.chats
-        };
-    }
     render() {
         let openChats = [];
-        for (const chat in this.state.openChats) {
+        for (const chat in this.props.chats) {
             openChats.push(
                 <li
-                    key={this.state.openChats[chat].name}
+                    key={this.props.chats[chat].name}
                     className="customerChat"
                     onClick={() => this.props.selectChat(chat)}>
-                    {this.state.openChats[chat].name}
+                    {this.props.chats[chat].name}
                 </li>
             );
         }

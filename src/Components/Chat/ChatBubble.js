@@ -48,8 +48,9 @@ class Chat extends Component {
         //customer recieving a support message
         socket.on('sent-support-message', (msg) => {
             if (this.state.user.permissions) return;
+            console.log(msg);
             let msgs = this.state.messages.slice(0, this.state.messages.length);
-            msgs.push(msg);
+            msgs.push({ text: msg, id: 'support' });
             this.setState({ messages: msgs });
         });
 
@@ -58,13 +59,13 @@ class Chat extends Component {
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             if (active >= 1) {
                 msgs.push({ text: 'Company representatives are currently online, send a message to connect.', id: 3 });
+                this.setState({ online: true, supportSocket });
             } else {
                 msgs.push({
                     text:
                         'No company representatives are currently online. Please try again at another time or submit a report to formally register your issue.',
                     id: 3
                 });
-                this.setState({ supportSocket });
             }
             this.setState({ messages: msgs });
         });
@@ -107,9 +108,10 @@ class Chat extends Component {
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push(message);
         //emit to reciever's socket
+        console.log(this.state.supportSocket);
         this.state.socket.emit(
             'send-message',
-            message,
+            message.text,
             this.state.supportSocket,
             this.state.socket.id,
             this.state.user.username
@@ -164,15 +166,33 @@ class Chat extends Component {
                     <div className="chatWindow">
                         <div className="messageWindow">
                             <ul className="messages">{msgList}</ul>
+                            {this.state.company ? null : companyForm}
                         </div>
                         {this.state.company ? (
                             <form onSubmit={(e) => this.sendMessage(e)} className="chatBar" style={{ display: 'flex' }}>
-                                <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
-                                <input type="submit" value="Send" />
+                                {this.state.online ? (
+                                    <>
+                                        <input
+                                            type="text"
+                                            onChange={(e) => this.handleChange(e)}
+                                            value={this.state.message}
+                                        />
+                                        <input type="submit" value="Send" />{' '}
+                                    </>
+                                ) : (
+                                    <>
+                                        {' '}
+                                        <input
+                                            type="text"
+                                            onChange={(e) => this.handleChange(e)}
+                                            value={this.state.message}
+                                            disabled
+                                        />
+                                        <input type="submit" value="Send" disabled />{' '}
+                                    </>
+                                )}
                             </form>
-                        ) : (
-                            companyForm
-                        )}
+                        ) : null}
                     </div>
                 )}
 

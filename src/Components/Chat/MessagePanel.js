@@ -2,18 +2,10 @@ import React, { Component } from 'react';
 import './Chat.css';
 
 class MessagePanel extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            messages: this.props.messages,
-            activeChat: this.props.activeChat
-        };
-    }
-
     render() {
-        console.log(this.state.activeChat);
-        const messages = this.state.activeChat
-            ? this.state.activeChat.msgs.map((m, index) => {
+        console.log(this.props.activeChat);
+        const messages = this.props.activeChat
+            ? this.props.activeChat.msgs.map((m, index) => {
                   let segmented = m.split('-');
                   let tag = segmented.shift();
                   let msg = segmented;
@@ -36,7 +28,7 @@ class MessagePanel extends Component {
             <div className="MessagePanel">
                 <ul className="messages">
                     <li className="customerChat" style={{ backgroundColor: 'lightblue' }}>
-                        {this.props.activeChat ? this.state.activeChat.name : 'No conversation selected'}
+                        {this.props.activeChat ? this.props.activeChat.name : 'No conversation selected'}
                     </li>
                     {messages}
                 </ul>
@@ -45,7 +37,7 @@ class MessagePanel extends Component {
                         className="messageInput"
                         type="text"
                         onChange={(e) => this.props.handleChange(e)}
-                        value={this.state.message}
+                        value={this.props.message}
                     />
                     <input className="messageSend" type="submit" value="Send" />
                     <input
