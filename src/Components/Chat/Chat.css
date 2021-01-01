@@ -81,10 +81,10 @@ ul.chats {
 }
 
 .messageInput {
-    width: 80%;
+    width: 76%;
 }
 
 .messageSend,
 .conversationEnd {
-    width: 10%;
+    width: 12%;
 }

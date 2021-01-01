@@ -30,7 +30,7 @@ function Nav(props) {
                     <ul className="navbar-nav ml-auto">
                         {props.user.permissions ? (
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/chat">
+                                <NavLink target="_blank" className="nav-link" to="/chat">
                                     Customer Support
                                 </NavLink>
                             </li>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import ChatSideBar from './ChatSideBar';
 import MessagePanel from './MessagePanel';
+import CustomerChatHelp from './CustomerChatHelp';
 import './Chat.css';
 
 class ChatPortal extends Component {
@@ -19,7 +21,6 @@ class ChatPortal extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.socket);
         this.state.socket.on('sent-customer-message', (msg, customerSocket, username) => {
             if (this.state.online) {
                 let chats = Object.assign({}, this.state.chats);
@@ -28,7 +29,6 @@ class ChatPortal extends Component {
                     ? chats[customerSocket].msgs.push('c-' + msg)
                     : (chats[customerSocket] = { msgs: ['c-' + msg], name: username });
                 if (activeChat.socket === customerSocket) {
-                    activeChat.msgs.push('c-' + msg);
                     this.setState({
                         chats,
                         activeChat: {
@@ -92,6 +92,10 @@ class ChatPortal extends Component {
         this.setState({ online: !this.state.online });
     };
 
+    componentWillUnmount() {
+        this.toggleOnline();
+    }
+
     endChat = () => {
         this.socket.emit('end-chat', this.state.activeChat.socket);
     };
@@ -111,9 +115,25 @@ class ChatPortal extends Component {
                                 Available
                             </Button>
                         )}
+
+                        <OverlayTrigger
+                            trigger="click"
+                            placement="left"
+                            overlay={
+                                <Popover>
+                                    <Popover.Title as="h3">Customer Support Chat Help</Popover.Title>
+                                    <Popover.Content>{CustomerChatHelp}</Popover.Content>
+                                </Popover>
+                            }>
+                            <Button className="float-right" variant="outline-secondary" style={{ borderRadius: '60%' }}>
+                                ?
+                            </Button>
+                        </OverlayTrigger>
+
                         <div className="ChatPortal">
                             <ChatSideBar selectChat={this.selectChat} chats={this.state.chats} />
                             <MessagePanel
+                                message={this.state.message}
                                 sendMessage={this.sendMessage}
                                 handleChange={this.handleChange}
                                 activeChat={this.state.activeChat}
