@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '../../App.css';
+import io from 'socket.io-client';
+import REACT_APP_SERVER_URL from '../../keys';
+import './Chat.css';
 
 class Chat extends Component {
     constructor(props) {
@@ -15,30 +17,33 @@ class Chat extends Component {
             message: '',
             user: this.props.user,
             hide: true,
-            socket: this.props.socket,
+            socket: '',
             company: '',
             notifications: '',
             companies: this.props.companies || [],
-            online: false
+            online: false,
+            supportSocket: ''
         };
     }
 
     componentDidMount() {
-        let socket = this.state.socket;
+        let socket = io(REACT_APP_SERVER_URL);
+        this.props.setSocket(socket);
+        if (this.state.user.company) {
+            this.setState({ company: this.state.user.company });
+        }
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
-
+            //if not a customer, join the company chat channel
             if (this.state.user.company) {
-                this.setState({ company: this.state.user.company });
-                socket.emit(
-                    'join-company',
-                    this.state.user.company,
-                    socket.id,
-                    this.state.user.permissions || 'customer'
-                );
+                console.log('HERE');
+                socket.emit('join-company', this.state.user.company, this.state.user.permissions);
             }
         });
-        socket.on('sent-message', (msg) => {
+        //devs recieving a comapny mesasge
+        socket.on('sent-company-message', (msg) => {
+            console.log('COMPANY MSG', msg);
+            if (!this.state.user.permissions) return;
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             msgs.push(msg);
             if (this.state.hide) {
@@ -47,11 +52,20 @@ class Chat extends Component {
             }
             this.setState({ messages: msgs });
         });
+        //customer recieving a support message
+        socket.on('sent-support-message', (msg) => {
+            if (this.state.user.permissions) return;
+            let msgs = this.state.messages.slice(0, this.state.messages.length);
+            msgs.push({ text: msg, id: 'support' });
+            this.setState({ messages: msgs });
+        });
 
-        socket.on('joined-room', (active) => {
+        //user connect with company
+        socket.on('company-connected', (active, supportSocket) => {
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             if (active >= 1) {
-                msgs.push({ text: 'Company representatives are currently online', id: 3 });
+                msgs.push({ text: 'Company representatives are currently online, send a message to connect.', id: 3 });
+                this.setState({ online: true, supportSocket });
             } else {
                 msgs.push({
                     text:
@@ -62,11 +76,11 @@ class Chat extends Component {
             this.setState({ messages: msgs });
         });
 
-        this.setState({ socket });
-    }
+        socket.on('chat-closed', () => {
+            this.endChat();
+        });
 
-    componentWillUnmount() {
-        this.state.socket.disconnect();
+        this.setState({ socket });
     }
 
     expandChat = () => {
@@ -76,12 +90,23 @@ class Chat extends Component {
                 company: this.state.user.company || '',
                 messages: this.state.messages.slice(0, 1),
                 message: '',
-                online: false
+                online: false,
+                supportSocket: ''
             });
         } else {
             this.setState({ notifications: '' });
         }
         this.setState({ hide: !this.state.hide });
+    };
+
+    endChat = () => {
+        this.setState({
+            company: this.state.user.company || '',
+            messages: this.state.messages.slice(0, 1),
+            message: '',
+            online: false,
+            supportSocket: ''
+        });
     };
 
     handleChange = (e) => {
@@ -92,18 +117,23 @@ class Chat extends Component {
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push({ text: `You are connected to ${e.target.value}`, id: 2 });
         this.setState({ company: e.target.value, messages: msgs });
-        this.state.socket.emit('join-company', e.target.value, this.state.socket.id);
+        this.state.socket.emit('company-connect', e.target.value);
     };
 
     sendMessage = (e) => {
         e.preventDefault();
-        console.log('send');
         let message = { text: this.state.message, id: this.state.user.id };
         //take message, add to array of messages {text: text, id: user.id}
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push(message);
         //emit to reciever's socket
-        this.state.socket.emit('send-message', message);
+        this.state.socket.emit(
+            'send-message',
+            message,
+            this.state.supportSocket,
+            this.state.socket.id,
+            this.state.user.username
+        );
         this.setState({ messages: msgs, message: '' });
     };
 
@@ -119,6 +149,8 @@ class Chat extends Component {
                 </li>
             );
         });
+
+        console.log(msgList);
 
         let companyInfo = this.state.companies.map((c, i) => {
             return (
@@ -152,14 +184,42 @@ class Chat extends Component {
                     ) : null
                 ) : (
                     <div className="chatWindow">
-                        <ul className="messages">{msgList}</ul>
-                        {this.state.company ? (
-                            <form onSubmit={(e) => this.sendMessage(e)} className="chatBar" style={{ display: 'flex' }}>
-                                <input type="text" onChange={(e) => this.handleChange(e)} value={this.state.message} />
-                                <input type="submit" value="Send" />
-                            </form>
+                        {this.state.user ? (
+                            <>
+                                <div className="messageWindow">
+                                    <ul className="messages">{msgList}</ul>
+                                    {this.state.company ? null : companyForm}
+                                </div>
+                                {this.state.company ? (
+                                    <form
+                                        onSubmit={(e) => this.sendMessage(e)}
+                                        className="chatBar"
+                                        style={{ display: 'flex' }}>
+                                        {this.state.online || this.state.user.company ? (
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    onChange={(e) => this.handleChange(e)}
+                                                    value={this.state.message}
+                                                />
+                                                <input type="submit" value="Send" />{' '}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    onChange={(e) => this.handleChange(e)}
+                                                    value={this.state.message}
+                                                    disabled
+                                                />
+                                                <input type="submit" value="Send" disabled />{' '}
+                                            </>
+                                        )}
+                                    </form>
+                                ) : null}
+                            </>
                         ) : (
-                            companyForm
+                            <p>Loading...</p>
                         )}
                     </div>
                 )}

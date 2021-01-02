@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
-import Chat from '../Chat/Chat';
+import Chat from '../Chat/ChatBubble';
 import REACT_APP_SERVER_URL from '../../keys';
 import io from 'socket.io-client';
 
@@ -113,7 +113,12 @@ class UserHome extends Component {
                 
                 {pageDisplay()}
                 {this.state.redirect ? <Redirect to="/" /> : null}
-                <Chat user={this.state.user} companies={this.props.companies} socket={this.props.socket} />
+                <Chat
+                    user={this.state.user}
+                    companies={this.props.companies}
+                    socket={this.props.socket}
+                    setSocket={this.props.setSocket}
+                />
             </div>
         );
     }
