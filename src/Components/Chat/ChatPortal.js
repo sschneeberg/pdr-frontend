@@ -13,7 +13,6 @@ class ChatPortal extends Component {
         super(props);
         this.state = {
             message: '',
-            socket: '',
             user: this.props.user,
             activeChat: '',
             chats: {},

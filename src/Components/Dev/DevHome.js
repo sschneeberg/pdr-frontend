@@ -26,10 +26,8 @@ function DevHome(props) {
 
     // Route to update status of ticket
     const updateTicket = (id, status) => {
-        console.log(typeof status);
         let socket = props.socket;
         if (status === '3') {
-            console.log('here');
             socket.emit('statusUpdated', {
                 ticket: bugMap[id]
             });
