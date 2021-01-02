@@ -16,7 +16,8 @@ class CompanySignup extends Component {
             company: '',
             permissions: '',
             companies: props.companies,
-            redirect: false
+            redirect: false,
+            error: false
         };
     }
 
@@ -48,7 +49,11 @@ class CompanySignup extends Component {
                 .post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
                     console.log(response);
-                    this.setState({ redirect: true });
+                    if (response.data.msg) {
+                        this.setState({ error: true });
+                    } else {
+                        this.setState({ redirect: true });
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -113,6 +118,7 @@ class CompanySignup extends Component {
                                     value={this.state.confirmPassword}
                                     onChange={this.onChange}
                                 />
+
 
                                 <div className="form-group">
                                     <label htmlFor="company">Companies: </label>
