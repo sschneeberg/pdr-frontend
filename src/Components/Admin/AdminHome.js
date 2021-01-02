@@ -68,7 +68,6 @@ class AdminHome extends Component {
                     </Link>
                 </div>
                 <Chat user={this.props.user} socket={this.props.socket} setSocket={this.props.setSocket} />
-
             </div>
         );
     }

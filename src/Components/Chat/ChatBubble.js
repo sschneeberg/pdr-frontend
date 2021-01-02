@@ -80,6 +80,14 @@ class Chat extends Component {
             this.endChat();
         });
 
+        socket.on('statusUpdate', (updated) => {
+            console.log('UPDATE');
+            console.log(updated);
+            if (updated.ticket !== null) {
+                this.props.setNotifications(updated);
+            }
+        });
+
         this.setState({ socket });
     }
 

@@ -146,7 +146,6 @@ function App() {
                             }
                         }}
                     />
-                    <Route path='/devhome' component={DevHome} />
                     <Route
                         path="/profile"
                         render={({ location }) => {
@@ -154,12 +153,14 @@ function App() {
                         }}
                     />
 
-                    <Route path="/bugdetails/:id" render={({ location, match }) => {
-                        return <BugDetails location={location} match={match} />
-                    }} />
+                    <Route
+                        path="/bugdetails/:id"
+                        render={({ location, match }) => {
+                            return <BugDetails location={location} match={match} />;
+                        }}
+                    />
 
                     <Route path="/chat" render={() => <ChatPortal socket={socket} user={currentUser} />} />
-
                 </Switch>
             </div>
             <Footer />
