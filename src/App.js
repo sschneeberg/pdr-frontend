@@ -42,7 +42,7 @@ function App() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/tickets/companies`)
+            .get(`${REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
                 setCompany(response.data.companies);
                 setLoading(false);

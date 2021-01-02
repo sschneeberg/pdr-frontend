@@ -8,7 +8,7 @@ const CustomerChatHelp = (
         communications will appear in your <em>Active Customer Conversations</em> sidebar. When finished with a
         conversation, clicking <strong>Close</strong> will end that 1:1 chat session for both you and the customer.
         <br /> <br /> Navigating away from this page will leave your customers in conversation limbo. Please utilize the{' '}
-        <strong>search</strong> button to reference any necessary report information and be sure to{' '}
+        <strong>Search Reports</strong> button to reference any necessary report information and be sure to{' '}
         <strong>end your session</strong> before closing the chat portal.
     </p>
 );
