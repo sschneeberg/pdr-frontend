@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
-import { Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
+import { Link } from 'react-router-dom';
+import io from 'socket.io-client';
 
 function DevHome(props) {
     const columnsFromBackend = {
@@ -21,16 +22,19 @@ function DevHome(props) {
             items: []
         }
     };
-
     const [columns, setColumns] = useState(columnsFromBackend);
+    const [bugMap, setBugMap] = useState(null);
 
     // Route to update status of ticket
     const updateTicket = (id, status) => {
+        let socket = io('http://localhost:8000');
+        socket.emit('statusUpdated', {
+            ticket: bugMap
+        });
+
         axios
             .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
-            .then((response) => {
-                console.log(response);
-            })
+            .then((response) => {})
             .catch((e) => {
                 console.log(e);
             });
@@ -57,7 +61,7 @@ function DevHome(props) {
                     items: destItems
                 }
             });
-            console.log(result);
+            console.log(source);
             updateTicket(source.index, destination.droppableId);
         } else {
             const column = columns[source.droppableId];
@@ -83,6 +87,7 @@ function DevHome(props) {
                 updatedColumns['2'].items.push(bug);
             } else {
                 updatedColumns['3'].items.push(bug);
+                setBugMap(bug);
             }
         });
         setColumns(updatedColumns);
