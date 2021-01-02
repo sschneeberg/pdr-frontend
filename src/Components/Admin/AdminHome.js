@@ -71,7 +71,7 @@ class AdminHome extends Component {
                 <div className="devs">
                     Dev names: Severity for each bug they have been assigned: How many bugs the dev is already assigned:
                 </div>
-                <Chat user={this.props.user} socket={this.props.socket} />
+                <Chat user={this.props.user} socket={this.props.socket} setSocket={this.props.setSocket} />
             </div>
         );
     }

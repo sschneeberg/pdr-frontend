@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client';
+import REACT_APP_SERVER_URL from '../../keys';
 import './Chat.css';
 
 class Chat extends Component {
@@ -15,7 +17,7 @@ class Chat extends Component {
             message: '',
             user: this.props.user,
             hide: true,
-            socket: this.props.socket,
+            socket: '',
             company: '',
             notifications: '',
             companies: this.props.companies || [],
@@ -25,17 +27,22 @@ class Chat extends Component {
     }
 
     componentDidMount() {
-        let socket = this.state.socket;
+        let socket = io(REACT_APP_SERVER_URL);
+        this.props.setSocket(socket);
+        if (this.state.user.company) {
+            this.setState({ company: this.state.user.company });
+        }
         socket.on('connect', () => {
             console.log('connected to back end: ', socket.id);
             //if not a customer, join the company chat channel
             if (this.state.user.company) {
-                this.setState({ company: this.state.user.company });
+                console.log('HERE');
                 socket.emit('join-company', this.state.user.company, this.state.user.permissions);
             }
         });
         //devs recieving a comapny mesasge
         socket.on('sent-company-message', (msg) => {
+            console.log('COMPANY MSG', msg);
             if (!this.state.user.permissions) return;
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             msgs.push(msg);
@@ -48,7 +55,6 @@ class Chat extends Component {
         //customer recieving a support message
         socket.on('sent-support-message', (msg) => {
             if (this.state.user.permissions) return;
-            console.log(msg);
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             msgs.push({ text: msg, id: 'support' });
             this.setState({ messages: msgs });
@@ -116,16 +122,14 @@ class Chat extends Component {
 
     sendMessage = (e) => {
         e.preventDefault();
-        console.log('send');
         let message = { text: this.state.message, id: this.state.user.id };
         //take message, add to array of messages {text: text, id: user.id}
         let msgs = this.state.messages.slice(0, this.state.messages.length);
         msgs.push(message);
         //emit to reciever's socket
-        console.log(this.state.supportSocket);
         this.state.socket.emit(
             'send-message',
-            message.text,
+            message,
             this.state.supportSocket,
             this.state.socket.id,
             this.state.user.username
@@ -145,6 +149,8 @@ class Chat extends Component {
                 </li>
             );
         });
+
+        console.log(msgList);
 
         let companyInfo = this.state.companies.map((c, i) => {
             return (
@@ -178,35 +184,43 @@ class Chat extends Component {
                     ) : null
                 ) : (
                     <div className="chatWindow">
-                        <div className="messageWindow">
-                            <ul className="messages">{msgList}</ul>
-                            {this.state.company ? null : companyForm}
-                        </div>
-                        {this.state.company ? (
-                            <form onSubmit={(e) => this.sendMessage(e)} className="chatBar" style={{ display: 'flex' }}>
-                                {this.state.online ? (
-                                    <>
-                                        <input
-                                            type="text"
-                                            onChange={(e) => this.handleChange(e)}
-                                            value={this.state.message}
-                                        />
-                                        <input type="submit" value="Send" />{' '}
-                                    </>
-                                ) : (
-                                    <>
-                                        {' '}
-                                        <input
-                                            type="text"
-                                            onChange={(e) => this.handleChange(e)}
-                                            value={this.state.message}
-                                            disabled
-                                        />
-                                        <input type="submit" value="Send" disabled />{' '}
-                                    </>
-                                )}
-                            </form>
-                        ) : null}
+                        {this.state.user ? (
+                            <>
+                                <div className="messageWindow">
+                                    <ul className="messages">{msgList}</ul>
+                                    {this.state.company ? null : companyForm}
+                                </div>
+                                {this.state.company ? (
+                                    <form
+                                        onSubmit={(e) => this.sendMessage(e)}
+                                        className="chatBar"
+                                        style={{ display: 'flex' }}>
+                                        {this.state.online || this.state.user.company ? (
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    onChange={(e) => this.handleChange(e)}
+                                                    value={this.state.message}
+                                                />
+                                                <input type="submit" value="Send" />{' '}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    onChange={(e) => this.handleChange(e)}
+                                                    value={this.state.message}
+                                                    disabled
+                                                />
+                                                <input type="submit" value="Send" disabled />{' '}
+                                            </>
+                                        )}
+                                    </form>
+                                ) : null}
+                            </>
+                        ) : (
+                            <p>Loading...</p>
+                        )}
                     </div>
                 )}
 

@@ -173,7 +173,7 @@ function DevHome(props) {
                 <Link className="btn btn-primary float-left" to="/profile">
                     Account Information
                 </Link>
-                <Chat user={props.user} socket={props.socket} />
+                <Chat user={props.user} socket={props.socket} setSocket={props.setSocket} />
             </div>
         </div>
     );

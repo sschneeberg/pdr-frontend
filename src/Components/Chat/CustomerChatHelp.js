@@ -6,10 +6,10 @@ const CustomerChatHelp = (
         is a intended for quick comminucation purposes and will not be saved between sessions. We ask customers to
         submit a formal report should further action be required or desired. <br /> <br /> All new customer
         communications will appear in your <em>Active Customer Conversations</em> sidebar. When finished with a
-        conversation, clicking <strong>Close</strong> will end that 1:1 chat session for both you and the customer.{' '}
-        <br /> <br /> Navigating away from this page will leave your customers in conversation limbo. Please utilize the
-        other tab to reference any necessary report information and be sure to <strong>end your session</strong> before
-        closing the chat portal.{' '}
+        conversation, clicking <strong>Close</strong> will end that 1:1 chat session for both you and the customer.
+        <br /> <br /> Navigating away from this page will leave your customers in conversation limbo. Please utilize the{' '}
+        <strong>search</strong> button to reference any necessary report information and be sure to{' '}
+        <strong>end your session</strong> before closing the chat portal.
     </p>
 );
 

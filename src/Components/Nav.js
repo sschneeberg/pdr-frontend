@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 function Nav(props) {
+    console.log(props.socket);
     return (
         <div className="">
             <nav className=" navbar navbar-dark bg-dark  ">
@@ -30,7 +31,7 @@ function Nav(props) {
                     <ul className="navbar-nav ml-auto">
                         {props.user.permissions ? (
                             <li className="nav-item">
-                                <NavLink target="_blank" className="nav-link" to="/chat">
+                                <NavLink className="nav-link" to="/chat">
                                     Customer Support
                                 </NavLink>
                             </li>

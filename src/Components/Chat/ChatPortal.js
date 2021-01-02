@@ -12,7 +12,7 @@ class ChatPortal extends Component {
         super(props);
         this.state = {
             message: '',
-            socket: this.props.socket,
+            socket: '',
             user: this.props.user,
             activeChat: '',
             chats: {},
@@ -21,7 +21,8 @@ class ChatPortal extends Component {
     }
 
     componentDidMount() {
-        this.state.socket.on('sent-customer-message', (msg, customerSocket, username) => {
+        console.log(this.props);
+        this.props.socket.on('sent-customer-message', (msg, customerSocket, username) => {
             if (this.state.online) {
                 let chats = Object.assign({}, this.state.chats);
                 let activeChat = this.state.activeChat;
@@ -63,7 +64,7 @@ class ChatPortal extends Component {
         let openChats = this.state.chats;
         openChats[activeChat.socket].msgs = activeChat.msgs;
         //emit to reciever's socket
-        this.state.socket.emit('send-support-message', this.state.message, this.state.activeChat.socket);
+        this.props.socket.emit('send-support-message', this.state.message, this.state.activeChat.socket);
         this.setState({ activeChat, message: '', chats: openChats });
     };
 
@@ -74,18 +75,18 @@ class ChatPortal extends Component {
     toggleOnline = () => {
         if (this.state.online) {
             //if online, then becoming unavailable: disconnect from support room
-            this.state.socket.emit(
+            this.props.socket.emit(
                 'support-unavailable',
                 this.state.user.company,
-                this.state.socket.id,
+                this.props.socket.id,
                 this.state.user.permissions
             );
         } else {
             //becoming available: join support room
-            this.state.socket.emit(
+            this.props.socket.emit(
                 'support-available',
                 this.state.user.company,
-                this.state.socket.id,
+                this.props.socket.id,
                 this.state.user.permissions
             );
         }
@@ -97,7 +98,7 @@ class ChatPortal extends Component {
     }
 
     endChat = () => {
-        this.state.socket.emit('end-chat', this.state.activeChat.socket);
+        this.props.socket.emit('end-chat', this.state.activeChat.socket);
         let chats = Object.assign({}, this.state.chats);
         delete chats[this.state.activeChat.socket];
         this.setState({ chats, activeChat: '' });

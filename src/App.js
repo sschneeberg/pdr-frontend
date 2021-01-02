@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import io from 'socket.io-client';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utilities/setAuthToken';
 import About from './Components/About';
@@ -39,7 +38,7 @@ function App() {
     const [currentUser, setCurrentUser] = useState('');
     const [company, setCompany] = useState('');
     const [loading, setLoading] = useState(true);
-    const [socket, setSocket] = useState(io(REACT_APP_SERVER_URL));
+    const [socket, setSocket] = useState('');
 
     useEffect(() => {
         axios
@@ -78,6 +77,11 @@ function App() {
         }
     };
 
+    const setCurrSocket = (s) => {
+        setSocket(s);
+        console.log(socket);
+    };
+
     const handleExpiration = () => {
         //check session end
         if (Date(this.state.user.exp * 1000) <= Date.now()) {
@@ -89,9 +93,12 @@ function App() {
     if (loading) {
         return <div>Loading....</div>;
     }
+
+    console.log(socket);
+
     return (
         <div className="App">
-            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} />
+            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
             <div className="container mt-5">
                 <Switch>
                     <Route path="/" exact component={SubmitBug} />
@@ -123,9 +130,9 @@ function App() {
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
-                                return <AdminHome user={currentUser} socket={socket} />;
+                                return <AdminHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
                             } else if (currentUser.permissions === 'dev') {
-                                return <DevHome user={currentUser} socket={socket} />;
+                                return <DevHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
                             } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
                                 return (
                                     <UserHome
@@ -133,6 +140,7 @@ function App() {
                                         user={currentUser}
                                         companies={company}
                                         socket={socket}
+                                        setSocket={setSocket}
                                     />
                                 );
                             }
@@ -153,4 +161,4 @@ function App() {
     );
 }
 
-export default App;
+export default withRouter(App);

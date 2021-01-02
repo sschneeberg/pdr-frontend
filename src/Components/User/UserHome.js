@@ -67,7 +67,12 @@ class UserHome extends Component {
             <div>
                 {pageDisplay()}
                 {this.state.redirect ? <Redirect to="/" /> : null}
-                <Chat user={this.state.user} companies={this.props.companies} socket={this.props.socket} />
+                <Chat
+                    user={this.state.user}
+                    companies={this.props.companies}
+                    socket={this.props.socket}
+                    setSocket={this.props.setSocket}
+                />
             </div>
         );
     }
