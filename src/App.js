@@ -146,6 +146,14 @@ function App() {
                             }
                         }}
                     />
+
+                    <Route
+                        path="/devhome"
+                        render={() => {
+                            return <DevHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
+                        }}
+                    />
+
                     <Route
                         path="/profile"
                         render={({ location }) => {

@@ -27,8 +27,13 @@ class Chat extends Component {
     }
 
     componentDidMount() {
-        let socket = io(REACT_APP_SERVER_URL);
-        this.props.setSocket(socket);
+        let socket = '';
+        if (!this.props.socket) {
+            socket = io(REACT_APP_SERVER_URL);
+            this.props.setSocket(socket);
+        } else {
+            socket = this.props.socket;
+        }
         if (this.state.user.company) {
             this.setState({ company: this.state.user.company });
         }
@@ -81,6 +86,9 @@ class Chat extends Component {
         });
 
         socket.on('statusUpdate', (updated) => {
+            if (this.state.user.permissions === 'dev' || this.state.user.permissions === 'admin') {
+                return;
+            }
             console.log('UPDATE');
             console.log(updated);
             if (updated.ticket !== null) {
