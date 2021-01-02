@@ -19,6 +19,7 @@ class UserHome extends Component {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
+                console.log(data);
                 this.setState({ bugs: data, loading: false });
                 console.log('Data was recived');
             })
@@ -30,37 +31,26 @@ class UserHome extends Component {
                 console.log(err);
             });
     }
-
-    displaybugs = () => {
-        return this.state.bugs.map((bug, index) => {
-            return (
-                <div key={index}>
-                    <ul>
-                        <li>{bug.title}</li>
-                        <li>{bug.company}</li>
-                        <li>{bug.product}</li>
-                        <li>{bug.description}</li>
-                        <li>{bug.status}</li>
-                        <li>{bug.createdAt}</li>
-                    </ul>
-                </div>
-            );
-        });
-    };
-
+    
     render() {
         const pageDisplay = () => {
             return (
                 <div>
+                    {this.state.bugs.map((bug, index) => {
+                        return (
+                            <div key={index}>
+                                <Link style={{color: 'black'}} to={{pathname: `/bugdetails/${bug._id}`, state: bug}} >
+                                    {bug.title}
+                                </Link>
+                            </div>
+                        )
+                    })}
                     <Link className="btn btn-primary" to="/profile">
                         Account Information
                     </Link>
-                    {this.displaybugs()}
                 </div>
             );
         };
-
-        console.log('userhome', this.props.user);
 
         return (
             <div>

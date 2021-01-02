@@ -5,35 +5,15 @@ import REACT_APP_SERVER_URL from '../keys';
 import { Link } from 'react-router-dom';
 
 class BugDetails extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
-            bug: {title: '', product: '', description: '', createdAt: '', priority: '', status: ''},
+            bug: this.props.location.state,
             comment: '',
             comments: []
 
         };
-    }
-
-
-    getBugDetails = () => {
-        axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}`)
-        .then((response) => {
-            const data = response.data.ticket;
-            this.setState({ bug: data });
-        }).catch((e) => {
-            console.log(e);
-        })
-    }
-
-    getComments = () => {
-        axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
-        .then((response) => {
-            const data = response.data.comments;
-            this.setState({ comments: data })
-        }).catch((e) => {
-            console.log(e);
-        })
     }
 
     displayComments = () => {
@@ -78,9 +58,16 @@ class BugDetails extends Component {
         })
     }
     
-    componentDidMount() {
-        this.getBugDetails();
-        this.getComments();
+    async componentDidMount() {
+        this._isMounted = true;
+        await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+        .then((response) => {
+            const data = response.data.comments;
+            this.setState({ comments: data })
+        }).catch((e) => {
+            console.log(e);
+        })
+        return this._isMounted = false;
     }
 
     render() {
@@ -94,6 +81,7 @@ class BugDetails extends Component {
                     <li>Product: {bug.product}</li>
                     <li>Description: {bug.description}</li>
                     <li>Created: {bug.createdAt}</li>
+                    <img src={bug.picture} alt="" />
                     <Link to='/home'>Back To Dashboard</Link>
                 </ul>
                 <form onSubmit={this.handleSubmit}>

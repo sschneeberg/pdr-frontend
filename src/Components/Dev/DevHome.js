@@ -161,7 +161,7 @@ function DevHome() {
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    <Link style={{color: 'white'}} to={`/bugdetails/${item._id}`}>
+                                    <Link style={{color: 'white'}} to={{pathname:`/bugdetails/${item._id}`, state: item}}>
                                       {item.title}
                                       <br></br>
                                       {item.product}
