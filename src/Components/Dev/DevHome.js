@@ -1,111 +1,120 @@
-import React, { useState, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import axios from "axios";
-import { ButtonGroup } from "react-bootstrap";
-import REACT_APP_SERVER_URL from "../../keys";
-import { Link } from "react-router-dom";
+/* eslint-disable no-useless-computed-key */
+import React, { useState, useEffect } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import axios from 'axios';
+import REACT_APP_SERVER_URL from '../../keys';
+import Chat from '../Chat/ChatBubble';
+import { Link } from 'react-router-dom';
+import io from 'socket.io-client';
 
-function DevHome() {
-  const columnsFromBackend = {
-    [1]: {
-      name: "Assigned Bugs",
-      items: [],
-    },
-    [2]: {
-      name: "In Review",
-      items: [],
-    },
-    [3]: {
-      name: "Complete",
-      items: [],
-    },
-  };
 
-  const [columns, setColumns] = useState(columnsFromBackend);
- 
-  // Route to update status of ticket
-  const updateTicket = (id, status) => {
-    axios
-      .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+function DevHome(props) {
+    const columnsFromBackend = {
+        [1]: {
+            name: 'Assigned Bugs',
+            items: []
 
-  const onDragEnd = (result, columns, setColumns) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
-    if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems = [...sourceColumn.items];
-      const destItems = [...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
         },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
+        [2]: {
+            name: 'In Review',
+            items: []
         },
-      });
-      console.log(result);
-      updateTicket(source.index, destination.droppableId);
-    } else {
-      const column = columns[source.droppableId];
-      const copiedItems = [...column.items];
-      const [removed] = copiedItems.splice(source.index, 1);
-      copiedItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...column,
-          items: copiedItems,
-        },
-      });
-    }
-  };
-
-  const displaybugs = (bugs) => {
-    const updatedColumns = { ...columns };
-    bugs.forEach((bug) => {
-      if (bug.status === 1) {
-        updatedColumns["1"].items.push(bug);
-      } else if (bug.status === 2) {
-        updatedColumns["2"].items.push(bug);
-      } else {
-        updatedColumns["3"].items.push(bug);
-      }
-    });
-    setColumns(updatedColumns);
-  };
-
-  const getBugs = () => {
-    axios
-      .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
-      .then((response) => {
-        const data = response.data.tickets;
-        console.log("Data was recived");
-        displaybugs(data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  useEffect(() => {
-    getBugs();
-    return function cleanup() {
-      setColumns(columnsFromBackend);
+        [3]: {
+            name: 'Complete',
+            items: []
+        }
     };
-  }, []);
+    const [columns, setColumns] = useState(columnsFromBackend);
+    const [bugMap, setBugMap] = useState(null);
+
+    // Route to update status of ticket
+    const updateTicket = (id, status) => {
+        let socket = io('http://localhost:8000');
+        socket.emit('statusUpdated', {
+            ticket: bugMap
+        });
+
+        axios
+            .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
+            .then((response) => {})
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const onDragEnd = (result, columns, setColumns) => {
+        if (!result.destination) return;
+        const { source, destination } = result;
+        if (source.droppableId !== destination.droppableId) {
+            const sourceColumn = columns[source.droppableId];
+            const destColumn = columns[destination.droppableId];
+            const sourceItems = [...sourceColumn.items];
+            const destItems = [...destColumn.items];
+            const [removed] = sourceItems.splice(source.index, 1);
+            destItems.splice(destination.index, 0, removed);
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...sourceColumn,
+                    items: sourceItems
+                },
+                [destination.droppableId]: {
+                    ...destColumn,
+                    items: destItems
+                }
+            });
+            console.log(source);
+            updateTicket(source.index, destination.droppableId);
+        } else {
+            const column = columns[source.droppableId];
+            const copiedItems = [...column.items];
+            const [removed] = copiedItems.splice(source.index, 1);
+            copiedItems.splice(destination.index, 0, removed);
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...column,
+                    items: copiedItems
+                }
+            });
+        }
+    };
+  
+      const displaybugs = (bugs) => {
+        const updatedColumns = { ...columns };
+        bugs.forEach((bug) => {
+            if (bug.status === 1) {
+                updatedColumns['1'].items.push(bug);
+            } else if (bug.status === 2) {
+                updatedColumns['2'].items.push(bug);
+            } else {
+                updatedColumns['3'].items.push(bug);
+                setBugMap(bug);
+            }
+        });
+        setColumns(updatedColumns);
+    };
+
+    const getBugs = () => {
+        axios
+            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
+            .then((response) => {
+                const data = response.data.tickets;
+                console.log('Data was received');
+                displaybugs(data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    useEffect(() => {
+        getBugs();
+        return function cleanup() {
+            setColumns(columnsFromBackend);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
   return (
     <div id="return-container">
@@ -176,21 +185,27 @@ function DevHome() {
                         })}
                         {provided.placeholder}
                       </div>
+
+
+
+
+                                        );
+                                    }}
+                                </Droppable>
+                            </div>
+                        </div>
+
                     );
-                  }}
-                </Droppable>
-              </div>
+                })}
+            </DragDropContext>
+            <div id="account-info">
+                <Link className="btn btn-primary float-left" to="/profile">
+                    Account Information
+                </Link>
+                <Chat user={props.user} socket={props.socket} setSocket={props.setSocket} />
             </div>
-          );
-        })}
-      </DragDropContext>
-      <div id="account-info">
-        <Link className="btn btn-primary" to="/profile">
-          Account Information
-        </Link>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }
 
 export default DevHome;
