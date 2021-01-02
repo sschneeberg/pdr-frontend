@@ -146,7 +146,7 @@ function App() {
                             return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
                         }}
                     />
-                    <Route path="/bugdetails" component={BugDetails} />
+                    <Route path="/bugdetails/:id" component={BugDetails} />
                 </Switch>
             </div>
             <Footer />
