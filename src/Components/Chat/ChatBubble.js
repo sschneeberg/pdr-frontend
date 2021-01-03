@@ -166,8 +166,6 @@ class Chat extends Component {
             );
         });
 
-        console.log(msgList);
-
         let companyInfo = this.state.companies.map((c, i) => {
             return (
                 <option value={c.name} key={i}>
