@@ -107,7 +107,7 @@ function DevHome(props) {
     const mapBugs = (bugs) => {
         let map = {};
         bugs.forEach((bug) => {
-            map[bug._id] = { id: bug._id, title: bug.title, user: bug.user };
+            map[bug._id] = { id: bug._id, title: bug.title, user: bug.createdBy };
         });
         setBugMap(map);
     };

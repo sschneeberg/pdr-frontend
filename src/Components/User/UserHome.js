@@ -15,7 +15,8 @@ class UserHome extends Component {
             redirect: false,
             socket: null,
             notification: false,
-            title: null
+            title: null,
+            ticketUser: null
         };
     }
 
@@ -38,12 +39,16 @@ class UserHome extends Component {
     }
 
     resetNote = () => {
-        return this.setState({ notification: false, title: null });
+        return this.setState({ notification: false, title: null, ticketUser: null });
     };
 
     setNotifications = (updated) => {
+        if (updated.ticket.user === this.state.user.id) {
+            this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
+        } else {
+            return
+        }
         console.log('UPDATED', updated);
-        this.setState({ notification: true, title: updated.ticket.title });
     };
 
     render() {
