@@ -20,32 +20,34 @@ class ChatSearch extends Component {
     async componentDidMount() {
         //collect tickets for this company
         //LATER: Makte this search mroe efficient to search by customer username with a post route on submit form and not dig up ALL company records
+        this.setState({ loading: true });
         const response = await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/search`);
-        console.log(response.data.tickets);
         if (response.data.tickets) {
             let ticketMap = {};
             let tickets = response.data.tickets;
             for (let i = 0; i < tickets.length; i++) {
                 const ticket = await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${tickets[i]._id}`);
-                if (ticketMap[ticket.data.createdBy.username]) {
-                    ticketMap[ticket.data.createdBy.username].push({
-                        id: ticket.data.ticket._id,
-                        title: ticket.data.ticket.title,
-                        status: ticket.data.ticket.status,
-                        assignedTo: ticket.data.assignedTo ? ticket.data.assignedTo.username : 'Unassigned'
-                    });
-                } else {
-                    ticketMap[ticket.data.createdBy.username] = [
-                        {
+                if (ticket.data.createdBy) {
+                    if (ticketMap[ticket.data.createdBy.username]) {
+                        ticketMap[ticket.data.createdBy.username].push({
                             id: ticket.data.ticket._id,
                             title: ticket.data.ticket.title,
                             status: ticket.data.ticket.status,
                             assignedTo: ticket.data.assignedTo ? ticket.data.assignedTo.username : 'Unassigned'
-                        }
-                    ];
+                        });
+                    } else {
+                        ticketMap[ticket.data.createdBy.username] = [
+                            {
+                                id: ticket.data.ticket._id,
+                                title: ticket.data.ticket.title,
+                                status: ticket.data.ticket.status,
+                                assignedTo: ticket.data.assignedTo ? ticket.data.assignedTo.username : 'Unassigned'
+                            }
+                        ];
+                    }
                 }
             }
-            this.setState({ ticketMap });
+            this.setState({ ticketMap, loading: false });
         }
     }
 

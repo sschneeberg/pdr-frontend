@@ -3,7 +3,6 @@ import './Chat.css';
 
 class MessagePanel extends Component {
     render() {
-        console.log(this.props.activeChat);
         const messages = this.props.activeChat
             ? this.props.activeChat.msgs.map((m, index) => {
                   let segmented = m.split('-');

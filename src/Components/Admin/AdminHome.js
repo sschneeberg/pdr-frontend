@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
-import TicketFilter from './TicketFilter'
 
 class AdminHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
             bugs: [],
+            loading: false,
+            error: false,
+            redirect: false,
             devs: [],
             products: [],
             key: '',
             assignedTo: '',
-            priority: '',
-            loading: false
+            priority: ''
         };
     }
 
@@ -24,11 +25,21 @@ class AdminHome extends Component {
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
-                const data = response.data;
-                console.log(data);
-                this.setState({ bugs: data.tickets, devs: data.users, key: data.company.companyKey, products: data.company.products, loading: false });
+                if (response.data.msg) {
+                    this.setState({ error: true, loading: false, redirect: true });
+                } else {
+                    const data = response.data;
+                    this.setState({
+                        bugs: data.tickets,
+                        devs: data.users,
+                        loading: false,
+                        key: data.company.companyKey,
+                        products: data.company.products
+                    });
+                }
             })
             .catch((e) => {
+                this.setState({ error: true, loading: false, redirect: true });
                 console.log(e);
             });
     }
@@ -49,36 +60,36 @@ class AdminHome extends Component {
         });
     }
 
+
     getDevOptions = () => {
         return this.state.devs.map((dev, index) => {
             return (
                 <option value={dev._id} key={index}>
                     {dev.username}
                 </option>
-            )
-        })
-    }
+            );
+        });
+    };
 
     onChangeDev = (e) => {
         this.setState({
             assignedTo: e.target.value
-        })
-    }
+        });
+    };
 
     onChangePriority = (e) => {
         this.setState({
             priority: e.target.value
-        })
-    }
-    
+        });
+    };
 
     displaybugs = () => {
-        return (
-            this.state.bugs.map((bug, index) => {
-                return (
-                    <div key={index}>
-                        <ul>
-                            <Link to={{
+        return this.state.bugs.map((bug, index) => {
+            return (
+                <div key={index}>
+                    <ul>
+                        <Link
+                            to={{
                                 pathname: `/bugdetails/${bug._id}`,
                                 state: bug
                             }}>
@@ -111,55 +122,57 @@ class AdminHome extends Component {
         )
     }
 
+
     displaydevs = () => {
-        return (
-            this.state.devs.map((dev, index) => {
-                return (
-                    <div key={index}>
-                        <ul>
-                            <li>{dev.username}</li>
-                            <li>{dev.permissions}</li>
-                            Number Of Bugs Assigned:
-                        </ul>
-                    </div>
-                )
-            })
-        )
-    }
+        return this.state.devs.map((dev, index) => {
+            return (
+                <div key={index}>
+                    <ul>
+                        <li>{dev.username}</li>
+                        <li>{dev.permissions}</li>
+                        Number Of Bugs Assigned:
+                    </ul>
+                </div>
+            );
+        });
+    };
 
     displayProducts = () => {
-        return (
-            this.state.products.map((product, index) => {
-                return (
-                    <div key={index}>
-                        <ul>
-                            <li>{product}</li>
-                        </ul>
-                    </div>
-                )
-            })
-        )
-    }
+        return this.state.products.map((product, index) => {
+            return (
+                <div key={index}>
+                    <ul>
+                        <li>{product}</li>
+                    </ul>
+                </div>
+            );
+        });
+    };
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/404" />;
+        }
         return (
             <div>
                 <Link className="btn btn-primary" to={{ pathname: '/profile', state: { users: this.state.devs } }}>
                     Account Information
                 </Link>
+                {this.state.error ? (
+                    <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
+                ) : null}
+
                 {this.state.loading ? <p>Loading...</p> : null}
                 <div className="Project-details">
                     Company Key: {this.state.key}
-                <br></br>
+                    <br></br>
                     Products: {this.displayProducts()}
                 </div>
                 <div className="New-bugs">
                     {/* <TicketFilter bugs={this.state.bugs} />  STRETCH GOAL */}
                     Tickets: {this.displaybugs()}
                 </div>
-                <div className="devs">
-                    Devs: {this.displaydevs()}
-                </div>
+                <div className="devs">Devs: {this.displaydevs()}</div>
                 <div id="account-info">
                     <Link className="btn btn-primary" to="/devhome">
                         Developer Dashboard

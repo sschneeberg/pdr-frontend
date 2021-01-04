@@ -17,7 +17,9 @@ class CompanySignup extends Component {
             permissions: '',
             companies: props.companies,
             redirect: false,
-            error: false
+            error: false,
+            loading: false, 
+            errorMsg: ""
         };
     }
 
@@ -45,14 +47,14 @@ class CompanySignup extends Component {
                 companyKey: this.state.companyKey,
                 permissions: this.state.permissions
             };
-            axios
-                .post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
+               this.setState({loading: true}) 
+               axios.post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data.msg)
                     if (response.data.msg) {
-                        this.setState({ error: true });
+                        this.setState({ error: true, loading: false, errorMsg: response.data.msg });
                     } else {
-                        this.setState({ redirect: true });
+                        this.setState({ redirect: true, loading: false });
                     }
                 })
                 .catch((err) => {
@@ -76,6 +78,7 @@ class CompanySignup extends Component {
 
         return (
             <div className="row mt-4">
+                {this.state.loading ? <p>Loading...</p> : null}
                 <div className="col-md-7 offset-md-3">
                     <div className="card card-body">
                         <h2>Sign Up with your company</h2>
@@ -85,7 +88,9 @@ class CompanySignup extends Component {
                             }}>
                             <p>Don't see your company listed?</p>
                             <Link to="/signup-a-company">Signup your company here!</Link>
-
+                            {this.state.error ? (
+                                    <p style={{ color: 'red' }}>**{this.state.errorMsg}**</p>
+                                ) : null}
                             <div className="form-group">
                                 <FormField
                                     type="text"

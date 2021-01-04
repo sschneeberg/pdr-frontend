@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
+import { Redirect } from 'react-router-dom';
 
 class CompanyKey extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class CompanyKey extends Component {
             show: false,
             key: '',
             loading: false,
-            error: false
+            error: false,
+            redirect: false
         };
     }
 
@@ -20,7 +22,7 @@ class CompanyKey extends Component {
         this.setState({ loading: true });
         axios.get(`${REACT_APP_SERVER_URL}/api/company`).then((response) => {
             if (response.data.msg) {
-                this.setState({ error: true, loading: false });
+                this.setState({ error: true, loading: false, redirect: true });
             } else {
                 this.setState({ key: response.data.key, loading: false, error: false });
             }
@@ -36,6 +38,9 @@ class CompanyKey extends Component {
     };
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/404" />;
+        }
         const key = (
             <div className="key">
                 <Button variant="outline-primary" onClick={this.handleShow}>
