@@ -19,7 +19,7 @@ class AdminHome extends Component {
         };
     }
 
-    componentDidMount() {
+    getAdminDash = () => {
         this.setState({ loading: true });
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
@@ -33,12 +33,17 @@ class AdminHome extends Component {
             });
     }
 
-    assignDev = (e, id) => {
+    componentDidMount() {
+        this.getAdminDash();
+    }
+
+
+    assignDevAndUpdatePriority = (e, id) => {
         e.preventDefault();
         axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { assignedTo: this.state.assignedTo, priority: this.state.priority})
         .then((response) => {
+            this.getAdminDash();
             console.log(response);
-            this.setState({  })
         }).catch((e) => {
             console.log(e);
         });
@@ -84,7 +89,7 @@ class AdminHome extends Component {
                                 <li>Priority: {bug.priority}</li>
                             </Link>
                             <div>
-                                <form action="" onSubmit={(e) => this.assignDev(e, bug._id)} className='form-group'>
+                                <form action="" onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)} className='form-group'>
                                     <select name='assignedTo' id="dev" required={true} onChange={this.onChangeDev}>
                                         <option>Assign Dev To Ticket</option>
                                         {this.getDevOptions()}

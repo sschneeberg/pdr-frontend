@@ -17,6 +17,16 @@ class BugDetails extends Component {
         };
     }
 
+    getComments = () => {
+        axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+        .then((response) => {
+            const data = response.data.comments;
+            this.setState({ comments: data })
+        }).catch((e) => {
+            console.log(e);
+        })
+    }
+
     displayComments = () => {
         return this.state.comments.map((comment, index) => {
             return (
@@ -60,13 +70,7 @@ class BugDetails extends Component {
     
     async componentDidMount() {
         this._isMounted = true;
-        await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
-        .then((response) => {
-            const data = response.data.comments;
-            this.setState({ comments: data })
-        }).catch((e) => {
-            console.log(e);
-        })
+        await this.getComments()
         return this._isMounted = false;
     }
 
