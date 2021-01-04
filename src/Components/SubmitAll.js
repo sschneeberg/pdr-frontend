@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import axios from "axios";
-=======
-import axios from 'axios';
-import REACT_APP_SERVER_URL from '../keys';
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
 
 class SubmitAll extends Component {
     constructor(props) {
@@ -26,34 +21,13 @@ class SubmitAll extends Component {
             title: this.props.title,
             companySelect: this.props.companySelect,
             product: this.props.product,
-<<<<<<< HEAD
-            picture: this.props.picture,      
-            description: this.props.description,
-            createdBy: this.props.createdBy,
-          }
-          this.setState({loading: true})
-          axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket)
-          .then(res => { 
-            if (res.data.msg) {
-            this.setState({loading: false, error: true})
-            } else {
-            this.setState({loading: false})
-            }    
-          }).catch(err => {
-              console.log(err);
-          })
-        }
-    render(){
-        const { company, product, title, description, picture } = this.props;
-        return(
-=======
             picture: this.state.imageUrl,
             description: this.props.description
             //   createdBy: this.props.createdBy,
         };
         this.setState({ loading: true });
         axios
-            .post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket)
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket)
             .then((res) => {
                 if (res.data.msg) {
                     this.setState({ loading: false, error: true });
@@ -113,7 +87,6 @@ class SubmitAll extends Component {
         const { companySelect, company, product, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
             <>
                 <main className="Images">
                     <section className="left-side">

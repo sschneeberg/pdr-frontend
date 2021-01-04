@@ -25,24 +25,10 @@ class ChatSearch extends Component {
             let ticketMap = {};
             let tickets = response.data.tickets;
             for (let i = 0; i < tickets.length; i++) {
-<<<<<<< HEAD
                 const ticket = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${tickets[i]._id}`);
-                if (ticketMap[ticket.data.createdBy.username]) {
-                    ticketMap[ticket.data.createdBy.username].push({
-                        id: ticket.data.ticket._id,
-                        title: ticket.data.ticket.title,
-                        status: ticket.data.ticket.status,
-                        assignedTo: ticket.data.assignedTo ? ticket.data.assignedTo.username : 'Unassigned'
-                    }, this.setState({loading: false}));
-                } else {
-                    ticketMap[ticket.data.createdBy.username] = [
-                        {
-=======
-                const ticket = await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${tickets[i]._id}`);
                 if (ticket.data.createdBy) {
                     if (ticketMap[ticket.data.createdBy.username]) {
                         ticketMap[ticket.data.createdBy.username].push({
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
                             id: ticket.data.ticket._id,
                             title: ticket.data.ticket.title,
                             status: ticket.data.ticket.status,

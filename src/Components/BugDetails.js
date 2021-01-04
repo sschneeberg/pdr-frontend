@@ -33,11 +33,9 @@ class BugDetails extends Component {
         });
     };
 
-<<<<<<< HEAD
-=======
     handleDelete = () => {
         axios
-            .delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
             .then((response) => {
                 console.log(response);
             })
@@ -46,50 +44,16 @@ class BugDetails extends Component {
             });
     };
 
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-<<<<<<< HEAD
-        this.setState({loading: true})
-        const {comment} = this.state
-        axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, {comment} )
-        .then((response) => {
-            if (response.data.msg) {
-                this.setState({laoding: false, error: true})
-            } else {
-                this.getComments();
-                this.setState({loading: false})
-            }
-            
-        }).catch((e) => {
-            console.log(e);
-        })
-    }
-    
-    async componentDidMount() {
-        this._isMounted = true;
-        this.setState({loading: true})
-        await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
-        .then((response) => {
-            if (response.data.msg) {
-                this.setState({loading: false, error: true, redirect: true})
-            } else {
-                 const data = response.data.comments;
-                this.setState({ comments: data, loading: false })
-            }
-        }).catch((e) => {
-            console.log(e);
-        })
-        return this._isMounted = false;
-=======
         this.setState({ loading: true });
         const { comment } = this.state;
         axios
-            .post(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ laoding: false, error: true });
@@ -126,7 +90,6 @@ class BugDetails extends Component {
                 console.log(err);
             });
         return (this._isMounted = false);
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
     }
 
     render() {

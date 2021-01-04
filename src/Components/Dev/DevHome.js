@@ -35,25 +35,9 @@ function DevHome(props) {
                 ticket: bugMap[id]
             });
         }
-<<<<<<< HEAD
-        setLoading(true)
-        axios.put(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
-        .then(response => {
-            if (response.data.msg === "updated") {
-                console.log(response.data.msg)
-                setLoading(false)
-            } else {
-                setError(true)
-                setLoading(false) 
-            }
-        })   
-        .catch((e) => {
-            console.log(e);
-        });
-=======
         setLoading(true);
         axios
-            .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
             .then((response) => {
                 if (response.data.msg === 'updated') {
                     console.log(response.data.msg);
@@ -66,7 +50,6 @@ function DevHome(props) {
             .catch((e) => {
                 console.log(e);
             });
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
     };
 
     const onDragEnd = (result, columns, setColumns) => {

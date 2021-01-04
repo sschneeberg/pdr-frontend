@@ -25,13 +25,8 @@ class UserHome extends Component {
     componentDidMount() {
         this.setState({ loading: true });
         axios
-<<<<<<< HEAD
             .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => { 
-=======
-            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => {
->>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
                 } else {
