@@ -12,7 +12,10 @@ class BugDetails extends Component {
             bug: this.props.location.state,
             comment: '',
             comments: [],
-            redirect: false
+            loading: false,
+            error: false,
+            redirect: false,
+            redirectLogout: false
         };
     }
 
@@ -48,30 +51,42 @@ class BugDetails extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.setState({ loading: true });
         const { comment } = this.state;
         axios
             .post(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
-                console.log(response);
-                this.getComments();
+                if (response.data.msg) {
+                    this.setState({ laoding: false, error: true });
+                } else {
+                    this.getComments();
+                    this.setState({ loading: false, error: false });
+                }
             })
             .catch((e) => {
+                this.setState({ laoding: false, error: true });
                 console.log(e);
             });
     };
-
     async componentDidMount() {
         this._isMounted = true;
+        this.setState({ loading: true });
         await axios
             .get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
             .then((response) => {
-                const data = response.data.comments;
-                this.setState({ comments: data });
+                if (response.data.msg) {
+                    this.setState({ loading: false, error: true, redirect: true });
+                } else {
+                    const data = response.data.comments;
+                    this.setState({ comments: data, loading: false, error: false });
+                }
             })
             .catch((err) => {
                 if (err.toString().includes('401')) {
-                    this.setState({ redirect: true });
+                    this.setState({ redirectLogout: true });
                     this.props.handleLogout();
+                } else {
+                    this.setState({ loading: false, error: true, redirect: true });
                 }
                 console.log(err);
             });
@@ -79,10 +94,18 @@ class BugDetails extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/404" />;
+        }
         const { bug } = this.state;
         return (
             <div>
-                {this.state.redirect ? <Redirect to="/" /> : null}
+                {this.state.redirectLogout ? <Redirect to="/" /> : null}
+                {this.state.error ? (
+                    <p>An error occurred, please reload the page and try again. Contact us if the problem persists.</p>
+                ) : null}
+                {this.state.loading ? <p>Loading...</p> : null}
+
                 <ul>
                     <li>Title: {bug.title}</li>
                     <li>Priority: {bug.priority}</li>

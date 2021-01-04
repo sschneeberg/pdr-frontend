@@ -3,11 +3,15 @@ import axios from 'axios';
 import REACT_APP_SERVER_URL from '../keys';
 
 class SubmitAll extends Component {
-    state = {
-        imageUrl: undefined,
-        imageAlt: undefined
-    };
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            error: true,
+            imageUrl: undefined,
+            imageAlt: undefined
+        };
+    }
     back = (e) => {
         e.preventDefault();
         this.props.prevStep();
@@ -22,9 +26,21 @@ class SubmitAll extends Component {
             description: this.props.description
             //   createdBy: this.props.createdBy,
         };
-        axios.post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket);
-        console.log(newTicket);
+        this.setState({ loading: true });
+        axios
+            .post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket)
+            .then((res) => {
+                if (res.data.msg) {
+                    this.setState({ loading: false, error: true });
+                } else {
+                    this.setState({ loading: false });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
+
     handleImageUpload = () => {
         const { files } = document.querySelector('input[type="file"]');
 

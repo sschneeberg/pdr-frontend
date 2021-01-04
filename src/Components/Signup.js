@@ -13,7 +13,8 @@ class SignUp extends Component {
             password: '',
             confirmPassword: '',
             redirect: false,
-            error: false
+            error: false,
+            loading: false
         };
     }
 
@@ -26,13 +27,14 @@ class SignUp extends Component {
         if (this.state.password === this.state.confirmPassword) {
             //validate password length here
             const newUser = { username: this.state.username, email: this.state.email, password: this.state.password };
+            this.setState({loading: true})
             axios
                 .post(`${REACT_APP_SERVER_URL}/api/users/register`, newUser)
                 .then((response) => {
                     if (response.data.msg) {
-                        this.setState({ error: true })
+                        this.setState({ error: true, loading: false })
                     } else {
-                        this.setState({ redirect: true });
+                        this.setState({ redirect: true, loading: false });
                     }
                 })
                 .catch((err) => {
@@ -49,6 +51,7 @@ class SignUp extends Component {
 
         return (
             <div className="row mt-4">
+                {this.state.loading ? <p>Loading...</p> : null}
                 <div className="col-md-7 offset-md-3">
                     <div className="card card-body">
                         <h2>Sign Up</h2>

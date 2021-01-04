@@ -55,7 +55,6 @@ class ChatPortal extends Component {
 
     sendMessage = (e) => {
         e.preventDefault();
-        console.log('send');
         let message = { text: 's-' + this.state.message, id: this.state.user.id };
         //take message, add to array of messages {text: text, id: user.id}
         let msgs = this.state.activeChat.msgs.slice(0, this.state.activeChat.msgs.length);
@@ -107,7 +106,6 @@ class ChatPortal extends Component {
     };
 
     render() {
-        console.log('updated', this.state.chats);
         return (
             <div className="container">
                 {this.state.user.permissions && this.props.socket ? (

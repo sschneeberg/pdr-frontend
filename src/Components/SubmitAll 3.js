@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import REACT_APP_SERVER_URL from '../keys'
+
 class SubmitAll extends Component {
+    constructor(props){
+        super(props)
+        this.state= {
+            loading: false,
+            error: false
+        }
+    }
     back = e => {
         e.preventDefault();
         this.props.prevStep();
     }
     submit = e => {
         e.preventDefault();
-        console.log(this.props)
         const newTicket = {
             title: this.props.title,
             company: this.props.company,
@@ -16,17 +24,29 @@ class SubmitAll extends Component {
             description: this.props.description,
             createdBy: this.props.createdBy,
           }
-          axios.post('http://localhost:8000/api/tickets', newTicket).then(res => {
-              console.log(res);
+          this.setState({loading: true})
+          axios.post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket)
+          .then(res => {
+            if (res.data.msg) {
+                 this.setState({loading: false, error: true})
+            }else {
+                this.setState({loading: false})
+            }
           }).catch(err => {
               console.log(err);
           })
         }
     render(){
         const { company, product, title, description, picture } = this.props;
-        console.log(this.props.title)
         return(
             <>
+            {this.state.error === true ? (
+                        <p style={{ color: 'red' }}>
+                            An error occurred, please try updating your information again or contact us if the problem
+                            persists.
+                        </p>
+                    ) : null}
+                {this.state.loading ? <p>Loading...</p> : null}
                 <h2>Here is the information you entered:</h2>
                 Company: <b>{company}</b><br />
                 Product: <b>{product}</b><br />

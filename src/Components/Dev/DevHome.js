@@ -23,6 +23,8 @@ function DevHome(props) {
     };
     const [columns, setColumns] = useState(columnsFromBackend);
     const [bugMap, setBugMap] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
     const [user, setUser] = useState(props.user);
     const [redirect, setRedirect] = useState(false);
 
@@ -34,10 +36,21 @@ function DevHome(props) {
                 ticket: bugMap[id]
             });
         }
-
-        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status }).catch((e) => {
-            console.log(e);
-        });
+        setLoading(true);
+        axios
+            .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
+            .then((response) => {
+                if (response.data.msg === 'updated') {
+                    console.log(response.data.msg);
+                    setLoading(false);
+                } else {
+                    setError(true);
+                    setLoading(false);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
 
     const onDragEnd = (result, columns, setColumns) => {
@@ -92,12 +105,19 @@ function DevHome(props) {
     };
 
     const getBugs = () => {
+        setLoading(true);
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
-                const data = response.data.tickets;
-                displaybugs(data);
-                mapBugs(data);
+                if (response.data.msg) {
+                    setLoading(false);
+                    setError(true);
+                } else {
+                    const data = response.data.tickets;
+                    displaybugs(data);
+                    mapBugs(data);
+                    setLoading(false);
+                }
             })
             .catch((e) => {
                 console.log(e);
@@ -122,6 +142,10 @@ function DevHome(props) {
 
     return (
         <div id="return-container">
+            {error ? (
+                <p>An error occurred, please reload the page and try again. Contact us if the problem persists.</p>
+            ) : null}
+            {loading ? <p>Loading...</p> : null}
             {redirect ? <Redirect to="/" /> : null}
             <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
                 {Object.entries(columns).map(([id, column]) => {

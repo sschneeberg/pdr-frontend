@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
@@ -9,12 +9,14 @@ class AdminHome extends Component {
         super(props);
         this.state = {
             bugs: [],
+            loading: false,
+            error: false,
+            redirect: false,
             devs: [],
             products: [],
             key: '',
             assignedTo: '',
-            priority: '',
-            loading: false
+            priority: ''
         };
     }
 
@@ -23,16 +25,21 @@ class AdminHome extends Component {
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
-                const data = response.data;
-                this.setState({
-                    bugs: data.tickets,
-                    devs: data.users,
-                    key: data.company.companyKey,
-                    products: data.company.products,
-                    loading: false
-                });
+                if (response.data.msg) {
+                    this.setState({ error: true, loading: false, redirect: true });
+                } else {
+                    const data = response.data;
+                    this.setState({
+                        bugs: data.tickets,
+                        devs: data.users,
+                        loading: false,
+                        key: data.company.companyKey,
+                        products: data.company.products
+                    });
+                }
             })
             .catch((e) => {
+                this.setState({ error: true, loading: false, redirect: true });
                 console.log(e);
             });
     }
@@ -140,11 +147,18 @@ class AdminHome extends Component {
     };
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/404" />;
+        }
         return (
             <div>
                 <Link className="btn btn-primary" to={{ pathname: '/profile', state: { users: this.state.devs } }}>
                     Account Information
                 </Link>
+                {this.state.error ? (
+                    <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
+                ) : null}
+
                 {this.state.loading ? <p>Loading...</p> : null}
                 <div className="Project-details">
                     Company Key: {this.state.key}
