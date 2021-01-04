@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import FormField from './FormField';
-import REACT_APP_SERVER_URL from '../keys';
 
 class CompanySignup extends Component {
     constructor(props) {
@@ -49,7 +48,7 @@ class CompanySignup extends Component {
             };
             this.setState({ loading: true });
             axios
-                .post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
                     console.log(response.data.msg);
                     if (response.data.msg) {

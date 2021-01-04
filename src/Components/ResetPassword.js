@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
-import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
     constructor(props) {
@@ -31,7 +30,7 @@ class Profile extends Component {
         }
         this.setState({ loading: true });
         axios
-            .post(`${REACT_APP_SERVER_URL}/api/users/reset`, {
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/users/reset`, {
                 email: this.state.email,
                 password: this.state.password
             })

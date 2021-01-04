@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Chat from '../Chat/ChatBubble';
-import REACT_APP_SERVER_URL from '../../keys';
 
 class AdminHome extends Component {
     constructor(props) {
@@ -23,7 +22,7 @@ class AdminHome extends Component {
     getAdminDash = () => {
         this.setState({ loading: true });
         axios
-            .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ error: true, loading: false, redirect: true });
@@ -51,7 +50,7 @@ class AdminHome extends Component {
     assignDevAndUpdatePriority = (e, id) => {
         e.preventDefault();
         axios
-            .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, {
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}`, {
                 assignedTo: this.state.assignedTo,
                 priority: this.state.priority
             })

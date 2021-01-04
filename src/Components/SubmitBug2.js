@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../keys';
 
 function SubmitBug2() {
     const [input, setInput] = useState({
@@ -34,7 +33,7 @@ function SubmitBug2() {
             createdBy: input.createdBy
         };
         setLoading(true);
-        axios.post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket).then(setLoading(false));
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then(setLoading(false));
     }
     return (
         <div className="container">

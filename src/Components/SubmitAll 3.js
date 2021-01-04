@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../keys';
 
 class SubmitAll extends Component {
     constructor(props) {

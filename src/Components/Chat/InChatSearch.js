@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 
 class ChatSearch extends Component {
     constructor(props) {
@@ -21,12 +20,12 @@ class ChatSearch extends Component {
         //collect tickets for this company
         //LATER: Makte this search mroe efficient to search by customer username with a post route on submit form and not dig up ALL company records
         this.setState({ loading: true });
-        const response = await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/search`);
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/search`);
         if (response.data.tickets) {
             let ticketMap = {};
             let tickets = response.data.tickets;
             for (let i = 0; i < tickets.length; i++) {
-                const ticket = await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${tickets[i]._id}`);
+                const ticket = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${tickets[i]._id}`);
                 if (ticket.data.createdBy) {
                     if (ticketMap[ticket.data.createdBy.username]) {
                         ticketMap[ticket.data.createdBy.username].push({
