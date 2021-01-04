@@ -36,6 +36,7 @@ class SubmitAll extends Component {
               console.log(err);
           })
         }
+        
     render(){
         const { company, product, title, description, picture } = this.props;
         return(
