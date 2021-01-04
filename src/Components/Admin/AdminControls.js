@@ -9,7 +9,8 @@ class AdminControls extends Component {
             users: this.props.users,
             show: false,
             error: false,
-            changed: false
+            changed: false,
+            loading: false
         };
     }
 
@@ -23,30 +24,30 @@ class AdminControls extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({loading: true})
         //save user's permissions, send to backend
         axios
-            .put(`${REACT_APP_SERVER_URL}/api/users/permissions/${e.target[1].value}`, {
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/users/permissions/${e.target[1].value}`, {
                 permissions: e.target[0].value
             })
             .then((response) => {
                 //handle errors
                 if (typeof response.data.msg === 'string' && response.data.msg.includes('updated')) {
-                    this.setState({ error: false, changed: true });
+                    this.setState({ error: false, changed: true, loading: false });
                 } else {
-                    this.setState({ error: true, changed: false });
+                    this.setState({ error: true, changed: false, loading: false });
                 }
             });
     }
 
     handleDelete(e, id) {
         e.preventDefault();
-        axios.delete(`${REACT_APP_SERVER_URL}/api/users/${id}`).then((response) => {
-            console.log(response);
+        axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/users/${id}`).then((response) => {
             //handle errors
             if (typeof response.data.msg === 'string' && response.data.msg.includes('deleted')) {
-                this.setState({ error: false, changed: true });
+                this.setState({ error: false, changed: true, loading: false });
             } else {
-                this.setState({ error: true, changed: false });
+                this.setState({ error: true, changed: false, loading: false });
             }
         });
     }
@@ -83,6 +84,7 @@ class AdminControls extends Component {
 
         const controlPanel = (
             <div className="changeInfo">
+                {this.state.loading ? <p>Loading...</p> : null}
                 <Button variant="primary" onClick={this.handleShow}>
                     Company Details
                 </Button>

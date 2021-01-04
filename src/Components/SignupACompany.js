@@ -14,8 +14,9 @@ class SignupACompany extends Component {
             products: '',
             company: "",
             redirect: false,
-            error: false
-
+            error: false,
+            loading: false,
+            errorMsg: ""
         };
     }
 
@@ -33,15 +34,16 @@ class SignupACompany extends Component {
                 password: this.state.password,
                 company: this.state.company,
                 products: this.state.products,
-                permissions: 'admin'
+                permissions: 'admin',
             };
+            this.setState({loading: true})
             axios
-                .post(`${REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
                     if (response.data.msg) {
-                        this.setState({ error: true });
+                        this.setState({ error: true, loading: false, errorMsg: response.data.msg });
                     } else {
-                        this.setState({ redirect: true });
+                        this.setState({ redirect: true, loading: false });
                     }
                 })
                 .catch((err) => {
@@ -58,6 +60,7 @@ class SignupACompany extends Component {
 
         return (
             <div className="row mt-4">
+                {this.state.loading ? <p>Loading...</p> : null}
                 <div className="col-md-7 offset-md-3">
                     <div className="card card-body">
                         <h2>Sign Up your company with us</h2>
@@ -66,8 +69,8 @@ class SignupACompany extends Component {
                                 this.handleSubmit(e);
                             }}>
                             <div className="form-group">
-                                {this.state.error ? (
-                                    <p style={{ color: 'red' }}>Company name already registered</p>
+                            {this.state.error ? (
+                                    <p style={{ color: 'red' }}>{this.state.errorMsg}</p>
                                 ) : null}
                                 <FormField
                                     type="text"

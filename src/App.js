@@ -10,7 +10,6 @@ import CompanySignup from './Components/CompanySignup';
 import SignupACompany from './Components/SignupACompany';
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
-import SubmitBug2 from './Components/SubmitBug2';
 import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
@@ -19,18 +18,8 @@ import Profile from './Components/Profile';
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
 import ChatPortal from './Components/Chat/ChatPortal';
+import Error404 from './Components/404';
 import './App.css';
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-    const user = localStorage.getItem('jwtToken');
-    //prettier-ignore
-    return (
-        <Route {...rest} render={(props) => {
-                return user ? <Component {...rest} {...props} /> : <Redirect to="/login" />;
-            }}
-        />
-    );
-};
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -38,13 +27,21 @@ function App() {
     const [company, setCompany] = useState('');
     const [loading, setLoading] = useState(true);
     const [socket, setSocket] = useState('');
+    const [error, setError] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
         axios
-            .get(`${REACT_APP_SERVER_URL}/api/tickets/companies`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
-                setCompany(response.data.companies);
-                setLoading(false);
+                if (response.data.msg) {
+                    setError(true);
+                    setLoading(false);
+                    setRedirect(true);
+                } else {
+                    setCompany(response.data.companies);
+                    setLoading(false);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -59,10 +56,27 @@ function App() {
             setAuthToken(localStorage.jwtToken);
             setCurrentUser(token);
         }
+
+        window.addEventListener('beforeunload', handleLeavePage);
+
+        return function cleanup() {
+            window.removeEventListener('beforeunload', handleLeavePage);
+        };
     }, []);
 
+    useEffect(() => {
+        console.log('use effect');
+        handleExpiration();
+    });
+
+    const handleLeavePage = (e) => {
+        handleLogout();
+        const confirmationMessage = 'Session will end when you leave the site';
+        e.returnValue = confirmationMessage;
+        return confirmationMessage;
+    };
+
     const nowCurrentUser = (userData) => {
-        console.log('nowCurrentUser is here...');
         setCurrentUser(userData);
         setIsAuthenticated(true);
     };
@@ -73,21 +87,22 @@ function App() {
             localStorage.removeItem('jwtToken');
             setCurrentUser('');
             setIsAuthenticated(false);
-            socket.disconnect();
+            if (socket) socket.disconnect();
             setSocket('');
         }
     };
 
     const setCurrSocket = (s) => {
         setSocket(s);
-        console.log(socket);
     };
 
     const handleExpiration = () => {
+        console.log(currentUser.exp * 1000 - Date.now());
         //check session end
-        if (Date(this.state.user.exp * 1000) <= Date.now()) {
+        if (currentUser.exp * 1000 - Date.now() < 0) {
+            console.log('logout');
             handleLogout();
-            alert('Session ended');
+            alert('Session ended, please log in again');
         }
     };
 
@@ -95,14 +110,23 @@ function App() {
         return <div>Loading....</div>;
     }
 
-    console.log(socket);
+    if (redirect) {
+        return <Redirect to="/404" />;
+    }
 
     return (
         <div className="App">
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
             <div className="container mt-5">
                 <Switch>
-                    <Route path="/" exact component={SubmitBug} />
+                    <Route
+                        path="/"
+                        exact
+                        render={(props) => {
+                            return <SubmitBug {...props} companies={company} />;
+                        }}
+                    />
+                    <Route path="/404" exact component={Error404} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/signup-a-company" component={SignupACompany} />
@@ -113,6 +137,7 @@ function App() {
                         }}
                     />
                     <Route
+                        exact
                         path="/login"
                         render={(props) => {
                             return (
@@ -125,9 +150,9 @@ function App() {
                             );
                         }}
                     />
-                    <Route path="/submitbug2" component={SubmitBug2} />
-                    <Route path="/formsubmitted" component={FormSubmitted} />
+                    <Route exact path="/formsubmitted" component={FormSubmitted} />
                     <Route
+                        exact
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
@@ -149,6 +174,7 @@ function App() {
                     />
 
                     <Route
+                        exact
                         path="/devhome"
                         render={() => {
                             return <DevHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
@@ -156,6 +182,7 @@ function App() {
                     />
 
                     <Route
+                        exact
                         path="/profile"
                         render={({ location }) => {
                             return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
@@ -163,16 +190,24 @@ function App() {
                     />
 
                     <Route
+                        exact
                         path="/bugdetails/:id"
                         render={({ location, match }) => {
-                            return <BugDetails location={location} match={match} user={currentUser} />;
+                            return (
+                                <BugDetails
+                                    location={location}
+                                    match={match}
+                                    user={currentUser}
+                                    handleLogout={handleLogout}
+                                />
+                            );
                         }}
                     />
 
-                    <Route path="/chat" render={() => <ChatPortal socket={socket} user={currentUser} />} />
+                    <Route exact path="/chat" render={() => <ChatPortal socket={socket} user={currentUser} />} />
+                    <Route path="*" component={Error404} />
                 </Switch>
             </div>
-            <Footer />
         </div>
     );
 }

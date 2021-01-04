@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import axios from "axios";
+
   function SubmitBug2() {
     const [input, setInput] = useState({
       title: '',
@@ -10,6 +11,8 @@ import axios from "axios";
       description: '',
       createdBy: '',
     })
+    const [loading, setLoading] = useState(false)
+
     function handleChange(event) {
       const {name, value} = event.target ;
       setInput(prevInput => {
@@ -21,7 +24,6 @@ import axios from "axios";
     }
     function handleClick(event) { 
       event.preventDefault();
-      console.log(input)
       const newTicket = {
         title: input.title,
         company: input.company,
@@ -30,9 +32,11 @@ import axios from "axios";
         description: input.description,
         createdBy: input.createdBy,
       }
-      axios.post('http://localhost:8000/api/tickets', newTicket)
+      setLoading(true)
+      axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then( setLoading(false) )
     }
       return <div className="container">
+        {loading ? <p>Loading...</p> : null}
       <h1>Submit Bug</h1>
       <form>
         <div className="form-group">

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 function Nav(props) {
-    console.log(props.socket);
     return (
         <div className="">
             <nav className=" navbar navbar-dark bg-dark  ">

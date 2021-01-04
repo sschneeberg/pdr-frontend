@@ -36,7 +36,7 @@ class Profile extends Component {
         if (this.state.changed) {
             //pull new user info
             if (!this.state.loading) this.setState({ loading: true });
-            axios.get(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`).then((updatedUser) => {
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`).then((updatedUser) => {
                 this.setState({ user: updatedUser.data.user, changed: false, loading: false });
             });
         }
@@ -55,19 +55,19 @@ class Profile extends Component {
                 return;
             }
         }
-        axios
-            .put(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
+        this.setState({loading: true})
+          axios.put(`${process.env.REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
                 [this.state.changedField]: this.state[this.state.changedField]
             })
             .then((response) => {
                 //check for error
                 if (typeof response.data.msg === 'string' && response.data.msg.includes('updated')) {
-                    this.setState({ error: false, changed: true });
+                    this.setState({ error: false, changed: true, loading: false });
                 } else if (typeof response.data.msg === 'string' && response.data.msg.includes('in use')) {
                     //cannot have duplicate email
-                    this.setState({ error: 'Email in use by another account, please try another.' });
+                    this.setState({ error: 'Email in use by another account, please try another.', loading: false });
                 } else {
-                    this.setState({ error: true });
+                    this.setState({ error: true, loading: false });
                 }
                 this.handleClose();
             });

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-
 class SubmitStepTwo extends Component {
-
-    
     continue = e => {
         e.preventDefault();
         this.props.nextStep();
@@ -11,13 +8,11 @@ class SubmitStepTwo extends Component {
         e.preventDefault();
         this.props.prevStep();
     }
-
-    
     render(){
-        const { title, description, handleChange} = this.props;
+        const { title, description, picture, handleChange } = this.props;
         return(
             <>
-                <h2>Enter your ticket information:</h2>
+                <h2>Enter your job information:</h2>
                 <label>
                     <input 
                         type="text"
@@ -36,7 +31,15 @@ class SubmitStepTwo extends Component {
                         placeholder="Description"
                     />
                 </label>
-            
+                <label>
+                    <input 
+                        type="text"
+                        name="picture"
+                        value={picture}
+                        onChange={handleChange('picture')}
+                        placeholder="Location"
+                    />
+                </label>
                 <button className="Back" onClick={this.back}>
                     « Back
                 </button>
