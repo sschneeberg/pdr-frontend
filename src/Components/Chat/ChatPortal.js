@@ -21,28 +21,29 @@ class ChatPortal extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
-        this.props.socket.on('sent-customer-message', (msg, customerSocket, username) => {
-            if (this.state.online) {
-                let chats = Object.assign({}, this.state.chats);
-                let activeChat = this.state.activeChat;
-                chats[customerSocket]
-                    ? chats[customerSocket].msgs.push('c-' + msg)
-                    : (chats[customerSocket] = { msgs: ['c-' + msg], name: username });
-                if (activeChat.socket === customerSocket) {
-                    this.setState({
-                        chats,
-                        activeChat: {
-                            socket: activeChat.socket,
-                            name: activeChat.name,
-                            msgs: activeChat.msgs
-                        }
-                    });
-                } else {
-                    this.setState({ chats });
+        if (this.props.socket) {
+            this.props.socket.on('sent-customer-message', (msg, customerSocket, username) => {
+                if (this.state.online) {
+                    let chats = Object.assign({}, this.state.chats);
+                    let activeChat = this.state.activeChat;
+                    chats[customerSocket]
+                        ? chats[customerSocket].msgs.push('c-' + msg)
+                        : (chats[customerSocket] = { msgs: ['c-' + msg], name: username });
+                    if (activeChat.socket === customerSocket) {
+                        this.setState({
+                            chats,
+                            activeChat: {
+                                socket: activeChat.socket,
+                                name: activeChat.name,
+                                msgs: activeChat.msgs
+                            }
+                        });
+                    } else {
+                        this.setState({ chats });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     selectChat = (chat) => {
@@ -95,7 +96,7 @@ class ChatPortal extends Component {
     };
 
     componentWillUnmount() {
-        this.toggleOnline();
+        if (this.state.online) this.toggleOnline();
     }
 
     endChat = () => {
@@ -109,7 +110,7 @@ class ChatPortal extends Component {
         console.log('updated', this.state.chats);
         return (
             <div className="container">
-                {this.state.user.permissions ? (
+                {this.state.user.permissions && this.props.socket ? (
                     <>
                         {this.state.online ? (
                             <Button variant="outline-danger" onClick={() => this.toggleOnline()}>

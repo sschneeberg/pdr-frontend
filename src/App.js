@@ -59,7 +59,25 @@ function App() {
             setAuthToken(localStorage.jwtToken);
             setCurrentUser(token);
         }
+
+        window.addEventListener('beforeunload', handleLeavePage);
+
+        return function cleanup() {
+            window.removeEventListener('beforeunload', handleLeavePage);
+        };
     }, []);
+
+    useEffect(() => {
+        console.log('use effect');
+        handleExpiration();
+    });
+
+    const handleLeavePage = (e) => {
+        handleLogout();
+        const confirmationMessage = 'Session will end when you leave the site';
+        e.returnValue = confirmationMessage;
+        return confirmationMessage;
+    };
 
     const nowCurrentUser = (userData) => {
         console.log('nowCurrentUser is here...');
@@ -73,7 +91,7 @@ function App() {
             localStorage.removeItem('jwtToken');
             setCurrentUser('');
             setIsAuthenticated(false);
-            socket.disconnect();
+            if (socket) socket.disconnect();
             setSocket('');
         }
     };
@@ -84,10 +102,12 @@ function App() {
     };
 
     const handleExpiration = () => {
+        console.log(currentUser.exp * 1000 - Date.now());
         //check session end
-        if (Date(this.state.user.exp * 1000) <= Date.now()) {
+        if (currentUser.exp * 1000 - Date.now() < 0) {
+            console.log('logout');
             handleLogout();
-            alert('Session ended');
+            alert('Session ended, please log in again');
         }
     };
 
@@ -102,10 +122,13 @@ function App() {
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
             <div className="container mt-5">
                 <Switch>
-                    <Route path="/" exact
-                     render={(props) => {
-                        return <SubmitBug {...props} companies={company} />;
-                    }} />
+                    <Route
+                        path="/"
+                        exact
+                        render={(props) => {
+                            return <SubmitBug {...props} companies={company} />;
+                        }}
+                    />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/signup-a-company" component={SignupACompany} />
@@ -167,7 +190,14 @@ function App() {
                     <Route
                         path="/bugdetails/:id"
                         render={({ location, match }) => {
-                            return <BugDetails location={location} match={match} user={currentUser} />;
+                            return (
+                                <BugDetails
+                                    location={location}
+                                    match={match}
+                                    user={currentUser}
+                                    handleLogout={handleLogout}
+                                />
+                            );
                         }}
                     />
 

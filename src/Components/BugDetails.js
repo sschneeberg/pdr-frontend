@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import REACT_APP_SERVER_URL from '../keys';
-import { Link } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import { Link, Redirect } from 'react-router-dom';
 
 class BugDetails extends Component {
     _isMounted = false;
@@ -12,7 +11,8 @@ class BugDetails extends Component {
         this.state = {
             bug: this.props.location.state,
             comment: '',
-            comments: []
+            comments: [],
+            redirect: false
         };
     }
 
@@ -68,8 +68,12 @@ class BugDetails extends Component {
                 const data = response.data.comments;
                 this.setState({ comments: data });
             })
-            .catch((e) => {
-                console.log(e);
+            .catch((err) => {
+                if (err.toString().includes('401')) {
+                    this.setState({ redirect: true });
+                    this.props.handleLogout();
+                }
+                console.log(err);
             });
         return (this._isMounted = false);
     }
@@ -78,6 +82,7 @@ class BugDetails extends Component {
         const { bug } = this.state;
         return (
             <div>
+                {this.state.redirect ? <Redirect to="/" /> : null}
                 <ul>
                     <li>Title: {bug.title}</li>
                     <li>Priority: {bug.priority}</li>
