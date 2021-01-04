@@ -92,8 +92,8 @@ function App() {
             localStorage.removeItem('jwtToken');
             setCurrentUser('');
             setIsAuthenticated(false);
-            socket.disconnect();
-            if (socket) setSocket('');
+            if (socket) socket.disconnect();
+            setSocket('');
         }
     };
 
@@ -103,9 +103,10 @@ function App() {
     };
 
     const handleExpiration = () => {
-        console.log(Date(currentUser.exp * 1000), Date.now());
+        console.log(currentUser.exp * 1000 - Date.now());
         //check session end
-        if (Date(currentUser.exp * 1000) <= Date.now()) {
+        if (currentUser.exp * 1000 - Date.now() < 0) {
+            console.log('logout');
             handleLogout();
             alert('Session ended, please log in again');
         }
@@ -185,7 +186,7 @@ function App() {
                     <Route
                         path="/bugdetails/:id"
                         render={({ location, match }) => {
-                            return <BugDetails location={location} match={match} />;
+                            return <BugDetails location={location} match={match} handleLogout={handleLogout} />;
                         }}
                     />
 
