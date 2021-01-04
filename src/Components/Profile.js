@@ -6,7 +6,6 @@ import FormField from './FormField';
 import AdminControls from './Admin/AdminControls';
 import CompanyKey from './Admin/CompanyKey';
 import DeleteCompany from './Admin/DeleteCompany';
-import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
     constructor(props) {

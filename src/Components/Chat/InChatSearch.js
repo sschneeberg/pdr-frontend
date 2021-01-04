@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 
 class ChatSearch extends Component {
     constructor(props) {

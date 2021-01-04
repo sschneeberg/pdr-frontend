@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
-
 class CompanyKey extends Component {
     constructor(props) {
         super(props);

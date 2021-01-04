@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
 import { Link } from 'react-router-dom';
 

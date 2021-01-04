@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 
 class DeleteCompany extends Component {
     constructor(props) {

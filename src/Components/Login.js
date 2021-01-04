@@ -5,7 +5,6 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utilities/setAuthToken';
 import FormField from './FormField';
 import ResetPassword from './ResetPassword';
-import REACT_APP_SERVER_URL from '../keys';
 
 class Login extends Component {
     constructor(props) {

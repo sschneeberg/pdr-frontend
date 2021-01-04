@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
-import REACT_APP_SERVER_URL from '../keys';
 import { Link } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 

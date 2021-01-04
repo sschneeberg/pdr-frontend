@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import FormField from './FormField';
-import REACT_APP_SERVER_URL from '../keys';
 
 class SignupACompany extends Component {
     constructor(props) {
