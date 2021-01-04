@@ -2,20 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
+import Chat from '../Chat/ChatBubble';
 
 class AdminHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            description: '',
-            projectDescription: '',
-            date: '',
-            website: '',
-            status: '',
-            image: '',
-            severity: '',
-            numOfBugsAssinged: '',
-            devs: '',
             bugs: [],
             loading: false
         };
@@ -70,6 +62,12 @@ class AdminHome extends Component {
                 <div className="devs">
                     Dev names: Severity for each bug they have been assigned: How many bugs the dev is already assigned:
                 </div>
+                <div id="account-info">
+                    <Link className="btn btn-primary" to="/devhome">
+                        Developer Dashboard
+                    </Link>
+                </div>
+                <Chat user={this.props.user} socket={this.props.socket} setSocket={this.props.setSocket} />
             </div>
         );
     }
