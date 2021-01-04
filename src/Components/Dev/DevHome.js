@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
 import { Link } from 'react-router-dom';
 
@@ -35,7 +34,7 @@ function DevHome(props) {
             });
         }
         setLoading(true)
-        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
+        axios.put(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
         .then(response => {
             if (response.data.msg === "updated") {
                 console.log(response.data.msg)
@@ -104,7 +103,7 @@ function DevHome(props) {
     const getBugs = () => {
         setLoading(true)
         axios
-            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 if (response.data.msg) {
                     setLoading(false)

@@ -5,7 +5,6 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utilities/setAuthToken';
 import FormField from './FormField';
 import ResetPassword from './ResetPassword';
-import REACT_APP_SERVER_URL from '../keys';
 
 class Login extends Component {
     constructor(props) {
@@ -28,7 +27,7 @@ class Login extends Component {
         const userData = { email: this.state.email, password: this.state.password };
         if (this.state.email.length > 0) {
             this.setState({loading: true})
-            axios.post(`${REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
                 if (response.data.msg) {
                     this.setState({ email: '', password: '', error: true, loading: false });
                 } else {

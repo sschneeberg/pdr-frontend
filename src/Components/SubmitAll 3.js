@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import REACT_APP_SERVER_URL from '../keys'
+
 
 class SubmitAll extends Component {
     constructor(props){
@@ -25,7 +25,7 @@ class SubmitAll extends Component {
             createdBy: this.props.createdBy,
           }
           this.setState({loading: true})
-          axios.post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket)
+          axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket)
           .then(res => {
             if (res.data.msg) {
                  this.setState({loading: false, error: true})

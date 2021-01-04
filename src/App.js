@@ -18,7 +18,6 @@ import UserHome from './Components/User/UserHome';
 import Profile from './Components/Profile';
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
-import REACT_APP_SERVER_URL from './keys';
 import ChatPortal from './Components/Chat/ChatPortal';
 import Error404 from "./Components/404"
 import './App.css';
@@ -45,7 +44,7 @@ function App() {
 
     useEffect(() => {
         axios
-            .get(`${REACT_APP_SERVER_URL}/api/tickets/companies`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
                 if (response.data.msg) {
                     setError(true)

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
-import REACT_APP_SERVER_URL from '../keys';
 import { Link, Redirect } from 'react-router-dom';
 
 class BugDetails extends Component {
@@ -35,15 +34,6 @@ class BugDetails extends Component {
         })
     }
 
-    // handleDelete = () => {
-    //     axios.delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
-    //     .then((response) => {
-    //         console.log(response);
-    //     }).catch((e) => {
-    //         console.log(e);
-    //     })
-    // }
-
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -52,7 +42,7 @@ class BugDetails extends Component {
         e.preventDefault();
         this.setState({loading: true})
         const {comment} = this.state
-        axios.post(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, {comment} )
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, {comment} )
         .then((response) => {
             if (response.data.msg) {
                 this.setState({laoding: false, error: true})
@@ -69,7 +59,7 @@ class BugDetails extends Component {
     async componentDidMount() {
         this._isMounted = true;
         this.setState({loading: true})
-        await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+        await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
         .then((response) => {
             if (response.data.msg) {
                 this.setState({loading: false, error: true, redirect: true})

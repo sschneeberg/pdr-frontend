@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 
 class AdminControls extends Component {
     constructor(props) {
@@ -28,7 +27,7 @@ class AdminControls extends Component {
         this.setState({loading: true})
         //save user's permissions, send to backend
         axios
-            .put(`${REACT_APP_SERVER_URL}/api/users/permissions/${e.target[1].value}`, {
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/users/permissions/${e.target[1].value}`, {
                 permissions: e.target[0].value
             })
             .then((response) => {
