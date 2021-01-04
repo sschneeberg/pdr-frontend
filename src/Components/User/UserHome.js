@@ -15,7 +15,8 @@ class UserHome extends Component {
             redirect: false,
             socket: null,
             notification: false,
-            title: null
+            title: null,
+            ticketUser: null
         };
     }
 
@@ -24,6 +25,7 @@ class UserHome extends Component {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
+                console.log(data);
                 this.setState({ bugs: data, loading: false });
             })
             .catch((err) => {
@@ -36,12 +38,16 @@ class UserHome extends Component {
     }
 
     resetNote = () => {
-        return this.setState({ notification: false, title: null });
+        return this.setState({ notification: false, title: null, ticketUser: null });
     };
 
     setNotifications = (updated) => {
+        if (updated.ticket.user === this.state.user.id) {
+            this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
+        } else {
+            return;
+        }
         console.log('UPDATED', updated);
-        this.setState({ notification: true, title: updated.ticket.title });
     };
 
     render() {

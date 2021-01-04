@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
+<<<<<<< HEAD
 import TicketFilter from './TicketFilter'
+=======
+>>>>>>> main
 
 class AdminHome extends Component {
     constructor(props) {
@@ -159,6 +162,14 @@ class AdminHome extends Component {
                         Developer Dashboard
                     </Link>
                 </div>
+<<<<<<< HEAD
+=======
+                <div id="account-info">
+                    <Link className="btn btn-primary" to="/devhome">
+                        Developer Dashboard
+                    </Link>
+                </div>
+>>>>>>> main
                 <Chat user={this.props.user} socket={this.props.socket} setSocket={this.props.setSocket} />
             </div>
         );

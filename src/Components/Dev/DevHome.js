@@ -33,10 +33,9 @@ function DevHome(props) {
             });
         }
 
-        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
-            .catch((e) => {
-                console.log(e);
-            });
+        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status }).catch((e) => {
+            console.log(e);
+        });
     };
 
     const onDragEnd = (result, columns, setColumns) => {
