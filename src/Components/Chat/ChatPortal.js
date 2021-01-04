@@ -6,6 +6,7 @@ import ChatSideBar from './ChatSideBar';
 import MessagePanel from './MessagePanel';
 import CustomerChatHelp from './CustomerChatHelp';
 import ChatSearch from './InChatSearch';
+
 import './Chat.css';
 
 class ChatPortal extends Component {
