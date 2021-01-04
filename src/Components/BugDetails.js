@@ -13,7 +13,6 @@ class BugDetails extends Component {
             bug: this.props.location.state,
             comment: '',
             comments: []
-
         };
     }
 
@@ -89,8 +88,8 @@ class BugDetails extends Component {
                     <Link to='/home'>Back To Dashboard</Link>
                 </ul>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" name='comment' onChange={this.handleChange}/>
-                    <input type="submit" value='Post Comment'/>
+                    <textarea type="text" name='comment' onChange={this.handleChange} id='comment-input'>{this.state.comment}</textarea>
+                    <input type="submit" value='Post Comment' />
                 </form>
                 {this.displayComments()}
             </div>

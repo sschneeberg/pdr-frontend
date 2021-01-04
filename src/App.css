@@ -31,6 +31,10 @@ body {
 #cloudinaryImg {
   width: 300px;
 }
+#comment-input {
+  width: 300px !important;
+  height: 100px;
+}
 /* .loader {
   border: 16px solid #f3f3f3;
   border-top: 16px solid #3498db;
