@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 import { Redirect } from 'react-router-dom';
 
 class CompanyKey extends Component {
@@ -20,7 +19,7 @@ class CompanyKey extends Component {
     componentDidMount() {
         //get company key
         this.setState({ loading: true });
-        axios.get(`${REACT_APP_SERVER_URL}/api/company`).then((response) => {
+        axios.get(`${process.env.REACT_APP_SERVER_URL}/api/company`).then((response) => {
             if (response.data.msg) {
                 this.setState({ error: true, loading: false, redirect: true });
             } else {

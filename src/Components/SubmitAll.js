@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import REACT_APP_SERVER_URL from '../keys';
+import axios from "axios";
 
 class SubmitAll extends Component {
     constructor(props) {
@@ -16,6 +15,7 @@ class SubmitAll extends Component {
         e.preventDefault();
         this.props.prevStep();
     };
+    
     submit = (e) => {
         e.preventDefault();
         const newTicket = {
@@ -28,7 +28,7 @@ class SubmitAll extends Component {
         };
         this.setState({ loading: true });
         axios
-            .post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket)
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket)
             .then((res) => {
                 if (res.data.msg) {
                     this.setState({ loading: false, error: true });

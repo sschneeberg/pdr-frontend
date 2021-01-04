@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
 
 class AdminHome extends Component {
@@ -23,7 +22,7 @@ class AdminHome extends Component {
     getAdminDash = () => {
         this.setState({ loading: true });
         axios
-            .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ error: true, loading: false, redirect: true });

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
-import REACT_APP_SERVER_URL from '../../keys';
 import io from 'socket.io-client';
 
 class UserHome extends Component {
@@ -26,8 +25,8 @@ class UserHome extends Component {
     componentDidMount() {
         this.setState({ loading: true });
         axios
-            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => {
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
+            .then((response) => { 
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
                 } else {

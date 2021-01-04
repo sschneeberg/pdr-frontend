@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
-import REACT_APP_SERVER_URL from '../keys';
 import { Link, Redirect } from 'react-router-dom';
 
 class BugDetails extends Component {
@@ -58,7 +57,7 @@ class BugDetails extends Component {
 
     handleDelete = () => {
         axios
-            .delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
             .then((response) => {
                 console.log(response);
             })
@@ -76,7 +75,7 @@ class BugDetails extends Component {
         this.setState({ loading: true });
         const { comment } = this.state;
         axios
-            .post(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
                 if (typeof response.data.msg !== 'string') {
                     this.setState({ loading: false, error: true });
