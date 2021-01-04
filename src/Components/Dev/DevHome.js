@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 function DevHome(props) {
     const columnsFromBackend = {
@@ -24,7 +24,9 @@ function DevHome(props) {
     const [columns, setColumns] = useState(columnsFromBackend);
     const [bugMap, setBugMap] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(false);
+    const [user, setUser] = useState(props.user);
+    const [redirect, setRedirect] = useState(false);
 
     // Route to update status of ticket
     const updateTicket = (id, status) => {
@@ -34,20 +36,21 @@ function DevHome(props) {
                 ticket: bugMap[id]
             });
         }
-        setLoading(true)
-        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
-        .then(response => {
-            if (response.data.msg === "updated") {
-                console.log(response.data.msg)
-                setLoading(false)
-            } else {
-                setError(true)
-                setLoading(false) 
-            }
-        })   
-        .catch((e) => {
-            console.log(e);
-        });
+        setLoading(true);
+        axios
+            .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
+            .then((response) => {
+                if (response.data.msg === 'updated') {
+                    console.log(response.data.msg);
+                    setLoading(false);
+                } else {
+                    setError(true);
+                    setLoading(false);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
 
     const onDragEnd = (result, columns, setColumns) => {
@@ -102,20 +105,19 @@ function DevHome(props) {
     };
 
     const getBugs = () => {
-        setLoading(true)
+        setLoading(true);
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 if (response.data.msg) {
-                    setLoading(false)
-                    setError(true)
+                    setLoading(false);
+                    setError(true);
                 } else {
                     const data = response.data.tickets;
-                displaybugs(data);
-                mapBugs(data);
-                setLoading(false)
+                    displaybugs(data);
+                    mapBugs(data);
+                    setLoading(false);
                 }
-                
             })
             .catch((e) => {
                 console.log(e);
@@ -125,28 +127,26 @@ function DevHome(props) {
     const mapBugs = (bugs) => {
         let map = {};
         bugs.forEach((bug) => {
-            map[bug._id] = { id: bug._id, title: bug.title, user: bug.createdBy };
+            map[bug._id] = { id: bug._id, title: bug.title, user: bug.user };
         });
         setBugMap(map);
     };
 
     useEffect(() => {
+        if (!user) setRedirect(true);
         getBugs();
         return function cleanup() {
             setColumns(columnsFromBackend);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div id="return-container">
             {error ? (
-                            <p>
-                                An error occurred, please reload the page to try again. Contact us if the problem
-                                persists.
-                            </p>
-                        ): null}
+                <p>An error occurred, please reload the page and try again. Contact us if the problem persists.</p>
+            ) : null}
             {loading ? <p>Loading...</p> : null}
+            {redirect ? <Redirect to="/" /> : null}
             <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
                 {Object.entries(columns).map(([id, column]) => {
                     return (
@@ -216,9 +216,11 @@ function DevHome(props) {
                 })}
             </DragDropContext>
             <div id="account-info">
-                <Link className="btn btn-primary float-left" to="/profile">
-                    Account Information
-                </Link>
+                {user.permissions === 'dev' ? (
+                    <Link className="btn btn-primary float-left" to="/profile">
+                        Account Information
+                    </Link>
+                ) : null}
                 <Chat user={props.user} socket={props.socket} setSocket={props.setSocket} />
             </div>
         </div>
