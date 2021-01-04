@@ -68,6 +68,11 @@ function App() {
         };
     }, []);
 
+    useEffect(() => {
+        console.log('use effect');
+        handleExpiration();
+    });
+
     const handleLeavePage = (e) => {
         handleLogout();
         const confirmationMessage = 'Session will end when you leave the site';
@@ -98,10 +103,11 @@ function App() {
     };
 
     const handleExpiration = () => {
+        console.log(Date(currentUser.exp * 1000), Date.now());
         //check session end
-        if (Date(this.state.user.exp * 1000) <= Date.now()) {
+        if (Date(currentUser.exp * 1000) <= Date.now()) {
             handleLogout();
-            alert('Session ended');
+            alert('Session ended, please log in again');
         }
     };
 
