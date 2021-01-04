@@ -15,6 +15,7 @@ class SubmitAll extends Component {
         e.preventDefault();
         this.props.prevStep();
     };
+    
     submit = (e) => {
         e.preventDefault();
         const newTicket = {
