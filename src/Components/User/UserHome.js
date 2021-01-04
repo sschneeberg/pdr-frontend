@@ -16,28 +16,35 @@ class UserHome extends Component {
             notification: false,
             title: null,
             ticketUser: null,
-            error: false, 
-            redirect: false
+            error: false,
+            redirect: false,
+            redirectLogout: false
         };
     }
 
     componentDidMount() {
-       this.setState({loading: true})
+        this.setState({ loading: true });
         axios
+<<<<<<< HEAD
             .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => { 
+=======
+            .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
+            .then((response) => {
+>>>>>>> 42c2c6a523e53add1286c7c95a153e3e4bbb7daa
                 if (response.data.msg) {
-                    this.setState({loading: false, error: true, redirect: true})
+                    this.setState({ loading: false, error: true, redirect: true });
                 } else {
-                     const data = response.data.tickets;
-                    this.setState({ bugs: data, loading: false });
+                    const data = response.data.tickets;
+                    this.setState({ bugs: data, loading: false, error: false });
                 }
-               
             })
             .catch((err) => {
                 if (err.toString().includes('401')) {
-                    this.setState({ redirect: true });
+                    this.setState({ redirectLogout: true });
                     this.props.handleLogout();
+                } else {
+                    this.setState({ loading: false, error: true, redirect: true });
                 }
                 console.log(err);
             });
@@ -51,7 +58,7 @@ class UserHome extends Component {
         if (updated.ticket.user === this.state.user.id) {
             this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
         } else {
-            return
+            return;
         }
     };
 
@@ -139,14 +146,12 @@ class UserHome extends Component {
         return (
             <div>
                 {this.state.error ? (
-                    <p>
-                        An error occurred, please reload the page to try again. Contact us if the problem
-                        persists.
-                    </p>
-                ) : null }
+                    <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
+                ) : null}
                 {this.state.loading ? <p>Loading...</p> : null}
                 {pageDisplay()}
-                {this.state.redirect ? <Redirect to="/" /> : null}
+                {this.state.redirectLogout ? <Redirect to="/" /> : null}
+                {this.state.redirect ? <Redirect to="/404" /> : null}
                 <Chat
                     user={this.state.user}
                     companies={this.props.companies}
