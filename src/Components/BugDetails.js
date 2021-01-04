@@ -47,7 +47,7 @@ class BugDetails extends Component {
                 <div key={index}>
                     <p>{comment.comment}</p>
                     {this.props.user.permissions === 'admin' ? (
-                        <Button variant="outline-danger" onClick={this.handleDelete}>
+                        <Button variant="outline-danger" onClick={() => this.handleDelete(comment._id)}>
                             Delete Comment
                         </Button>
                     ) : null}
@@ -56,13 +56,21 @@ class BugDetails extends Component {
         });
     };
 
-    handleDelete = () => {
+    handleDelete = (id) => {
+        this.setState({ loading: true });
         axios
-            .delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+            .delete(`${REACT_APP_SERVER_URL}/api/tickets/${id}/comments`)
             .then((response) => {
                 console.log(response);
+                if (typeof response.data.msg === 'string') {
+                    this.setState({ loading: false, error: false });
+                    this.getComments();
+                } else {
+                    this.setState({ loading: false, error: true, redirect: true });
+                }
             })
             .catch((e) => {
+                this.setState({ loading: false, error: true, redirect: true });
                 console.log(e);
             });
     };
