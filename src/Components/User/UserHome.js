@@ -24,9 +24,7 @@ class UserHome extends Component {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
-                console.log(data);
                 this.setState({ bugs: data, loading: false });
-                console.log('Data was recived');
             })
             .catch((err) => {
                 if (err.toString().includes('401')) {

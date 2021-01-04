@@ -33,9 +33,10 @@ function DevHome(props) {
             });
         }
 
-        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status }).catch((e) => {
-            console.log(e);
-        });
+        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
+            .catch((e) => {
+                console.log(e);
+            });
     };
 
     const onDragEnd = (result, columns, setColumns) => {
@@ -59,7 +60,6 @@ function DevHome(props) {
                     items: destItems
                 }
             });
-            console.log(source);
             updateTicket(source.index, destination.droppableId);
         } else {
             const column = columns[source.droppableId];
@@ -95,7 +95,6 @@ function DevHome(props) {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
-                console.log('Data was received');
                 displaybugs(data);
                 mapBugs(data);
             })
@@ -117,7 +116,6 @@ function DevHome(props) {
         return function cleanup() {
             setColumns(columnsFromBackend);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

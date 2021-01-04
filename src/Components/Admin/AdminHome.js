@@ -13,6 +13,8 @@ class AdminHome extends Component {
             devs: [],
             products: [],
             key: '',
+            assignedTo: '',
+            priority: '',
             loading: false
         };
     }
@@ -23,7 +25,6 @@ class AdminHome extends Component {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
                 const data = response.data;
-                console.log(data);
                 this.setState({ bugs: data.tickets, devs: data.users, key: data.company.companyKey, products: data.company.products, loading: false });
             })
             .catch((e) => {
@@ -31,8 +32,13 @@ class AdminHome extends Component {
             });
     }
 
-    assignDev = (id) => {
-        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`).catch((e) => {
+    assignDev = (e, id) => {
+        e.preventDefault();
+        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { assignedTo: this.state.assignedTo, priority: this.state.priority})
+        .then((response) => {
+            console.log(response);
+            this.setState({  })
+        }).catch((e) => {
             console.log(e);
         });
     }
@@ -40,10 +46,22 @@ class AdminHome extends Component {
     getDevOptions = () => {
         return this.state.devs.map((dev, index) => {
             return (
-                    <option value={dev._id} key={index}>
-                        {dev.username}
-                    </option>
+                <option value={dev._id} key={index}>
+                    {dev.username}
+                </option>
             )
+        })
+    }
+
+    onChangeDev = (e) => {
+        this.setState({
+            assignedTo: e.target.value
+        })
+    }
+
+    onChangePriority = (e) => {
+        this.setState({
+            priority: e.target.value
         })
     }
     
@@ -54,17 +72,31 @@ class AdminHome extends Component {
                 return (
                     <div key={index}>
                         <ul>
-                            <li>{bug.title}</li>
-                            <li>{bug.company}</li>
-                            <li>{bug.product}</li>
-                            <li>{bug.description}</li>
-                            <li>{bug.status}</li>
-                            <li>{bug.createdAt}</li>
+                            <Link to={{
+                                pathname: `/bugdetails/${bug._id}`,
+                                state: bug
+                            }}>
+                                <li>Title: {bug.title}</li>
+                                <li>Product: {bug.product}</li>
+                                <li>Status: {bug.status}</li>
+                                <li>Assigned To: {bug.assignedTo}</li>
+                                <li>Priority: {bug.priority}</li>
+                            </Link>
                             <div>
-                                <select id="dev" onChange={this.assignDev()}>
-                                    <option>Assign Dev To Ticket</option>
-                                    {this.getDevOptions()}
-                                </select>
+                                <form action="" onSubmit={(e) => this.assignDev(e, bug._id)} className='form-group'>
+                                    <select name='assignedTo' id="dev" required={true} onChange={this.onChangeDev}>
+                                        <option>Assign Dev To Ticket</option>
+                                        {this.getDevOptions()}
+                                    </select>
+                                    <select name="priority" id="ticket" required={true} onChange={this.onChangePriority}>
+                                        <option>Set Priority</option>
+                                        <option value='1'>Low</option>
+                                        <option value='2'>Medium</option>
+                                        <option value='3'>High</option>
+                                        <option value='4'>Critical</option>
+                                    </select>
+                                    <input type="submit" />
+                                </form>
                             </div>
                         </ul>
                     </div>
@@ -104,14 +136,6 @@ class AdminHome extends Component {
     }
 
     render() {
-        // let devOptions = this.state.devs.map((dev, index) => {
-        //     return (
-        //         <option value={dev._id} key={index}>
-        //             {dev.username}
-        //         </option>
-        //     )
-        // })
-        // console.log('DEVS', this.state.devs.id);
         return (
             <div>
                 <Link className="btn btn-primary" to={{ pathname: '/profile', state: { users: this.state.devs } }}>
@@ -124,12 +148,8 @@ class AdminHome extends Component {
                     Products: {this.displayProducts()}
                 </div>
                 <div className="New-bugs">
-                    <TicketFilter bugs={this.state.bugs} />
+                    {/* <TicketFilter bugs={this.state.bugs} />  STRETCH GOAL */}
                     Tickets: {this.displaybugs()}
-                    {/* <select value={this.state.devs} id="dev" onChange={this.assignDev()}>
-                        <option>Assign Dev To Ticket</option>
-
-                    </select> */}
                 </div>
                 <div className="devs">
                     Devs: {this.displaydevs()}

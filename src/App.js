@@ -166,7 +166,7 @@ function App() {
                     <Route
                         path="/bugdetails/:id"
                         render={({ location, match }) => {
-                            return <BugDetails location={location} match={match} />;
+                            return <BugDetails location={location} match={match} user={currentUser} />;
                         }}
                     />
 

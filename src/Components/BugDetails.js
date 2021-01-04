@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import REACT_APP_SERVER_URL from '../keys';
 import { Link } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 
 class BugDetails extends Component {
     _isMounted = false;
@@ -21,26 +22,25 @@ class BugDetails extends Component {
             return (
                 <div key={index}>
                     <p>{comment.comment}</p>
-                    {/* <Button
-                    variant="outline-danger"
-                    onClick={() => {
-                        this.handleDelete();
-                    }}>
-                    Delete Comment
-                </Button> */}
+                    {this.props.user.permissions === 'admin' ? 
+                        <Button
+                            variant="outline-danger"
+                            onClick={this.handleDelete}>
+                            Delete Comment
+                        </Button> : null}
                 </div>
             )
         })
     }
 
-    // handleDelete = () => {
-    //     axios.delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
-    //     .then((response) => {
-    //         console.log(response);
-    //     }).catch((e) => {
-    //         console.log(e);
-    //     })
-    // }
+    handleDelete = () => {
+        axios.delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+        .then((response) => {
+            console.log(response);
+        }).catch((e) => {
+            console.log(e);
+        })
+    }
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
