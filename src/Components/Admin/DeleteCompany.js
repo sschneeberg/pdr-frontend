@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import REACT_APP_SERVER_URL from '../../keys';
 
 class DeleteCompany extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class DeleteCompany extends Component {
         //check match
         if (this.state.confirm === this.state.user.company) {
             this.setState({ loading: true });
-            axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/company`).then((response) => {
+            axios.delete(`${REACT_APP_SERVER_URL}/api/company`).then((response) => {
                 if (typeof response.data.msg === 'string' && response.data.msg.includes('deleted')) {
                     this.setState({ error: false, loading: false, deleted: true });
                 } else {

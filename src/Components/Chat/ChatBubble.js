@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import REACT_APP_SERVER_URL from '../../keys';
 import './Chat.css';
 
 class Chat extends Component {
@@ -28,7 +29,7 @@ class Chat extends Component {
     componentDidMount() {
         let socket = '';
         if (!this.props.socket) {
-            socket = io(process.env.REACT_APP_SERVER_URL);
+            socket = io(REACT_APP_SERVER_URL);
             this.props.setSocket(socket);
         } else {
             socket = this.props.socket;

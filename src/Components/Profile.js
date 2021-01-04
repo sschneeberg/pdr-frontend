@@ -6,6 +6,7 @@ import FormField from './FormField';
 import AdminControls from './Admin/AdminControls';
 import CompanyKey from './Admin/CompanyKey';
 import DeleteCompany from './Admin/DeleteCompany';
+import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class Profile extends Component {
         if (this.state.changed) {
             //pull new user info
             if (!this.state.loading) this.setState({ loading: true });
-            axios.get(`${process.env.REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`).then((updatedUser) => {
+            axios.get(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`).then((updatedUser) => {
                 this.setState({ user: updatedUser.data.user, changed: false, loading: false });
             });
         }
@@ -55,8 +56,9 @@ class Profile extends Component {
                 return;
             }
         }
-        this.setState({loading: true})
-          axios.put(`${process.env.REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
+        this.setState({ loading: true });
+        axios
+            .put(`${REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
                 [this.state.changedField]: this.state[this.state.changedField]
             })
             .then((response) => {

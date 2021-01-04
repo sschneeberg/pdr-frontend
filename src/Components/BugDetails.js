@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
+import REACT_APP_SERVER_URL from '../keys';
 
 class BugDetails extends Component {
     _isMounted = false;
@@ -20,7 +21,7 @@ class BugDetails extends Component {
 
     getComments = () => {
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+            .get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
@@ -57,7 +58,7 @@ class BugDetails extends Component {
 
     handleDelete = () => {
         axios
-            .delete(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+            .delete(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
             .then((response) => {
                 console.log(response);
             })
@@ -75,7 +76,7 @@ class BugDetails extends Component {
         this.setState({ loading: true });
         const { comment } = this.state;
         axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
+            .post(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
                 if (typeof response.data.msg !== 'string') {
                     this.setState({ loading: false, error: true });

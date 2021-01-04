@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import FormField from './FormField';
+import REACT_APP_SERVER_URL from '../keys';
 
 class SignUp extends Component {
     constructor(props) {
@@ -26,12 +27,12 @@ class SignUp extends Component {
         if (this.state.password === this.state.confirmPassword) {
             //validate password length here
             const newUser = { username: this.state.username, email: this.state.email, password: this.state.password };
-            this.setState({loading: true})
+            this.setState({ loading: true });
             axios
-                .post(`${process.env.REACT_APP_SERVER_URL}/api/users/register`, newUser)
+                .post(`${REACT_APP_SERVER_URL}/api/users/register`, newUser)
                 .then((response) => {
                     if (response.data.msg) {
-                        this.setState({ error: true, loading: false })
+                        this.setState({ error: true, loading: false });
                     } else {
                         this.setState({ redirect: true, loading: false });
                     }
@@ -58,18 +59,44 @@ class SignUp extends Component {
                             onSubmit={(e) => {
                                 this.handleSubmit(e);
                             }}>
-                                <Link to="/company-signup">Signup With Your Company</Link>
+                            <Link to="/company-signup">Signup With Your Company</Link>
                             <div className="form-group">
                                 {this.state.error ? (
-                                    <p style={{ color: 'red' }}>Username already exists, please choose a diferent one.</p>
+                                    <p style={{ color: 'red' }}>
+                                        Username already exists, please choose a diferent one.
+                                    </p>
                                 ) : null}
-                                <FormField type="text" label="username" display="Username: " value={this.state.username} onChange={this.onChange} />
+                                <FormField
+                                    type="text"
+                                    label="username"
+                                    display="Username: "
+                                    value={this.state.username}
+                                    onChange={this.onChange}
+                                />
 
-                                <FormField type="email" label="email" display="Email: " value={this.state.email} onChange={this.onChange} />
+                                <FormField
+                                    type="email"
+                                    label="email"
+                                    display="Email: "
+                                    value={this.state.email}
+                                    onChange={this.onChange}
+                                />
 
-                                <FormField type="password" label="password" display="Password: " value={this.state.password} onChange={this.onChange} />
+                                <FormField
+                                    type="password"
+                                    label="password"
+                                    display="Password: "
+                                    value={this.state.password}
+                                    onChange={this.onChange}
+                                />
 
-                                <FormField type="password" label="confirmPassword" display="Confirm Password: " value={this.state.confirmPassword} onChange={this.onChange} />
+                                <FormField
+                                    type="password"
+                                    label="confirmPassword"
+                                    display="Confirm Password: "
+                                    value={this.state.confirmPassword}
+                                    onChange={this.onChange}
+                                />
 
                                 <input type="submit" className="btn btn-primary float-right" value="Submit" />
                             </div>
