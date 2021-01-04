@@ -81,7 +81,7 @@ class BugDetails extends Component {
                     <li>Product: {bug.product}</li>
                     <li>Description: {bug.description}</li>
                     <li>Created: {bug.createdAt}</li>
-                    <img src={bug.picture} alt="" />
+                    <img src={bug.picture} alt="" id='cloudinaryImg'/>
                     <Link to='/home'>Back To Dashboard</Link>
                 </ul>
                 <form onSubmit={this.handleSubmit}>

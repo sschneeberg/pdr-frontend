@@ -25,6 +25,7 @@ class AdminHome extends Component {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
             .then((response) => {
                 const data = response.data;
+                console.log(data);
                 this.setState({ bugs: data.tickets, devs: data.users, key: data.company.companyKey, products: data.company.products, loading: false });
             })
             .catch((e) => {
