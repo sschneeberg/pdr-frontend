@@ -11,23 +11,29 @@ class UserHome extends Component {
         this.state = {
             bugs: [],
             user: this.props.user,
-            loading: true,
+            loading: false,
             redirect: false,
             socket: null,
             notification: false,
             title: null,
-            ticketUser: null
+            ticketUser: null,
+            error: false, 
+            redirect: false
         };
     }
 
     componentDidMount() {
+       this.setState({loading: true})
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => {
-                const data = response.data.tickets;
-                console.log(data);
-                this.setState({ bugs: data, loading: false });
-                console.log('Data was recived');
+            .then((response) => { 
+                if (response.data.msg) {
+                    this.setState({loading: false, error: true, redirect: true})
+                } else {
+                     const data = response.data.tickets;
+                    this.setState({ bugs: data, loading: false });
+                }
+               
             })
             .catch((err) => {
                 if (err.toString().includes('401')) {
@@ -48,7 +54,6 @@ class UserHome extends Component {
         } else {
             return
         }
-        console.log('UPDATED', updated);
     };
 
     render() {
@@ -134,6 +139,13 @@ class UserHome extends Component {
 
         return (
             <div>
+                {this.state.error ? (
+                    <p>
+                        An error occurred, please reload the page to try again. Contact us if the problem
+                        persists.
+                    </p>
+                ) : null }
+                {this.state.loading ? <p>Loading...</p> : null}
                 {pageDisplay()}
                 {this.state.redirect ? <Redirect to="/" /> : null}
                 <Chat

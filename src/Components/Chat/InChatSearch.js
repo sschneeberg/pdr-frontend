@@ -20,8 +20,8 @@ class ChatSearch extends Component {
     async componentDidMount() {
         //collect tickets for this company
         //LATER: Makte this search mroe efficient to search by customer username with a post route on submit form and not dig up ALL company records
+        this.setState({loading: true})
         const response = await axios.get(`${REACT_APP_SERVER_URL}/api/tickets/search`);
-        console.log(response.data.tickets);
         if (response.data.tickets) {
             let ticketMap = {};
             let tickets = response.data.tickets;
@@ -33,7 +33,7 @@ class ChatSearch extends Component {
                         title: ticket.data.ticket.title,
                         status: ticket.data.ticket.status,
                         assignedTo: ticket.data.assignedTo ? ticket.data.assignedTo.username : 'Unassigned'
-                    });
+                    }, this.setState({loading: false}));
                 } else {
                     ticketMap[ticket.data.createdBy.username] = [
                         {
@@ -43,6 +43,7 @@ class ChatSearch extends Component {
                             assignedTo: ticket.data.assignedTo ? ticket.data.assignedTo.username : 'Unassigned'
                         }
                     ];
+                    this.setState({loading: false})
                 }
             }
             this.setState({ ticketMap });
