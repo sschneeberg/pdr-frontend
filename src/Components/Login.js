@@ -5,7 +5,6 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utilities/setAuthToken';
 import FormField from './FormField';
 import ResetPassword from './ResetPassword';
-import REACT_APP_SERVER_URL from '../keys';
 
 class Login extends Component {
     constructor(props) {
@@ -13,7 +12,8 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            error: false
+            error: false,
+            loading: false
         };
     }
 
@@ -23,13 +23,16 @@ class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+
         const userData = { email: this.state.email, password: this.state.password };
         if (this.state.email.length > 0) {
-            axios.post(`${REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
+            this.setState({loading: true})
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
                 if (response.data.msg) {
-                    this.setState({ email: '', password: '', error: true });
+                    this.setState({ email: '', password: '', error: true, loading: false });
                 } else {
                     const { token } = response.data;
+                    this.setState({loading: false})
                     //set token, headers, and current user
                     localStorage.setItem('jwtToken', token);
                     setAuthToken(token);
@@ -47,6 +50,7 @@ class Login extends Component {
 
         return (
             <div className="row mt-4">
+                {this.state.loading ? <p>Loading...</p> : null}
                 <div className="col-md-7 offset-md-3">
                     <div className="card card-body">
                         <h2>Login</h2>

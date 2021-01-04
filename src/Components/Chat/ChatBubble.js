@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import REACT_APP_SERVER_URL from '../../keys';
 import './Chat.css';
 
 class Chat extends Component {
@@ -29,7 +28,7 @@ class Chat extends Component {
     componentDidMount() {
         let socket = '';
         if (!this.props.socket) {
-            socket = io(REACT_APP_SERVER_URL);
+            socket = io(process.env.REACT_APP_SERVER_URL);
             this.props.setSocket(socket);
         } else {
             socket = this.props.socket;
@@ -38,16 +37,13 @@ class Chat extends Component {
             this.setState({ company: this.state.user.company });
         }
         socket.on('connect', () => {
-            console.log('connected to back end: ', socket.id);
             //if not a customer, join the company chat channel
             if (this.state.user.company) {
-                console.log('HERE');
                 socket.emit('join-company', this.state.user.company, this.state.user.permissions);
             }
         });
         //devs recieving a comapny mesasge
         socket.on('sent-company-message', (msg) => {
-            console.log('COMPANY MSG', msg);
             if (!this.state.user.permissions) return;
             let msgs = this.state.messages.slice(0, this.state.messages.length);
             msgs.push(msg);
@@ -89,8 +85,6 @@ class Chat extends Component {
             if (this.state.user.permissions === 'dev' || this.state.user.permissions === 'admin') {
                 return;
             }
-            console.log('UPDATE');
-            console.log(updated);
             if (updated.ticket !== null) {
                 this.props.setNotifications(updated);
             }
