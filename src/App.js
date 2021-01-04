@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utilities/setAuthToken';
 import About from './Components/About';
@@ -17,7 +17,8 @@ import UserHome from './Components/User/UserHome';
 import Profile from './Components/Profile';
 import axios from 'axios';
 import BugDetails from './Components/BugDetails';
-
+import REACT_APP_SERVER_URL from './keys';
+import ChatPortal from './Components/Chat/ChatPortal';
 import './App.css';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -36,9 +37,11 @@ function App() {
     const [currentUser, setCurrentUser] = useState('');
     const [company, setCompany] = useState('');
     const [loading, setLoading] = useState(true);
+    const [socket, setSocket] = useState('');
+
     useEffect(() => {
         axios
-            .get(`http://localhost:8000/api/tickets/companies`)
+            .get(`${REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
                 setCompany(response.data.companies);
                 setLoading(false);
@@ -70,7 +73,14 @@ function App() {
             localStorage.removeItem('jwtToken');
             setCurrentUser('');
             setIsAuthenticated(false);
+            socket.disconnect();
+            setSocket('');
         }
+    };
+
+    const setCurrSocket = (s) => {
+        setSocket(s);
+        console.log(socket);
     };
 
     const handleExpiration = () => {
@@ -81,14 +91,15 @@ function App() {
         }
     };
 
-    console.log(currentUser);
-
     if (loading) {
         return <div>Loading....</div>;
     }
+
+    console.log(socket);
+
     return (
         <div className="App">
-            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} />
+            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
             <div className="container mt-5">
                 <Switch>
                     <Route path="/" exact
@@ -122,21 +133,45 @@ function App() {
                         path="/home"
                         render={() => {
                             if (currentUser.permissions === 'admin') {
-                                return <AdminHome user={currentUser} />;
+                                return <AdminHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
                             } else if (currentUser.permissions === 'dev') {
-                                return <DevHome user={currentUser} />;
+                                return <DevHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
                             } else if (currentUser.permissions !== 'dev' && currentUser.permissions !== 'admin') {
-                                return <UserHome handleLogout={handleLogout} user={currentUser} />;
+                                return (
+                                    <UserHome
+                                        handleLogout={handleLogout}
+                                        user={currentUser}
+                                        companies={company}
+                                        socket={socket}
+                                        setSocket={setSocket}
+                                    />
+                                );
                             }
                         }}
                     />
+
+                    <Route
+                        path="/devhome"
+                        render={() => {
+                            return <DevHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
+                        }}
+                    />
+
                     <Route
                         path="/profile"
                         render={({ location }) => {
                             return <Profile location={location} user={currentUser} handleLogout={handleLogout} />;
                         }}
                     />
-                    <Route path="/bugdetails" component={BugDetails} />
+
+                    <Route
+                        path="/bugdetails/:id"
+                        render={({ location, match }) => {
+                            return <BugDetails location={location} match={match} user={currentUser} />;
+                        }}
+                    />
+
+                    <Route path="/chat" render={() => <ChatPortal socket={socket} user={currentUser} />} />
                 </Switch>
             </div>
             <Footer />
@@ -144,4 +179,4 @@ function App() {
     );
 }
 
-export default App;
+export default withRouter(App);

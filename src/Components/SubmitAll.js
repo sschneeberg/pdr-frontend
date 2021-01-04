@@ -1,83 +1,82 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
+import REACT_APP_SERVER_URL from '../keys';
+
 class SubmitAll extends Component {
-  state = {
-    imageUrl: undefined,
-    imageAlt: undefined,
-  };
-
-  back = (e) => {
-    e.preventDefault();
-    this.props.prevStep();
-  };
-  submit = (e) => {
-    e.preventDefault();
-    const newTicket = {
-      title: this.props.title,
-      companySelect: this.props.companySelect,
-      product: this.props.product,
-      picture: this.state.imageUrl,
-      description: this.props.description,
-    //   createdBy: this.props.createdBy,
+    state = {
+        imageUrl: undefined,
+        imageAlt: undefined
     };
-    axios.post("http://localhost:8000/api/tickets", newTicket);
-    console.log(newTicket);
-  };
-  handleImageUpload = () => {
-    const { files } = document.querySelector('input[type="file"]');
 
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    formData.append("upload_preset", "knw1rnnh");
-
-    const options = {
-      method: "POST",
-      body: formData,
+    back = (e) => {
+        e.preventDefault();
+        this.props.prevStep();
     };
-    return fetch(
-      "https://api.cloudinary.com/v1_1/edgerees/image/upload",
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({
-          imageUrl: res.secure_url,
-          imageAlt: `An image of ${res.original_filename}`,
-        });
+    submit = (e) => {
+        e.preventDefault();
+        const newTicket = {
+            title: this.props.title,
+            companySelect: this.props.companySelect,
+            product: this.props.product,
+            picture: this.state.imageUrl,
+            description: this.props.description
+            //   createdBy: this.props.createdBy,
+        };
+        axios.post(`${REACT_APP_SERVER_URL}/api/tickets`, newTicket);
+        console.log(newTicket);
+    };
+    handleImageUpload = () => {
+        const { files } = document.querySelector('input[type="file"]');
 
-        console.log("hello", res.secure_url);
-      })
-      .catch((err) => console.log(err));
-  };
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('upload_preset', 'knw1rnnh');
 
-  openWidget = () => {
-    window.cloudinary
-      .createUploadWidget(
-        {
-          cloudName: "edgerees",
-          uploadPreset: "knw1rnnh",
-        },
-        (error, { event, info }) => {
-          if (event === "success") {
-            this.setState({
-              imageUrl: info.secure_url,
-              imageAlt: `An image of ${info.original_filename}`,
-            });
-          }
-        }
-      )
-      .open();
-  };
+        const options = {
+            method: 'POST',
+            body: formData
+        };
+        return fetch('https://api.cloudinary.com/v1_1/edgerees/image/upload', options)
+            .then((res) => res.json())
+            .then((res) => {
+                this.setState({
+                    imageUrl: res.secure_url,
+                    imageAlt: `An image of ${res.original_filename}`
+                });
 
-  render() {
-    const { companySelect, company, product, title, description } = this.props;
-    const { imageUrl, imageAlt } = this.state;
-    return (
-      <>
-        <main className="Images">
-          <section className="left-side">
-            <form>
-              {/* <div className="form-group">
+                console.log('hello', res.secure_url);
+            })
+            .catch((err) => console.log(err));
+    };
+
+    openWidget = () => {
+        window.cloudinary
+            .createUploadWidget(
+                {
+                    cloudName: 'edgerees',
+                    uploadPreset: 'knw1rnnh'
+                },
+                (error, { event, info }) => {
+                    if (event === 'success') {
+                        this.setState({
+                            imageUrl: info.secure_url,
+                            imageAlt: `An image of ${info.original_filename}`
+                        });
+                    }
+                }
+            )
+            .open();
+    };
+
+    render() {
+        const { companySelect, company, product, title, description } = this.props;
+        const { imageUrl, imageAlt } = this.state;
+        return (
+            <>
+                <main className="Images">
+                    <section className="left-side">
+                        <form>
+                            {/* <div className="form-group">
                 <input type="file" />
               </div>
 
@@ -88,39 +87,33 @@ class SubmitAll extends Component {
               >
                 Submit
               </button> */}
-              <label>Upload a picture of your bug here.</label>
-              <button
-                type="button"
-                className="btn widget-btn"
-                onClick={this.openWidget}
-              >
-                Upload
-              </button>
-            </form>
-          </section>
-          <section className="right-side">
-            {imageUrl && (
-              <img src={imageUrl} alt={imageAlt} className="displayed-image" />
-            )}
-            <h2>Here is the information you entered:</h2>
-            Company: <b>{companySelect}</b>
-            <br />
-            Product: <b>{product}</b>
-            <br />
-            Title: <b>{title}</b>
-            <br />
-            Description: <b>{description}</b>
-            <br />
-          </section>
-        </main>
-        <button className="Back" onClick={this.back}>
-          « Back
-        </button>
-        <button className="Submit" onClick={this.submit}>
-          Submit
-        </button>
-      </>
-    );
-  }
+                            <label>Upload a picture of your bug here.</label>
+                            <button type="button" className="btn widget-btn" onClick={this.openWidget}>
+                                Upload
+                            </button>
+                        </form>
+                    </section>
+                    <section className="right-side">
+                        {imageUrl && <img src={imageUrl} alt={imageAlt} className="displayed-image" />}
+                        <h2>Here is the information you entered:</h2>
+                        Company: <b>{companySelect}</b>
+                        <br />
+                        Product: <b>{product}</b>
+                        <br />
+                        Title: <b>{title}</b>
+                        <br />
+                        Description: <b>{description}</b>
+                        <br />
+                    </section>
+                </main>
+                <button className="Back" onClick={this.back}>
+                    « Back
+                </button>
+                <button className="Submit" onClick={this.submit}>
+                    Submit
+                </button>
+            </>
+        );
+    }
 }
 export default SubmitAll;
