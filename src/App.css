@@ -1,9 +1,9 @@
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 body {
-    margin-bottom: 40px; /* Margin bottom by footer height */
+  margin-bottom: 40px; /* Margin bottom by footer height */
 }
 .footer {
     position: fixed;
@@ -13,14 +13,23 @@ body {
     line-height: 40px; /* Vertically center the text there */
 }
 #return-container {
-    display: flex;
-    justify-content: center;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
 }
 #name {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#account-info {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+}
+#cloudinaryImg {
+  width: 300px;
 }
 
 .Images {
@@ -115,10 +124,7 @@ body {
     left: 630px;
     color: red;
 }
-#account-info {
-    bottom: 70px;
-    left: 10px;
-}
+
 /* .loader {
   border: 16px solid #f3f3f3;
   border-top: 16px solid #3498db;

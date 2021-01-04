@@ -20,7 +20,7 @@ class AdminHome extends Component {
         };
     }
 
-    componentDidMount() {
+    getAdminDash = () => {
         this.setState({ loading: true });
         axios
             .get(`${REACT_APP_SERVER_URL}/api/dashboard/admin-dashboard`)
@@ -44,21 +44,22 @@ class AdminHome extends Component {
             });
     }
 
-    assignDev = (e, id) => {
+    componentDidMount() {
+        this.getAdminDash();
+    }
+
+
+    assignDevAndUpdatePriority = (e, id) => {
         e.preventDefault();
-        axios
-            .put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, {
-                assignedTo: this.state.assignedTo,
-                priority: this.state.priority
-            })
-            .then((response) => {
-                console.log(response);
-                this.setState({});
-            })
-            .catch((e) => {
-                console.log(e);
-            });
-    };
+        axios.put(`${REACT_APP_SERVER_URL}/api/tickets/${id}`, { assignedTo: this.state.assignedTo, priority: this.state.priority})
+        .then((response) => {
+            this.getAdminDash();
+            console.log(response);
+        }).catch((e) => {
+            console.log(e);
+        });
+    }
+
 
     getDevOptions = () => {
         return this.state.devs.map((dev, index) => {
@@ -92,33 +93,35 @@ class AdminHome extends Component {
                                 pathname: `/bugdetails/${bug._id}`,
                                 state: bug
                             }}>
-                            <li>Title: {bug.title}</li>
-                            <li>Product: {bug.product}</li>
-                            <li>Status: {bug.status}</li>
-                            <li>Assigned To: {bug.assignedTo}</li>
-                            <li>Priority: {bug.priority}</li>
-                        </Link>
-                        <div>
-                            <form action="" onSubmit={(e) => this.assignDev(e, bug._id)} className="form-group">
-                                <select name="assignedTo" id="dev" required={true} onChange={this.onChangeDev}>
-                                    <option>Assign Dev To Ticket</option>
-                                    {this.getDevOptions()}
-                                </select>
-                                <select name="priority" id="ticket" required={true} onChange={this.onChangePriority}>
-                                    <option>Set Priority</option>
-                                    <option value="1">Low</option>
-                                    <option value="2">Medium</option>
-                                    <option value="3">High</option>
-                                    <option value="4">Critical</option>
-                                </select>
-                                <input type="submit" />
-                            </form>
-                        </div>
-                    </ul>
-                </div>
-            );
-        });
-    };
+                                <li>Title: {bug.title}</li>
+                                <li>Product: {bug.product}</li>
+                                <li>Status: {bug.status}</li>
+                                <li>Assigned To: {bug.assignedTo}</li>
+                                <li>Priority: {bug.priority}</li>
+                            </Link>
+                            <div>
+                                <form action="" onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)} className='form-group'>
+                                    <select name='assignedTo' id="dev" required={true} onChange={this.onChangeDev}>
+                                        <option>Assign Dev To Ticket</option>
+                                        {this.getDevOptions()}
+                                    </select>
+                                    <select name="priority" id="ticket" required={true} onChange={this.onChangePriority}>
+                                        <option>Set Priority</option>
+                                        <option value='1'>Low</option>
+                                        <option value='2'>Medium</option>
+                                        <option value='3'>High</option>
+                                        <option value='4'>Critical</option>
+                                    </select>
+                                    <input type="submit" />
+                                </form>
+                            </div>
+                        </ul>
+                    </div>
+                )
+            })
+        )
+    }
+
 
     displaydevs = () => {
         return this.state.devs.map((dev, index) => {

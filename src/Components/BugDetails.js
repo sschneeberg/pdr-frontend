@@ -19,6 +19,28 @@ class BugDetails extends Component {
         };
     }
 
+    getComments = () => {
+       axios
+            .get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
+            .then((response) => {
+                if (response.data.msg) {
+                    this.setState({ loading: false, error: true, redirect: true });
+                } else {
+                    const data = response.data.comments;
+                    this.setState({ comments: data, loading: false, error: false });
+                }
+            })
+            .catch((err) => {
+                if (err.toString().includes('401')) {
+                    this.setState({ redirectLogout: true });
+                    this.props.handleLogout();
+                } else {
+                    this.setState({ loading: false, error: true, redirect: true });
+                }
+                console.log(err);
+            });
+    }
+
     displayComments = () => {
         return this.state.comments.map((comment, index) => {
             return (
@@ -71,26 +93,8 @@ class BugDetails extends Component {
     async componentDidMount() {
         this._isMounted = true;
         this.setState({ loading: true });
-        await axios
-            .get(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
-            .then((response) => {
-                if (response.data.msg) {
-                    this.setState({ loading: false, error: true, redirect: true });
-                } else {
-                    const data = response.data.comments;
-                    this.setState({ comments: data, loading: false, error: false });
-                }
-            })
-            .catch((err) => {
-                if (err.toString().includes('401')) {
-                    this.setState({ redirectLogout: true });
-                    this.props.handleLogout();
-                } else {
-                    this.setState({ loading: false, error: true, redirect: true });
-                }
-                console.log(err);
-            });
-        return (this._isMounted = false);
+        await this.getComments()
+        return this._isMounted = false;
     }
 
     render() {
@@ -113,8 +117,9 @@ class BugDetails extends Component {
                     <li>Product: {bug.product}</li>
                     <li>Description: {bug.description}</li>
                     <li>Created: {bug.createdAt}</li>
-                    <img src={bug.picture} alt="" />
-                    <Link to="/home">Back To Dashboard</Link>
+                    <img src={bug.picture} alt="" id='cloudinaryImg'/>
+                    <Link to='/home'>Back To Dashboard</Link>
+
                 </ul>
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" name="comment" onChange={this.handleChange} />
