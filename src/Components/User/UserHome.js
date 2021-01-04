@@ -27,7 +27,6 @@ class UserHome extends Component {
                 const data = response.data.tickets;
                 console.log(data);
                 this.setState({ bugs: data, loading: false });
-                console.log('Data was recived');
             })
             .catch((err) => {
                 if (err.toString().includes('401')) {
@@ -46,7 +45,7 @@ class UserHome extends Component {
         if (updated.ticket.user === this.state.user.id) {
             this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
         } else {
-            return
+            return;
         }
         console.log('UPDATED', updated);
     };
