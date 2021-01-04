@@ -56,15 +56,15 @@ class BugDetails extends Component {
         axios
             .post(`${REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
-                if (response.data.msg) {
-                    this.setState({ laoding: false, error: true });
+                if (typeof response.data.msg !== 'string') {
+                    this.setState({ loading: false, error: true });
                 } else {
                     this.getComments();
                     this.setState({ loading: false, error: false });
                 }
             })
             .catch((e) => {
-                this.setState({ laoding: false, error: true });
+                this.setState({ loading: false, error: true });
                 console.log(e);
             });
     };

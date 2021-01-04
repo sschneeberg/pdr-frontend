@@ -47,7 +47,7 @@ class ChatSearch extends Component {
                     }
                 }
             }
-            this.setState({ ticketMap });
+            this.setState({ ticketMap, loading: false });
         }
     }
 
