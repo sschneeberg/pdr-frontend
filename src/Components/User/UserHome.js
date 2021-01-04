@@ -46,7 +46,7 @@ class UserHome extends Component {
         if (updated.ticket.user === this.state.user.id) {
             this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
         } else {
-            return
+            return;
         }
         console.log('UPDATED', updated);
     };

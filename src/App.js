@@ -60,7 +60,20 @@ function App() {
             setAuthToken(localStorage.jwtToken);
             setCurrentUser(token);
         }
+
+        window.addEventListener('beforeunload', handleLeavePage);
+
+        return function cleanup() {
+            window.removeEventListener('beforeunload', handleLeavePage);
+        };
     }, []);
+
+    const handleLeavePage = (e) => {
+        handleLogout();
+        const confirmationMessage = 'Session will end when you leave the site';
+        e.returnValue = confirmationMessage;
+        return confirmationMessage;
+    };
 
     const nowCurrentUser = (userData) => {
         console.log('nowCurrentUser is here...');
@@ -75,7 +88,7 @@ function App() {
             setCurrentUser('');
             setIsAuthenticated(false);
             socket.disconnect();
-            setSocket('');
+            if (socket) setSocket('');
         }
     };
 

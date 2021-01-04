@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import REACT_APP_SERVER_URL from '../../keys';
 import Chat from '../Chat/ChatBubble';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 function DevHome(props) {
     const columnsFromBackend = {
@@ -23,6 +23,8 @@ function DevHome(props) {
     };
     const [columns, setColumns] = useState(columnsFromBackend);
     const [bugMap, setBugMap] = useState(null);
+    const [user, setUser] = useState(props.user);
+    const [redirect, setRedirect] = useState(false);
 
     // Route to update status of ticket
     const updateTicket = (id, status) => {
@@ -113,15 +115,16 @@ function DevHome(props) {
     };
 
     useEffect(() => {
+        if (!user) setRedirect(true);
         getBugs();
         return function cleanup() {
             setColumns(columnsFromBackend);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div id="return-container">
+            {redirect ? <Redirect to="/" /> : null}
             <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
                 {Object.entries(columns).map(([id, column]) => {
                     return (
@@ -191,9 +194,11 @@ function DevHome(props) {
                 })}
             </DragDropContext>
             <div id="account-info">
-                <Link className="btn btn-primary float-left" to="/profile">
-                    Account Information
-                </Link>
+                {user.permissions === 'dev' ? (
+                    <Link className="btn btn-primary float-left" to="/profile">
+                        Account Information
+                    </Link>
+                ) : null}
                 <Chat user={props.user} socket={props.socket} setSocket={props.setSocket} />
             </div>
         </div>
