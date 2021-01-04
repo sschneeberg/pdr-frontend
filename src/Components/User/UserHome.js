@@ -27,7 +27,6 @@ class UserHome extends Component {
                 const data = response.data.tickets;
                 console.log(data);
                 this.setState({ bugs: data, loading: false });
-                console.log('Data was recived');
             })
             .catch((err) => {
                 if (err.toString().includes('401')) {

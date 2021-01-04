@@ -61,7 +61,6 @@ function DevHome(props) {
                     items: destItems
                 }
             });
-            console.log(source);
             updateTicket(source.index, destination.droppableId);
         } else {
             const column = columns[source.droppableId];
@@ -97,7 +96,6 @@ function DevHome(props) {
             .get(`${REACT_APP_SERVER_URL}/api/dashboard`)
             .then((response) => {
                 const data = response.data.tickets;
-                console.log('Data was received');
                 displaybugs(data);
                 mapBugs(data);
             })
@@ -109,7 +107,7 @@ function DevHome(props) {
     const mapBugs = (bugs) => {
         let map = {};
         bugs.forEach((bug) => {
-            map[bug._id] = { id: bug._id, title: bug.title, user: bug.createdBy };
+            map[bug._id] = { id: bug._id, title: bug.title, user: bug.user };
         });
         setBugMap(map);
     };
