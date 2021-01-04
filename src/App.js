@@ -74,7 +74,7 @@ function App() {
             localStorage.removeItem('jwtToken');
             setCurrentUser('');
             setIsAuthenticated(false);
-            socket.close();
+            socket.disconnect();
             setSocket('');
         }
     };
