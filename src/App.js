@@ -10,7 +10,6 @@ import CompanySignup from './Components/CompanySignup';
 import SignupACompany from './Components/SignupACompany';
 import Login from './Components/Login';
 import SubmitBug from './Components/SubmitBug';
-import SubmitBug2 from './Components/SubmitBug2';
 import FormSubmitted from './Components/FormSubmitted';
 import DevHome from './Components/Dev/DevHome';
 import AdminHome from './Components/Admin/AdminHome';
@@ -103,7 +102,10 @@ function App() {
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
             <div className="container mt-5">
                 <Switch>
-                    <Route path="/" exact component={SubmitBug} />
+                    <Route path="/" exact
+                     render={(props) => {
+                        return <SubmitBug {...props} companies={company} />;
+                    }} />
                     <Route path="/about" component={About} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/signup-a-company" component={SignupACompany} />
@@ -126,7 +128,6 @@ function App() {
                             );
                         }}
                     />
-                    <Route path="/submitbug2" component={SubmitBug2} />
                     <Route path="/formsubmitted" component={FormSubmitted} />
                     <Route
                         path="/home"
