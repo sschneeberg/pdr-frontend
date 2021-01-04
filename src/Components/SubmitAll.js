@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from "axios";
+import axios from 'axios';
 
 class SubmitAll extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class SubmitAll extends Component {
         e.preventDefault();
         this.props.prevStep();
     };
-    
+
     submit = (e) => {
         e.preventDefault();
         const newTicket = {

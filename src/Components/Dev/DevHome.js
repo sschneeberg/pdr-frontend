@@ -30,7 +30,10 @@ function DevHome(props) {
     // Route to update status of ticket
     const updateTicket = (id, status) => {
         let socket = props.socket;
+        console.log('HELLOOOOOO');
+        console.log(bugMap);
         if (status === '3') {
+            console.log(bugMap);
             socket.emit('statusUpdated', {
                 ticket: bugMap[id]
             });
@@ -126,7 +129,7 @@ function DevHome(props) {
     const mapBugs = (bugs) => {
         let map = {};
         bugs.forEach((bug) => {
-            map[bug._id] = { id: bug._id, title: bug.title, user: bug.user };
+            map[bug._id] = { id: bug._id, title: bug.title, user: bug.createdBy };
         });
         setBugMap(map);
     };
