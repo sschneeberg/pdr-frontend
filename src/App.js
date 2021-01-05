@@ -153,7 +153,7 @@ function App() {
                             );
                         }}
                     />
-                    <Route exact path="/formsubmitted" component={FormSubmitted} />
+                    <Route exact path="/formsubmitted" render={({location}) => return <FormSubmitted location={location}/>} />
                     <Route
                         exact
                         path="/home"
