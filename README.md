@@ -4,9 +4,9 @@ A bug tracking program that keeps up with bugs on your website! Users can submit
 
 ## User Stories
 
-As a customer i want to submit bug reports to the companies whose product that I use, comment on bugs i have submitted, chat directly with representitives and if logged in get feeback on my bugs. I want to be able to see the tickets I have submitted, their current status, and any related comments.
+As a `customer` i want to submit bug reports to the companies whose product that I use, comment on bugs i have submitted, chat directly with representitives and if logged in get feeback on my bugs. I want to be able to see the tickets I have submitted, their current status, and any related comments.
 
-As a software company I want to sign up developers under my company name to manage and address customer submitted bug reports. I want to have admin users who can manage ticket assignment and support accounts (like Devs and Support) who will address bugs, interact with the customers and close out tickets.
+As a `software company` I want to sign up developers under my company name to manage and address customer submitted bug reports. I want to have admin users who can manage ticket assignment and support accounts (like Devs and Support) who will address bugs, interact with the customers and close out tickets.
 
 
 
