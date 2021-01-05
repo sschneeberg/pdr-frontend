@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
+import FormSubmitted from '../FormSubmitted'
 
 class UserHome extends Component {
     constructor(props) {
@@ -63,6 +64,7 @@ class UserHome extends Component {
             if (this.state.notification) {
                 return (
                     <div>
+                        {FormSubmitted}
                         <div
                             aria-live="polite"
                             aria-atomic="true"
@@ -126,8 +128,10 @@ class UserHome extends Component {
                 );
             }
             return (
+
                 <div className="big-div">
                     <p className="title">Reported Pests</p>
+                    {FormSubmitted}
                     <div className="centered-home">
                         {this.state.bugs.map((bug, index) => {
                             return (
