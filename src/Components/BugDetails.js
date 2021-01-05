@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 
 class BugDetails extends Component {
     _isMounted = false;
@@ -89,7 +90,7 @@ class BugDetails extends Component {
                     this.setState({ loading: false, error: true });
                 } else {
                     this.getComments();
-                    this.setState({ loading: false, error: false });
+                    this.setState({ loading: false, error: false, comment: '' });
                 }
             })
             .catch((e) => {
@@ -128,8 +129,8 @@ class BugDetails extends Component {
                     <Link to="/home">Back To Dashboard</Link>
                 </ul>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="comment" onChange={this.handleChange} />
-                    <input type="submit" value="Post Comment" />
+                    <textarea type="text" name='comment' onChange={this.handleChange} id='comment-input' value={this.state.comment}></textarea>
+                    <input type="submit" value='Post Comment'/>
                 </form>
                 {this.displayComments()}
             </div>
