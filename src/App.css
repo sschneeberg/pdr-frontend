@@ -6,11 +6,11 @@ body {
   margin-bottom: 40px; /* Margin bottom by footer height */
 }
 .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 40px; /* Set the fixed height of the footer here */
-    line-height: 40px; /* Vertically center the text there */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 40px; /* Set the fixed height of the footer here */
+  line-height: 40px; /* Vertically center the text there */
 }
 #return-container {
   display: flex;
@@ -24,7 +24,7 @@ body {
 }
 
 #account-info {
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   right: 10px;
 }
@@ -33,112 +33,97 @@ body {
 }
 
 .Images {
-    text-align: center;
-    max-width: 100vw;
-    min-height: 100vh;
-    max-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  text-align: center;
+  max-width: 100vw;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Images .left-side {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-right: 0.5px solid grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 0.5px solid grey;
 }
 
 .Images .right-side {
-    border-left: 0.5px solid grey;
+  border-left: 0.5px solid grey;
 }
 
 .Images .left-side,
 .Images .right-side {
-    height: 300px;
-    width: 100%;
+  height: 300px;
+  width: 100%;
 }
 
 .Images .left-side form {
-    height: fit-content;
-    background: white;
-    border: 1px solid grey;
-    border-radius: 4px;
-    width: 300px;
-    padding: 40px 10px;
+  height: fit-content;
+  background: white;
+  border: 1px solid grey;
+  border-radius: 4px;
+  width: 300px;
+  padding: 40px 10px;
 }
 
 .Images .left-side form input {
-    margin: 0 0 30px;
-    width: 200px;
+  margin: 0 0 30px;
+  width: 200px;
 }
 
 .Images .left-side form .btn {
-    height: 40px;
-    width: 200px;
-    background: white;
-    border: 1px solid grey;
-    cursor: pointer;
-    border-radius: 4px;
+  height: 40px;
+  width: 200px;
+  background: white;
+  border: 1px solid grey;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .Images .left-side form .btn:hover {
-    color: white;
-    background: grey;
+  color: white;
+  background: grey;
 }
 
 .Images .left-side form .btn:focus {
-    box-shadow: none;
-    outline: none;
+  box-shadow: none;
+  outline: none;
 }
 
 .Images .left-side form .btn.widget-btn {
-    margin-top: 15px;
-    background: #800080;
-    border: 1px solid #800080;
-    color: #ffffff;
+  margin-top: 15px;
+  background: #800080;
+  border: 1px solid #800080;
+  color: #ffffff;
 }
 
 .Images .left-side form .btn.widget-btn:hover {
-    margin-top: 15px;
-    background: #4b0082;
-    border: 1px solid #4b0082;
-    color: #ffffff;
+  margin-top: 15px;
+  background: #4b0082;
+  border: 1px solid #4b0082;
+  color: #ffffff;
 }
 
 .Images .right-side .displayed-image {
-    height: 300px;
-    width: 300px;
+  height: 300px;
+  width: 300px;
 }
 
 .Next,
 .Submit {
-    position: absolute;
-    top: 300px;
-    left: 700px;
-    color: red;
+  position: absolute;
+  top: 300px;
+  left: 700px;
+  color: red;
 }
 .Back {
-    position: absolute;
-    top: 300px;
-    left: 630px;
-    color: red;
+  position: absolute;
+  top: 300px;
+  left: 630px;
+  color: red;
 }
-
-/* .loader {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #3498db;
-  border-radius: 50%;
-  width: 130px;
-  height: 130px;
-  animation: spin 2s linear infinite;
+li {
+  list-style-type: none;
 }
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} */
