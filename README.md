@@ -16,6 +16,22 @@ As a `software company` I want to sign up developers under my company name to ma
 
 ## Installation
 
+### Frontend Setup
+
+1. Fork and Clone this directory (And the [backend directory](https://github.com/sschneeberg/pdr-backend)) to your local machine
+2. Run `npm install` to download dependencies
+3. Set up your .env file with `REACT_APP_SERVER_URL=http://localhost:8000`
+
+### Backend Setup
+
+1. Follow steps on Mongo Atlas to connect databse with repository
+2. paste link given to you inside of the repository
+
+### Final steps
+
+1. Run `npm start` on both repositories
+2. Go to `http://localhost:3000` to see the website
+
 ## Dependencies
 
 * API Requests: axios
