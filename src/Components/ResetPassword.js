@@ -28,7 +28,7 @@ class Profile extends Component {
             this.setState({ error: 'Password must be at least 8 characters' });
             return;
         }
-        this.setState({loading: true})
+        this.setState({ loading: true });
         axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/users/reset`, {
                 email: this.state.email,
@@ -77,7 +77,7 @@ class Profile extends Component {
         const resetPassword = (
             <>
                 <div>
-                {this.state.loading ? <p>Loading...</p> : null}
+                    {this.state.loading ? <p>Loading...</p> : null}
                     {this.state.error === true ? (
                         <p style={{ color: 'red' }}>
                             Account not found, cannot reset password. If you believe this to be in error, please contact

@@ -17,8 +17,8 @@ class CompanySignup extends Component {
             companies: props.companies,
             redirect: false,
             error: false,
-            loading: false, 
-            errorMsg: ""
+            loading: false,
+            errorMsg: ''
         };
     }
 
@@ -46,10 +46,11 @@ class CompanySignup extends Component {
                 companyKey: this.state.companyKey,
                 permissions: this.state.permissions
             };
-               this.setState({loading: true}) 
-               axios.post(`${process.env.REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
+            this.setState({ loading: true });
+            axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
-                    console.log(response.data.msg)
+                    console.log(response.data.msg);
                     if (response.data.msg) {
                         this.setState({ error: true, loading: false, errorMsg: response.data.msg });
                     } else {
@@ -87,9 +88,7 @@ class CompanySignup extends Component {
                             }}>
                             <p>Don't see your company listed?</p>
                             <Link to="/signup-a-company">Signup your company here!</Link>
-                            {this.state.error ? (
-                                    <p style={{ color: 'red' }}>**{this.state.errorMsg}**</p>
-                                ) : null}
+                            {this.state.error ? <p style={{ color: 'red' }}>**{this.state.errorMsg}**</p> : null}
                             <div className="form-group">
                                 <FormField
                                     type="text"
@@ -122,7 +121,6 @@ class CompanySignup extends Component {
                                     value={this.state.confirmPassword}
                                     onChange={this.onChange}
                                 />
-
 
                                 <div className="form-group">
                                     <label htmlFor="company">Companies: </label>

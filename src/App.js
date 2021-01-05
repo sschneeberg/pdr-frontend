@@ -106,6 +106,8 @@ function App() {
         }
     };
 
+    console.log(process.env)
+
     if (loading) {
         return <div>Loading....</div>;
     }

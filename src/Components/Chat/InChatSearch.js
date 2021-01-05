@@ -19,7 +19,7 @@ class ChatSearch extends Component {
     async componentDidMount() {
         //collect tickets for this company
         //LATER: Makte this search mroe efficient to search by customer username with a post route on submit form and not dig up ALL company records
-        this.setState({loading: true})
+        this.setState({ loading: true });
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/search`);
         if (response.data.tickets) {
             let ticketMap = {};

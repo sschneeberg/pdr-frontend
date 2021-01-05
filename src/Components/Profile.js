@@ -55,8 +55,9 @@ class Profile extends Component {
                 return;
             }
         }
-        this.setState({loading: true})
-          axios.put(`${process.env.REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
+        this.setState({ loading: true });
+        axios
+            .put(`${process.env.REACT_APP_SERVER_URL}/api/users/${this.state.user.id}`, {
                 [this.state.changedField]: this.state[this.state.changedField]
             })
             .then((response) => {
