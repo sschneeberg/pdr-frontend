@@ -124,6 +124,37 @@ body {
     left: 630px;
     color: red;
 }
+.big-div {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.centered-home {
+  text-align: center;
+  position: absolute;
+  border: 2px solid black;
+  margin: 0;
+  padding: 3px;
+  top: 90%;
+  left: 10%;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+}
+
+.bug-details-link {
+  border: 1px solid #888888;
+  width: 800px;
+  height: 50px;
+  margin: 20px;
+  padding: 10px;
+  position: absolute;
+  display: flex;
+  justify-content: space-evenly;
+}
 
 /* .loader {
   border: 16px solid #f3f3f3;
