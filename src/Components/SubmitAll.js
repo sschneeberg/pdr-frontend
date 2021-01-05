@@ -14,7 +14,7 @@ class SubmitAll extends Component {
     e.preventDefault();
     const newTicket = {
       title: this.props.title,
-      companySelect: this.props.companySelect,
+      company: this.props.companySelect,
       product: this.props.product,
       picture: this.state.imageUrl,
       description: this.props.description,
@@ -77,7 +77,7 @@ class SubmitAll extends Component {
         <main className="Images">
           <section className="left-side">
             <form>
-              {/* <div className="form-group">
+              <div className="form-group">
                 <input type="file" />
               </div>
 
@@ -87,7 +87,7 @@ class SubmitAll extends Component {
                 onClick={this.handleImageUpload}
               >
                 Submit
-              </button> */}
+              </button>
               <label>Upload a picture of your bug here.</label>
               <button
                 type="button"

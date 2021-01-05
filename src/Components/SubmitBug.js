@@ -16,9 +16,8 @@ export class SubmitBug extends Component {
         // step 2
         title: '',             
         description: '',
-        imageUrl: "",  
+        imageUrl: "",      
         // createdBy: '',
-        productError: 'Please enter a product',
     }}
 
 
@@ -34,32 +33,16 @@ export class SubmitBug extends Component {
             step: step - 1
         });
     }
-
-    validate = () => {
-        let productError= '';
-
-        if (this.state.product.includes("@")) {
-            productError = "Please Enter product";
-        }
-        if (productError) {
-            this.setState({productError});
-            return false;
-        }
-        return true
-    };
-
     handleChange = input => e => {
-        const isValid = this.validate();
-        if(isValid) {
-            console.log(this.state)
-        }
         this.setState({[input]: e.target.value});
     }
+
+    
     onChangeSelect = (e) => {
         this.setState({companySelect: e.target.value})
     }
     showStep = () => {
-        const { step, company, product, title, description, imageUrl , productError, companySelect} = this.state;
+        const { step, company, product, title, description, imageUrl , companySelect} = this.state;
         if(step === 1)
             return (<SubmitStepOne 
                 nextStep = {this.nextStep} 
@@ -68,8 +51,6 @@ export class SubmitBug extends Component {
                 company= {company}
                 companySelect={companySelect}
                 product= {product}
-                productError= {productError}
-                validate={this.validate}
                 onChange={this.handleDropDown}
             />);
         if(step === 2)
