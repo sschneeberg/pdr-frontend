@@ -16,11 +16,23 @@ export class SubmitBug extends Component {
         // step 2
         title: '',             
         description: '',
-        imageUrl: "",  
-        // createdBy: '',
-        productError: 'Please enter a product',
-    }}
+        imageUrl: "",      
+        createdBy: ""
+        
+    }
+console.log(this.props.user)
+}
 
+
+componentDidMount = () => {
+    if (this.props.user === "") {
+        this.setState({createdBy: null}) 
+         console.log("user is null")
+    } else {
+        this.setState({createdBy:this.props.user.id})
+        console.log(this.state.createdBy)
+    }
+}
 
     nextStep = () => {
         const { step } = this.state;
@@ -34,32 +46,15 @@ export class SubmitBug extends Component {
             step: step - 1
         });
     }
-
-    validate = () => {
-        let productError= '';
-
-        if (this.state.product.includes("@")) {
-            productError = "Please Enter product";
-        }
-        if (productError) {
-            this.setState({productError});
-            return false;
-        }
-        return true
-    };
-
     handleChange = input => e => {
-        const isValid = this.validate();
-        if(isValid) {
-            console.log(this.state)
-        }
         this.setState({[input]: e.target.value});
     }
+
     onChangeSelect = (e) => {
         this.setState({companySelect: e.target.value})
     }
     showStep = () => {
-        const { step, company, product, title, description, imageUrl , productError, companySelect} = this.state;
+        const { step, company, product, title, description, imageUrl , companySelect, createdBy} = this.state;
         if(step === 1)
             return (<SubmitStepOne 
                 nextStep = {this.nextStep} 
@@ -68,8 +63,6 @@ export class SubmitBug extends Component {
                 company= {company}
                 companySelect={companySelect}
                 product= {product}
-                productError= {productError}
-                validate={this.validate}
                 onChange={this.handleDropDown}
             />);
         if(step === 2)
@@ -80,12 +73,13 @@ export class SubmitBug extends Component {
                 title={title} 
                 description={description}
             />);
-        if(step === 3)
+        if(step === 3) 
             return (<SubmitAll 
                 companySelect={companySelect} 
                 product={product}
                 title={title} 
                 description={description}
+                createdBy={createdBy}
                 imageUrl={imageUrl}
                 prevStep = {this.prevStep}
             />);
@@ -95,7 +89,7 @@ export class SubmitBug extends Component {
         return(
             <>
                 <h2>Step {step} of 3.</h2>
-                {this.showStep()}
+                {this.showStep()}   
             </>
         );
     }

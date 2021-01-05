@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
-import io from 'socket.io-client';
+import FormSubmitted from '../FormSubmitted'
 
 class UserHome extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class UserHome extends Component {
         this.setState({ loading: true });
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => { 
+            .then((response) => {
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
                 } else {
@@ -50,6 +50,7 @@ class UserHome extends Component {
     };
 
     setNotifications = (updated) => {
+        console.log(updated);
         if (updated.ticket.user === this.state.user.id) {
             this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
         } else {
@@ -62,6 +63,7 @@ class UserHome extends Component {
             if (this.state.notification) {
                 return (
                     <div>
+                        {FormSubmitted}
                         <div
                             aria-live="polite"
                             aria-atomic="true"
@@ -118,6 +120,7 @@ class UserHome extends Component {
             }
             return (
                 <div>
+                    {FormSubmitted}
                     <div>
                         {this.state.bugs.map((bug, index) => {
                             return (

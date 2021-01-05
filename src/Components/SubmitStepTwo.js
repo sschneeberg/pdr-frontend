@@ -25,6 +25,7 @@ class SubmitStepTwo extends Component {
                         value={title}
                         onChange={handleChange('title')}
                         placeholder="Title"
+
                     />
                 </label>
                 <label>
