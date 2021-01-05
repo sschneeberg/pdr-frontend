@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import {Redirect} from "react-router-dom";
 class SubmitAll extends Component {
   state = {
     imageUrl: undefined,
     imageAlt: undefined,
+    redirect: false
   };
 
   back = (e) => {
@@ -18,10 +20,18 @@ class SubmitAll extends Component {
       product: this.props.product,
       picture: this.state.imageUrl,
       description: this.props.description,
-    //   createdBy: this.props.createdBy,
+      createdBy: this.props.createdBy,
     };
-    axios.post("http://localhost:8000/api/tickets", newTicket);
-    console.log(newTicket);
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then(newTicket =>{
+        console.log(newTicket);
+        this.setState({redirect:true})
+        if (this.state.redirect && this.props.createdBy) { 
+            return <Redirect to="/home"/>   
+         } else {
+          return <Redirect to="/"/>
+        }
+    });
+   
   };
   handleImageUpload = () => {
     const { files } = document.querySelector('input[type="file"]');
@@ -77,7 +87,7 @@ class SubmitAll extends Component {
         <main className="Images">
           <section className="left-side">
             <form>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <input type="file" />
               </div>
 
@@ -87,7 +97,7 @@ class SubmitAll extends Component {
                 onClick={this.handleImageUpload}
               >
                 Submit
-              </button>
+              </button> */}
               <label>Upload a picture of your bug here.</label>
               <button
                 type="button"

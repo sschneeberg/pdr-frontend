@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import FormField from './FormField';
-import REACT_APP_SERVER_URL from '../keys';
 
 class Profile extends Component {
     constructor(props) {
@@ -12,7 +11,8 @@ class Profile extends Component {
             confirmPassword: '',
             email: '',
             error: false,
-            show: false
+            show: false,
+            loading: false
         };
     }
 
@@ -28,17 +28,18 @@ class Profile extends Component {
             this.setState({ error: 'Password must be at least 8 characters' });
             return;
         }
+        this.setState({ loading: true });
         axios
-            .post(`${REACT_APP_SERVER_URL}/api/users/reset`, {
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/users/reset`, {
                 email: this.state.email,
                 password: this.state.password
             })
             .then((response) => {
                 //check for error
                 if (typeof response.data.msg === 'string' && response.data.msg.includes('Reset')) {
-                    this.setState({ error: false });
+                    this.setState({ error: false, loading: false });
                 } else {
-                    this.setState({ error: true });
+                    this.setState({ error: true, loading: false });
                 }
                 this.handleClose();
             });
@@ -76,6 +77,7 @@ class Profile extends Component {
         const resetPassword = (
             <>
                 <div>
+                    {this.state.loading ? <p>Loading...</p> : null}
                     {this.state.error === true ? (
                         <p style={{ color: 'red' }}>
                             Account not found, cannot reset password. If you believe this to be in error, please contact

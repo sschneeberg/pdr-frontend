@@ -1,47 +1,139 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
+import { Link, Redirect } from 'react-router-dom';
 
 class BugDetails extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
-            bugs: []
+            bug: this.props.location.state,
+            comment: '',
+            comments: [],
+            loading: false,
+            error: false,
+            redirect: false,
+            redirectLogout: false
         };
     }
 
-    async componentDidMount() {
-        await axios
-            .get(`http://localhost:8000/api/tickets/${this.props.tickets.id}`)
+    getComments = () => {
+        axios
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`)
             .then((response) => {
-                const data = response.data.tickets;
-                this.setState({ bugs: data });
-                console.log('Data was recived');
-                console.log(data);
+                if (response.data.msg) {
+                    this.setState({ loading: false, error: true, redirect: true });
+                } else {
+                    const data = response.data.comments;
+                    this.setState({ comments: data, loading: false, error: false });
+                }
             })
-            .catch((e) => {
-                console.log(e);
+            .catch((err) => {
+                if (err.toString().includes('401')) {
+                    this.setState({ redirectLogout: true });
+                    this.props.handleLogout();
+                } else {
+                    this.setState({ loading: false, error: true, redirect: true });
+                }
+                console.log(err);
             });
-    }
+    };
 
-    displaybugs = () => {
-        return this.state.bugs.map((bug, index) => {
+    displayComments = () => {
+        return this.state.comments.map((comment, index) => {
             return (
-                <div>
-                    <ul key={index}>
-                        <li>{bug.title}</li>
-                        <li>{bug.company}</li>
-                        <li>{bug.product}</li>
-                        <li>{bug.description}</li>
-                        <li>{bug.status}</li>
-                        <li>{bug.createdAt}</li>
-                    </ul>
+                <div key={index}>
+                    <p>{comment.comment}</p>
+                    {this.props.user.permissions === 'admin' ? (
+                        <Button variant="outline-danger" onClick={() => this.handleDelete(comment._id)}>
+                            Delete Comment
+                        </Button>
+                    ) : null}
                 </div>
             );
         });
     };
 
+    handleDelete = (id) => {
+        this.setState({ loading: true });
+        axios
+            .delete(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}/comments`)
+            .then((response) => {
+                console.log(response);
+                if (typeof response.data.msg === 'string') {
+                    this.setState({ loading: false, error: false });
+                    this.getComments();
+                } else {
+                    this.setState({ loading: false, error: true, redirect: true });
+                }
+            })
+            .catch((e) => {
+                this.setState({ loading: false, error: true, redirect: true });
+                console.log(e);
+            });
+    };
+
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.setState({ loading: true });
+        const { comment } = this.state;
+        axios
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
+            .then((response) => {
+                if (typeof response.data.msg !== 'string') {
+                    this.setState({ loading: false, error: true });
+                } else {
+                    this.getComments();
+                    this.setState({ loading: false, error: false });
+                }
+            })
+            .catch((e) => {
+                this.setState({ loading: false, error: true });
+                console.log(e);
+            });
+    };
+    async componentDidMount() {
+        this._isMounted = true;
+        this.setState({ loading: true });
+        await this.getComments();
+        return (this._isMounted = false);
+    }
+
     render() {
-        return <div>{this.displaybugs()}</div>;
+        if (this.state.redirect) {
+            return <Redirect to="/404" />;
+        }
+        const { bug } = this.state;
+        return (
+            <div>
+                {this.state.redirectLogout ? <Redirect to="/" /> : null}
+                {this.state.error ? (
+                    <p>An error occurred, please reload the page and try again. Contact us if the problem persists.</p>
+                ) : null}
+                {this.state.loading ? <p>Loading...</p> : null}
+
+                <ul>
+                    <li>Title: {bug.title}</li>
+                    <li>Priority: {bug.priority}</li>
+                    <li>Status: {bug.status}</li>
+                    <li>Product: {bug.product}</li>
+                    <li>Description: {bug.description}</li>
+                    <li>Created: {bug.createdAt}</li>
+                    <img src={bug.picture} alt="" id="cloudinaryImg" />
+                    <Link to="/home">Back To Dashboard</Link>
+                </ul>
+                <form onSubmit={this.handleSubmit}>
+                    <input type="text" name="comment" onChange={this.handleChange} />
+                    <input type="submit" value="Post Comment" />
+                </form>
+                {this.displayComments()}
+            </div>
+        );
     }
 }
 

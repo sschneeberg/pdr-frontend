@@ -25,14 +25,16 @@ function Nav(props) {
                             Submit Bug
                         </NavLink>
                     </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/about">
-                            About
-                        </NavLink>
-                    </li>
                 </ul>
                 {props.isAuth ? (
                     <ul className="navbar-nav ml-auto">
+                        {props.user.permissions ? (
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/chat">
+                                    Customer Support
+                                </NavLink>
+                            </li>
+                        ) : null}
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/home">
                                 Dashboard
@@ -46,6 +48,11 @@ function Nav(props) {
                     </ul>
                 ) : (
                     <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/about">
+                                About
+                            </NavLink>
+                        </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/signup">
                                 Create Account
