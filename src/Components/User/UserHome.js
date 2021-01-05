@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
-import io from 'socket.io-client';
+import FormSubmitted from '../FormSubmitted'
 
 class UserHome extends Component {
     constructor(props) {
@@ -26,12 +26,13 @@ class UserHome extends Component {
         this.setState({ loading: true });
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
-            .then((response) => { 
+            .then((response) => {
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
                 } else {
                     const data = response.data.tickets;
                     this.setState({ bugs: data, loading: false, error: false });
+                    console.log(this.state.bugs)
                 }
             })
             .catch((err) => {
@@ -44,12 +45,13 @@ class UserHome extends Component {
                 console.log(err);
             });
     }
-
+    
     resetNote = () => {
         return this.setState({ notification: false, title: null, ticketUser: null });
     };
 
     setNotifications = (updated) => {
+        console.log(updated);
         if (updated.ticket.user === this.state.user.id) {
             this.setState({ notification: true, title: updated.ticket.title, ticketUser: updated.ticket.user });
         } else {
@@ -62,6 +64,7 @@ class UserHome extends Component {
             if (this.state.notification) {
                 return (
                     <div>
+                        {FormSubmitted}
                         <div
                             aria-live="polite"
                             aria-atomic="true"
@@ -97,36 +100,51 @@ class UserHome extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            {this.state.bugs.map((bug, index) => {
-                                return (
-                                    <div key={index}>
-                                        <Link
-                                            style={{ color: 'black' }}
-                                            to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                            {bug.title}
-                                        </Link>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <Link className="btn btn-primary" to="/profile">
-                            Account Information
-                        </Link>
-                    </div>
-                );
-            }
-            return (
-                <div>
-                    <div>
+
+                        <div className="big-div">
+                    <p className="title">Reported Pests</p>
+                    <div className="centered-home">
                         {this.state.bugs.map((bug, index) => {
                             return (
-                                <div key={index}>
+                                <div key={index} className="bug-details-link">
+                                    
                                     <Link
                                         style={{ color: 'black' }}
                                         to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                        {bug.title}
+                                        <strong>Title: </strong>"{bug.title}"
                                     </Link>
+                                    <div><strong>Company: </strong>"{bug.company}"</div>
+                                    <div><strong>Status: </strong>{bug.status}</div>
+                                    <div><strong>Priority: </strong>{bug.priority}</div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <Link className="btn btn-primary" to="/profile">
+                        Account Information
+                    </Link>
+                </div>
+                        </div>
+                );
+            }
+            return (
+
+                <div className="big-div">
+                    <p className="title">Reported Pests</p>
+                    {FormSubmitted}
+                    <div className="centered-home">
+                        {this.state.bugs.map((bug, index) => {
+                            return (
+                                <div key={index} className="bug-details-link">
+                                    
+                                    <Link
+                                        style={{ color: 'black' }}
+                                        to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                        <strong>Title: </strong>"{bug.title}"
+                                    </Link>
+                                    <div><strong>Company: </strong>"{bug.company}"</div>
+                                    <div><strong>Status: </strong>{bug.status}</div>
+                                    <div><strong>Priority: </strong>{bug.priority}</div>
                                 </div>
                             );
                         })}

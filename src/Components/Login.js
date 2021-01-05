@@ -26,13 +26,13 @@ class Login extends Component {
 
         const userData = { email: this.state.email, password: this.state.password };
         if (this.state.email.length > 0) {
-            this.setState({loading: true})
+            this.setState({ loading: true });
             axios.post(`${process.env.REACT_APP_SERVER_URL}/api/users/login`, userData).then((response) => {
                 if (response.data.msg) {
                     this.setState({ email: '', password: '', error: true, loading: false });
                 } else {
                     const { token } = response.data;
-                    this.setState({loading: false})
+                    this.setState({ loading: false });
                     //set token, headers, and current user
                     localStorage.setItem('jwtToken', token);
                     setAuthToken(token);

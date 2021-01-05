@@ -12,11 +12,11 @@ class SignupACompany extends Component {
             password: '',
             confirmPassword: '',
             products: '',
-            company: "",
+            company: '',
             redirect: false,
             error: false,
             loading: false,
-            errorMsg: ""
+            errorMsg: ''
         };
     }
 
@@ -34,9 +34,9 @@ class SignupACompany extends Component {
                 password: this.state.password,
                 company: this.state.company,
                 products: this.state.products,
-                permissions: 'admin',
+                permissions: 'admin'
             };
-            this.setState({loading: true})
+            this.setState({ loading: true });
             axios
                 .post(`${process.env.REACT_APP_SERVER_URL}/api/users/register-company`, newUser)
                 .then((response) => {
@@ -69,9 +69,7 @@ class SignupACompany extends Component {
                                 this.handleSubmit(e);
                             }}>
                             <div className="form-group">
-                            {this.state.error ? (
-                                    <p style={{ color: 'red' }}>{this.state.errorMsg}</p>
-                                ) : null}
+                                {this.state.error ? <p style={{ color: 'red' }}>{this.state.errorMsg}</p> : null}
                                 <FormField
                                     type="text"
                                     label="username"
@@ -79,7 +77,6 @@ class SignupACompany extends Component {
                                     value={this.state.username}
                                     onChange={this.onChange}
                                 />
-
 
                                 <FormField
                                     type="email"
