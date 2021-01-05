@@ -14,6 +14,22 @@ As a `software company` I want to sign up developers under my company name to ma
 
 ## Features
 
+### Submit a bug
+
+Users can submit a bug on the homepage of the site with the following feilds: title, description, company, product, image.
+
+### Admin Account
+
+When logged into an admin account, the admin can see all bugs submitted to their company, comment on bugs, delete comments, set the severity of the bug, assign bugs to developers, and chat directly with customers.
+
+### Developer Account
+
+When logged into a developer account, the developer can see all bugs assigned to them, set the status of the bug assiged to them by dragging and dropping the bug into the corresponding column, comment on bugs, and chat directly with customers.
+
+### User Account
+
+When logged into a user account, the user can see and comment on all bugs they have submitted and chat directly with representives. 
+
 ## Installation
 
 ### Frontend Setup
