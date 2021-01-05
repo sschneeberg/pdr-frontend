@@ -109,7 +109,12 @@ class BugDetails extends Component {
         if (this.state.redirect) {
             return <Redirect to="/404" />;
         }
+
         const { bug } = this.state;
+
+        const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+        const statusMap = { 1: 'Assigned', 2: 'In Review', 3: 'Closed' };
+
         return (
             <div>
                 {this.state.redirectLogout ? <Redirect to="/" /> : null}
@@ -120,8 +125,8 @@ class BugDetails extends Component {
 
                 <ul>
                     <li>Title: {bug.title}</li>
-                    <li>Priority: {bug.priority}</li>
-                    <li>Status: {bug.status}</li>
+                    <li>Priority: {priorityMap[bug.priority]}</li>
+                    <li>Status: {statusMap[bug.status]}</li>
                     <li>Product: {bug.product}</li>
                     <li>Description: {bug.description}</li>
                     <li>Created: {bug.createdAt}</li>
@@ -129,8 +134,13 @@ class BugDetails extends Component {
                     <Link to="/home">Back To Dashboard</Link>
                 </ul>
                 <form onSubmit={this.handleSubmit}>
-                    <textarea type="text" name='comment' onChange={this.handleChange} id='comment-input' value={this.state.comment}></textarea>
-                    <input type="submit" value='Post Comment'/>
+                    <textarea
+                        type="text"
+                        name="comment"
+                        onChange={this.handleChange}
+                        id="comment-input"
+                        value={this.state.comment}></textarea>
+                    <input type="submit" value="Post Comment" />
                 </form>
                 {this.displayComments()}
             </div>
