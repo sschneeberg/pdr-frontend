@@ -25,8 +25,9 @@ class UserHome extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
+        this.axiosCancelSource = axios.CancelToken.source();
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`, { cancelToken: this.axiosCancelSource.token })
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
@@ -47,6 +48,10 @@ class UserHome extends Component {
             });
     }
 
+    componentWillUnmount() {
+        this.axiosCancelSource.cancel('request canceled.');
+    }
+
     resetNote = () => {
         return this.setState({ notification: false, title: null, ticketUser: null });
     };
@@ -61,6 +66,10 @@ class UserHome extends Component {
     };
 
     render() {
+        if (!this.props.user) {
+            this.props.handleLogout();
+            return <Redirect to="/" />;
+        }
         const pageDisplay = () => {
             if (this.state.notification) {
                 return (
