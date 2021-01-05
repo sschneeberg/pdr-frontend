@@ -50,7 +50,6 @@ componentDidMount = () => {
         this.setState({[input]: e.target.value});
     }
 
-    
     onChangeSelect = (e) => {
         this.setState({companySelect: e.target.value})
     }
@@ -86,7 +85,6 @@ componentDidMount = () => {
             />);
     }
     render(){
-      
         const { step } = this.state;
         return(
             <>

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+
+
+
 class SubmitStepOne extends Component {
-    state = {};
+    state = {
+    };
 
     continue = (e) => {
         e.preventDefault();

@@ -1,17 +1,31 @@
 import React, { Component } from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
+import Login from "./Login";
+import { Button, Modal } from 'react-bootstrap';
+
 class SubmitAll extends Component {
   state = {
     imageUrl: undefined,
     imageAlt: undefined,
-    redirect: false
+    redirect: false,
+    show: false,
   };
 
   back = (e) => {
     e.preventDefault();
     this.props.prevStep();
   };
+
+handleClose = () => {
+    this.setState({ show: false });
+};
+
+handleShow = () => {
+    this.setState({ show: true });
+};
+
+
   submit = (e) => {
     e.preventDefault();
     const newTicket = {
@@ -24,11 +38,9 @@ class SubmitAll extends Component {
     };
     axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then(newTicket =>{
         console.log(newTicket);
-        this.setState({redirect:true})
-        if (this.state.redirect && this.props.createdBy) { 
-            return <Redirect to="/home"/>   
-         } else {
-          return <Redirect to="/"/>
+       if (typeof newTicket.data.msg==="string") { this.setState({redirect:true})
+       } else {
+            console.log(newTicket.data.msg)
         }
     });
    
@@ -121,8 +133,25 @@ class SubmitAll extends Component {
             <br />
             Description: <b>{description}</b>
             <br />
+            
           </section>
         </main>
+       {this.state.redirect ?(<>{
+           this.props.createdBy ? <Redirect to="/home"/>: <Redirect to="/formSubmitted"/>    
+       }</>):null} 
+      
+       <div><Button variant="outline-primary" onClick={this.handleShow}>
+                    Login
+                </Button>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Login and Submit</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Login />
+                    </Modal.Body>
+                </Modal></div> 
+                
         <button className="Back" onClick={this.back}>
           « Back
         </button>
