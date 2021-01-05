@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
-import FormSubmitted from '../FormSubmitted'
+import FormSubmitted from '../FormSubmitted';
+import { userDashHelp } from './HelpText';
+import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
 
 class UserHome extends Component {
     constructor(props) {
@@ -17,7 +19,6 @@ class UserHome extends Component {
             title: null,
             ticketUser: null,
             error: false,
-            redirect: false,
             redirectLogout: false
         };
     }
@@ -32,7 +33,7 @@ class UserHome extends Component {
                 } else {
                     const data = response.data.tickets;
                     this.setState({ bugs: data, loading: false, error: false });
-                    console.log(this.state.bugs)
+                    console.log(this.state.bugs);
                 }
             })
             .catch((err) => {
@@ -45,7 +46,7 @@ class UserHome extends Component {
                 console.log(err);
             });
     }
-    
+
     resetNote = () => {
         return this.setState({ notification: false, title: null, ticketUser: null });
     };
@@ -64,7 +65,9 @@ class UserHome extends Component {
             if (this.state.notification) {
                 return (
                     <div>
-                        {FormSubmitted}
+                        {this.props.location.state ? (
+                            <>{this.props.location.state.bugSubmitted ? <FormSubmitted /> : null}</>
+                        ) : null}
                         <div
                             aria-live="polite"
                             aria-atomic="true"
@@ -102,49 +105,77 @@ class UserHome extends Component {
                         </div>
 
                         <div className="big-div">
-                    <p className="title">Reported Pests</p>
-                    <div className="centered-home">
-                        {this.state.bugs.map((bug, index) => {
-                            return (
-                                <div key={index} className="bug-details-link">
-                                    
-                                    <Link
-                                        style={{ color: 'black' }}
-                                        to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                        <strong>Title: </strong>"{bug.title}"
-                                    </Link>
-                                    <div><strong>Company: </strong>"{bug.company}"</div>
-                                    <div><strong>Status: </strong>{bug.status}</div>
-                                    <div><strong>Priority: </strong>{bug.priority}</div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <Link className="btn btn-primary" to="/profile">
-                        Account Information
-                    </Link>
-                </div>
+                            <p className="title">Reported Pests</p>
+                            <div className="centered-home">
+                                {this.state.bugs.map((bug, index) => {
+                                    return (
+                                        <div key={index} className="bug-details-link">
+                                            <Link
+                                                style={{ color: 'black' }}
+                                                to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                                <strong>Title: </strong>"{bug.title}"
+                                            </Link>
+                                            <div>
+                                                <strong>Company: </strong>"{bug.company}"
+                                            </div>
+                                            <div>
+                                                <strong>Status: </strong>
+                                                {bug.status}
+                                            </div>
+                                            {bug.priority ? (
+                                                <div>
+                                                    <strong>Priority: </strong>
+                                                    {bug.priority}
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <strong>Priority: </strong>Unassigned
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <Link className="btn btn-primary" to="/profile">
+                                Account Information
+                            </Link>
                         </div>
+                    </div>
                 );
             }
             return (
-
                 <div className="big-div">
                     <p className="title">Reported Pests</p>
-                    {FormSubmitted}
+                    {this.props.location.state ? (
+                        <>{this.props.location.state.bugSubmitted ? <FormSubmitted /> : null} </>
+                    ) : null}
                     <div className="centered-home">
                         {this.state.bugs.map((bug, index) => {
                             return (
                                 <div key={index} className="bug-details-link">
-                                    
                                     <Link
                                         style={{ color: 'black' }}
                                         to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
                                         <strong>Title: </strong>"{bug.title}"
                                     </Link>
-                                    <div><strong>Company: </strong>"{bug.company}"</div>
-                                    <div><strong>Status: </strong>{bug.status}</div>
-                                    <div><strong>Priority: </strong>{bug.priority}</div>
+
+                                    <div>
+                                        <strong>Company: </strong>"{bug.company}"
+                                    </div>
+                                    <div>
+                                        <strong>Status: </strong>
+                                        {bug.status}
+                                    </div>
+                                    {bug.priority ? (
+                                        <div>
+                                            <strong>Priority: </strong>
+                                            {bug.priority}
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <strong>Priority: </strong>Unassigned
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}
@@ -162,6 +193,20 @@ class UserHome extends Component {
                     <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
                 ) : null}
                 {this.state.loading ? <p>Loading...</p> : null}
+                <OverlayTrigger
+                    trigger="click"
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Title as="h3">Dashboard Help</Popover.Title>
+                            <Popover.Content>{userDashHelp}</Popover.Content>
+                        </Popover>
+                    }>
+                    <Button variant="outline-secondary" style={{ borderRadius: '60%' }}>
+                        ?
+                    </Button>
+                </OverlayTrigger>
+
                 {pageDisplay()}
                 {this.state.redirectLogout ? <Redirect to="/" /> : null}
                 {this.state.redirect ? <Redirect to="/404" /> : null}

@@ -127,7 +127,6 @@ body {
 .centered-home {
   text-align: center;
   position: absolute;
-  border: 2px solid black;
   margin: 0;
   padding: 3px;
   top: 90%;
@@ -145,9 +144,20 @@ body {
   height: 50px;
   margin: 20px;
   padding: 10px;
-  position: absolute;
   display: flex;
   justify-content: space-evenly;
+}
+
+.left-half{
+  float: left;
+  margin: 30px;
+  padding: 10px;
+}
+
+.right-half{
+  float: right;
+  margin: 30px;
+  padding: 10px;
 }
 
 /* .loader {

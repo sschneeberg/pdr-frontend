@@ -132,7 +132,7 @@ class ChatPortal extends Component {
                                         <Popover.Content>{CustomerChatHelp}</Popover.Content>
                                     </Popover>
                                 }>
-                                <Button variant="outline-secondary" style={{ borderRadius: '60%' }}>
+                                <Button variant="outline-secondary" style={{ borderRadius: '60%'}}>
                                     ?
                                 </Button>
                             </OverlayTrigger>

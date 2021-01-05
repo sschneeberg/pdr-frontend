@@ -86,58 +86,32 @@ class AdminHome extends Component {
     displaybugs = () => {
         return this.state.bugs.map((bug, index) => {
             return (
-                <div key={index} className='bug-list-container'>
-                        <Link
-                            to={{
-                                pathname: `/bugdetails/${bug._id}`,
-                                state: bug
-                            }}>
-                            <p className='bug-p'>Title: {bug.title}</p>
-                            <p className='bug-p'>Product: {bug.product}</p>
-                            <p className='bug-p'>Status: {bug.status}</p>
-                            <p className='bug-p'>Assigned To: {bug.assignedTo}</p>
-                            <p className='bug-p'>Priority: {bug.priority}</p>
-                        </Link>
-                            <form
-                                action=""
-                                onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)}
-                                className="bug-p">
-                                <select name="assignedTo" id="dev" required={true} onChange={this.onChangeDev}>
-                                    <option>Assign Dev To Ticket</option>
-                                    {this.getDevOptions()}
-                                </select>
-                                <select name="priority" id="ticket" required={true} onChange={this.onChangePriority}>
-                                    <option>Set Priority</option>
-                                    <option value="1">Low</option>
-                                    <option value="2">Medium</option>
-                                    <option value="3">High</option>
-                                    <option value="4">Critical</option>
-                                </select>
-                                <input type="submit" />
-                            </form>
-                </div>
-            );
-        });
-    };
-
-    displaydevs = () => {
-        return this.state.devs.map((dev, index) => {
-            return (
-                <div key={index}>
-                    <ul>
-                        <li className="devs">{dev.username}</li>
-                        <li className="devs">{dev.permissions}</li>
-                    </ul>
-                </div>
-            );
-        });
-    };
-
-    displayProducts = () => {
-        return this.state.products.map((product, index) => {
-            return (
-                <div key={index} id='products-map'>
-                    {product}
+                <div key={index} className="bug-list-container">
+                    <Link
+                        to={{
+                            pathname: `/bugdetails/${bug._id}`,
+                            state: bug
+                        }}>
+                        <p className="bug-p">Title: {bug.title}</p>
+                        <p className="bug-p">Product: {bug.product}</p>
+                        <p className="bug-p">Status: {bug.status}</p>
+                        <p className="bug-p">Assigned To: {bug.assignedTo}</p>
+                        <p className="bug-p">Priority: {bug.priority}</p>
+                    </Link>
+                    <form action="" onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)} className="bug-p">
+                        <select name="assignedTo" id="dev" required={true} onChange={this.onChangeDev}>
+                            <option>Assign Dev To Ticket</option>
+                            {this.getDevOptions()}
+                        </select>
+                        <select name="priority" id="ticket" required={true} onChange={this.onChangePriority}>
+                            <option>Set Priority</option>
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3">High</option>
+                            <option value="4">Critical</option>
+                        </select>
+                        <input type="submit" />
+                    </form>
                 </div>
             );
         });
@@ -149,7 +123,10 @@ class AdminHome extends Component {
         }
         return (
             <div>
-                <Link className="btn btn-primary" id="account-info" to={{ pathname: '/profile', state: { users: this.state.devs } }}>
+                <Link
+                    className="btn btn-primary"
+                    id="account-info"
+                    to={{ pathname: '/profile', state: { users: this.state.devs, products: this.state.products } }}>
                     Account Information
                 </Link>
                 {this.state.error ? (
@@ -157,22 +134,10 @@ class AdminHome extends Component {
                 ) : null}
 
                 {this.state.loading ? <p>Loading...</p> : null}
-                <div className="products">
-                    <div>
-                        Products: {this.displayProducts()}
-                    </div>
-                </div>
-                <div>
-                    Devs:
-                    <div>
-                        {this.displaydevs()}
-                    </div>
-                </div>
-                <div id='bug-container'>
+
+                <div id="bug-container">
                     Tickets
-                    <div className="bugs">
-                       {this.displaybugs()}
-                    </div>
+                    <div className="bugs">{this.displaybugs()}</div>
                 </div>
                 <div id="dev-dashboard">
                     <Link className="btn btn-primary" to="/devhome">
