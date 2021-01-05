@@ -70,6 +70,10 @@ class UserHome extends Component {
             this.props.handleLogout();
             return <Redirect to="/" />;
         }
+
+        const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+        const statusMap = { 1: 'Assigned', 2: 'In Review', 3: 'Closed' };
+
         const pageDisplay = () => {
             if (this.state.notification) {
                 return (
@@ -129,12 +133,12 @@ class UserHome extends Component {
                                             </div>
                                             <div>
                                                 <strong>Status: </strong>
-                                                {bug.status}
+                                                {statusMap[bug.status]}
                                             </div>
                                             {bug.priority ? (
                                                 <div>
                                                     <strong>Priority: </strong>
-                                                    {bug.priority}
+                                                    {priorityMap[bug.priority]}
                                                 </div>
                                             ) : (
                                                 <div>
@@ -173,12 +177,12 @@ class UserHome extends Component {
                                     </div>
                                     <div>
                                         <strong>Status: </strong>
-                                        {bug.status}
+                                        {statusMap[bug.status]}
                                     </div>
                                     {bug.priority ? (
                                         <div>
                                             <strong>Priority: </strong>
-                                            {bug.priority}
+                                            {priorityMap[bug.status]}
                                         </div>
                                     ) : (
                                         <div>
