@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
 import FormSubmitted from '../FormSubmitted'
+import {userDashHelp} from './HelpText'
+import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
 
 class UserHome extends Component {
     constructor(props) {
@@ -162,6 +164,21 @@ class UserHome extends Component {
                     <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
                 ) : null}
                 {this.state.loading ? <p>Loading...</p> : null}
+                    <OverlayTrigger
+                        trigger="click"
+                        placement="right"
+                        overlay={
+                            <Popover>
+                                <Popover.Title as="h3">Dashboard Help</Popover.Title>
+                                <Popover.Content>{userDashHelp}</Popover.Content>
+                            </Popover>
+                        }>
+                        <Button variant="outline-secondary" style={{ borderRadius: '60%' }}>
+                            ?
+                        </Button>
+                    </OverlayTrigger>
+                
+
                 {pageDisplay()}
                 {this.state.redirectLogout ? <Redirect to="/" /> : null}
                 {this.state.redirect ? <Redirect to="/404" /> : null}
