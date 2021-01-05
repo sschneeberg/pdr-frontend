@@ -50,3 +50,25 @@ div.Comment p span {
 div.Comment Button {
     background-color: white;
 }
+
+div.commentForm {
+    padding: 30px;
+    border-radius: 6px;
+    border-radius: 12px;
+}
+
+div.commentForm form {
+    display: flex;
+    flex-direction: column;
+}
+
+div.commentForm textarea {
+    width: 100%;
+    min-height: 10vh;
+}
+
+div.commentForm input {
+    width: 200px;
+    align-self: flex-end;
+    margin: 20px 0 0 0;
+}

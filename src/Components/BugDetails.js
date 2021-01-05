@@ -164,15 +164,18 @@ class BugDetails extends Component {
                     <p className="date">Created: {this.makeDate(bug.createdAt).join('/')}</p>
                     <img src={bug.picture} alt="" id="cloudinaryImg" />
                 </div>
-                <form onSubmit={this.handleSubmit}>
-                    <textarea
-                        type="text"
-                        name="comment"
-                        onChange={this.handleChange}
-                        id="comment-input"
-                        value={this.state.comment}></textarea>
-                    <input type="submit" value="Post Comment" />
-                </form>
+                <div className="commentForm">
+                    <form onSubmit={this.handleSubmit}>
+                        <label htmlFor="comment">Comment: </label>
+                        <textarea
+                            type="text"
+                            name="comment"
+                            onChange={this.handleChange}
+                            id="comment-input"
+                            value={this.state.comment}></textarea>
+                        <input type="submit" value="Post Comment" />
+                    </form>
+                </div>
                 {this.displayComments()}
             </div>
         );
