@@ -117,7 +117,7 @@ class UserHome extends Component {
                                     </Link>
                                     <div><strong>Company: </strong>"{bug.company}"</div>
                                     <div><strong>Status: </strong>{bug.status}</div>
-                                    <div><strong>Priority: </strong>{bug.priority}</div>
+                                    {bug.priority ? <div><strong>Priority: </strong>{bug.priority}</div> : <div><strong>Priority: </strong>Unassigned</div>}
                                 </div>
                             );
                         })}
@@ -146,7 +146,8 @@ class UserHome extends Component {
                                     </Link>
                                     <div><strong>Company: </strong>"{bug.company}"</div>
                                     <div><strong>Status: </strong>{bug.status}</div>
-                                    <div><strong>Priority: </strong>{bug.priority}</div>
+                                    {bug.priority ? <div><strong>Priority: </strong>{bug.priority}</div> : <div><strong>Priority: </strong>Unassigned</div>}
+
                                 </div>
                             );
                         })}

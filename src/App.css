@@ -150,9 +150,20 @@ body {
   height: 50px;
   margin: 20px;
   padding: 10px;
-  position: absolute;
   display: flex;
   justify-content: space-evenly;
+}
+
+.left-half{
+  float: left;
+  margin: 30px;
+  padding: 10px;
+}
+
+.right-half{
+  float: right;
+  margin: 30px;
+  padding: 10px;
 }
 
 /* .loader {
