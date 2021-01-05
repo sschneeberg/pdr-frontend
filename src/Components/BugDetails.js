@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import './BugDetails.css';
 
 class BugDetails extends Component {
     _isMounted = false;
@@ -43,15 +43,34 @@ class BugDetails extends Component {
 
     displayComments = () => {
         return this.state.comments.map((comment, index) => {
+            console.log(comment.commentBy === this.props.user.id);
             return (
-                <div key={index}>
-                    <p>{comment.comment}</p>
-                    {this.props.user.permissions === 'admin' ? (
-                        <Button variant="outline-danger" onClick={() => this.handleDelete(comment._id)}>
-                            Delete Comment
-                        </Button>
-                    ) : null}
-                </div>
+                <>
+                    {comment.commentBy === this.props.user.id ? (
+                        <div className="Comment" style={{ backgroundColor: 'rgba(106, 163, 180, 0.6)' }} key={index}>
+                            <p>
+                                <span>{this.makeDate(comment.createdAt).join('/')}</span> {comment.comment}
+                            </p>
+                            {this.props.user.permissions === 'admin' ? (
+                                <Button variant="outline-danger" onClick={() => this.handleDelete(comment._id)}>
+                                    Delete Comment
+                                </Button>
+                            ) : null}
+                        </div>
+                    ) : (
+                        <div className="Comment" key={index}>
+                            <p>
+                                <span>{this.makeDate(comment.createdAt).join('/')}</span> {comment.comment}
+                            </p>
+
+                            {this.props.user.permissions === 'admin' ? (
+                                <Button variant="outline-danger" onClick={() => this.handleDelete(comment._id)}>
+                                    Delete Comment
+                                </Button>
+                            ) : null}
+                        </div>
+                    )}
+                </>
             );
         });
     };
@@ -82,7 +101,10 @@ class BugDetails extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({ loading: true });
-        const { comment } = this.state;
+        let { comment } = this.state;
+        const permissionsMap = { dev: 'Support', admin: 'Admin' };
+        let userTag = permissionsMap[this.props.user.permissions] || '';
+        comment = '[' + userTag + '] ' + comment;
         axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
@@ -100,9 +122,15 @@ class BugDetails extends Component {
     };
     async componentDidMount() {
         this._isMounted = true;
+        if (!this.props.user) this.setState({ redirect: true });
         this.setState({ loading: true });
         await this.getComments();
         return (this._isMounted = false);
+    }
+
+    makeDate(date) {
+        let dateArray = date.toString().split('T')[0].split('-');
+        return [dateArray[1], dateArray[2], dateArray[0]];
     }
 
     render() {
@@ -122,17 +150,20 @@ class BugDetails extends Component {
                     <p>An error occurred, please reload the page and try again. Contact us if the problem persists.</p>
                 ) : null}
                 {this.state.loading ? <p>Loading...</p> : null}
-
-                <ul>
-                    <li>Title: {bug.title}</li>
-                    <li>Priority: {priorityMap[bug.priority]}</li>
-                    <li>Status: {statusMap[bug.status]}</li>
-                    <li>Product: {bug.product}</li>
-                    <li>Description: {bug.description}</li>
-                    <li>Created: {bug.createdAt}</li>
+                <Link className="DashLink" to="/home">
+                    Back To Dashboard
+                </Link>
+                <div className="Ticket">
+                    <h2>{bug.title}</h2>
+                    <div className="details">
+                        <p>Priority: {priorityMap[bug.priority]}</p>
+                        <p>Status: {statusMap[bug.status]}</p>
+                        <p>Product: {bug.product}</p>
+                    </div>
+                    <p>{bug.description}</p>
+                    <p className="date">Created: {this.makeDate(bug.createdAt).join('/')}</p>
                     <img src={bug.picture} alt="" id="cloudinaryImg" />
-                    <Link to="/home">Back To Dashboard</Link>
-                </ul>
+                </div>
                 <form onSubmit={this.handleSubmit}>
                     <textarea
                         type="text"
