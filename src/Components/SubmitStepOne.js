@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-
-
 class SubmitStepOne extends Component {
-    state = {
-    };
+    state = {};
 
     continue = (e) => {
         e.preventDefault();
@@ -30,20 +27,15 @@ class SubmitStepOne extends Component {
                     className="form-control"
                     id="company"
                     value={this.state.companySelect}
-                    onChange={onChangeSelect}>
+                    onChange={onChangeSelect}
+                    required>
                     <option>Select a company</option>
                     {company}
                 </select>
 
-                <label>
-                    <input
-                        type="text"
-                        name="product"
-                        value={product}
-                        placeholder="Product"
-                        onChange={handleChange('product')}
-                    />
-                </label>
+                <label>Product: </label>
+                <input type="text" name="product" value={product} onChange={handleChange('product')} required />
+
                 <button className="Next" onClick={this.continue}>
                     Next »
                 </button>

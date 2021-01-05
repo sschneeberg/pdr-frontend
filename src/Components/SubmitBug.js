@@ -4,92 +4,112 @@ import SubmitStepTwo from './SubmitStepTwo';
 import SubmitAll from './SubmitAll';
 
 export class SubmitBug extends Component {
-    constructor (props) {
-            super(props)
-            console.log(this.props)
-    this.state = {
-        step: 1,
-        // step 1
-        company: props.companies,
-        companySelect: '',
-        product: '',
-        // step 2
-        title: '',             
-        description: '',
-        imageUrl: "",      
-        createdBy: ""
-        
+    constructor(props) {
+        super(props);
+        console.log(this.props);
+        this.state = {
+            step: 1,
+            // step 1
+            company: props.companies,
+            companySelect: '',
+            product: '',
+            titleColor: 'white',
+            descColor: 'white',
+            // step 2
+            title: '',
+            description: '',
+            imageUrl: '',
+            createdBy: ''
+        };
+        console.log(this.props.user);
     }
-console.log(this.props.user)
-}
 
-
-componentDidMount = () => {
-    if (this.props.user === "") {
-        this.setState({createdBy: null}) 
-         console.log("user is null")
-    } else {
-        this.setState({createdBy:this.props.user.id})
-        console.log(this.state.createdBy)
-    }
-}
+    componentDidMount = () => {
+        if (this.props.user === '') {
+            this.setState({ createdBy: null });
+            console.log('user is null');
+        } else {
+            this.setState({ createdBy: this.props.user.id });
+            console.log(this.state.createdBy);
+        }
+    };
 
     nextStep = () => {
         const { step } = this.state;
         this.setState({
             step: step + 1
         });
-    }
+    };
     prevStep = () => {
         const { step } = this.state;
         this.setState({
             step: step - 1
         });
-    }
-    handleChange = input => e => {
-        this.setState({[input]: e.target.value});
-    }
+    };
+    handleChange = (input) => (e) => {
+        this.setState({ [input]: e.target.value });
+        if (input === 'title') {
+            e.target.value.length > 30
+                ? this.setState({ titleColor: 'rgba(181, 18, 9, 0.4)' })
+                : this.setState({ titleColor: 'rgba(9, 181, 38, 0.4)' });
+        } else if (input === 'description') {
+            e.target.value.length < 30
+                ? this.setState({ descColor: 'rgba(181, 18, 9, 0.4)' })
+                : this.setState({ descColor: 'rgba(9, 181, 38, 0.4)' });
+        }
+    };
 
     onChangeSelect = (e) => {
-        this.setState({companySelect: e.target.value})
-    }
+        this.setState({ companySelect: e.target.value });
+    };
     showStep = () => {
-        const { step, company, product, title, description, imageUrl , companySelect, createdBy} = this.state;
-        if(step === 1)
-            return (<SubmitStepOne 
-                nextStep = {this.nextStep} 
-                handleChange = {this.handleChange} 
-                onChangeSelect = {this.onChangeSelect}
-                company= {company}
-                companySelect={companySelect}
-                product= {product}
-                onChange={this.handleDropDown}
-            />);
-        if(step === 2)
-            return (<SubmitStepTwo 
-                nextStep = {this.nextStep} 
-                prevStep = {this.prevStep}
-                handleChange = {this.handleChange} 
-                title={title} 
-                description={description}
-            />);
-        if(step === 3) 
-            return (<SubmitAll 
-                companySelect={companySelect} 
-                product={product}
-                title={title} 
-                description={description}
-                createdBy={createdBy}
-                imageUrl={imageUrl}
-                prevStep = {this.prevStep}
-            />);
-    }
-    render(){
+        const { step, company, product, title, description, imageUrl, companySelect, createdBy } = this.state;
+        if (step === 1)
+            return (
+                <SubmitStepOne
+                    nextStep={this.nextStep}
+                    handleChange={this.handleChange}
+                    onChangeSelect={this.onChangeSelect}
+                    company={company}
+                    companySelect={companySelect}
+                    product={product}
+                    onChange={this.handleDropDown}
+                />
+            );
+        if (step === 2)
+            return (
+                <SubmitStepTwo
+                    nextStep={this.nextStep}
+                    prevStep={this.prevStep}
+                    handleChange={this.handleChange}
+                    title={title}
+                    description={description}
+                    descColor={this.state.descColor}
+                    titleColor={this.state.titleColor}
+                />
+            );
+        if (step === 3)
+            return (
+                <SubmitAll
+                    companySelect={companySelect}
+                    product={product}
+                    title={title}
+                    description={description}
+                    createdBy={createdBy}
+                    imageUrl={imageUrl}
+                    prevStep={this.prevStep}
+                    nowCurrentUser={this.props.nowCurrentUser}
+                    setIsAuthenticated={this.props.setIsAuthenticated}
+                    user={this.props.user}
+                />
+            );
+    };
+    render() {
         const { step } = this.state;
-        return(
+        return (
             <>
                 <h2>Step {step} of 3.</h2>
-                {this.showStep()}   
+                {this.showStep()}
             </>
         );
     }

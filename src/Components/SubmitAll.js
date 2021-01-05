@@ -33,7 +33,7 @@ class SubmitAll extends Component {
             product: this.props.product,
             picture: this.state.imageUrl,
             description: this.props.description,
-            createdBy: this.props.createdBy
+            createdBy: this.props.createdBy || this.props.user.id
         };
         axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then((newTicket) => {
             console.log(newTicket);
@@ -88,6 +88,8 @@ class SubmitAll extends Component {
     };
 
     render() {
+        console.log('REDIRECT', this.state.redirect);
+        console.log('USER', this.props.createdBy);
         const { companySelect, company, product, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (
@@ -127,27 +129,33 @@ class SubmitAll extends Component {
                 </main>
                 {this.state.redirect ? (
                     <>
-                        {this.props.createdBy ? (
-                            <Redirect to="/home" />
+                        {this.props.createdBy || this.props.user.id ? (
+                            <Redirect to={{ pathname: '/home', state: { bugSubmitted: true } }} />
                         ) : (
-                            <Redirect to={{ pathname: '/formSubmitted', state: { bugSubmitted: true } }} />
+                            <Redirect to="/formSubmitted" />
                         )}
                     </>
                 ) : null}
 
-                <div>
-                    <Button variant="outline-primary" onClick={this.handleShow}>
-                        Login
-                    </Button>
-                    <Modal show={this.state.show} onHide={this.handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Login and Submit</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Login />
-                        </Modal.Body>
-                    </Modal>
-                </div>
+                {this.props.user ? null : (
+                    <div>
+                        <Button variant="outline-primary" onClick={this.handleShow}>
+                            Login
+                        </Button>
+                        <Modal show={this.state.show} onHide={this.handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Login and Submit</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Login
+                                    nowCurrentUser={this.props.nowCurrentUser}
+                                    setIsAuthenticated={this.props.setIsAuthenticated}
+                                    user={this.props.user}
+                                />
+                            </Modal.Body>
+                        </Modal>
+                    </div>
+                )}
 
                 <button className="Back" onClick={this.back}>
                     « Back
