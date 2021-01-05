@@ -31,6 +31,7 @@ function App() {
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
+        console.log(process.env)
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
@@ -123,7 +124,7 @@ function App() {
                         path="/"
                         exact
                         render={(props) => {
-                            return <SubmitBug {...props} companies={company} />;
+                            return <SubmitBug {...props} companies={company} user={currentUser}/>;
                         }}
                     />
                     <Route path="/404" exact component={Error404} />

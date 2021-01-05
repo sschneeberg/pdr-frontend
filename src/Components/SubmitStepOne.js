@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+
+
+
 class SubmitStepOne extends Component {
-    state = {};
+    state = {
+    };
 
     continue = (e) => {
         e.preventDefault();
@@ -39,9 +43,6 @@ class SubmitStepOne extends Component {
                         placeholder="Product"
                         onChange={handleChange('product')}
                     />
-                    {this.state.productError ? (
-                        <div style={{ fontSize: 12, color: 'red' }}>{this.state.productError}</div>
-                    ) : null}
                 </label>
                 <button className="Next" onClick={this.continue}>
                     Next »
