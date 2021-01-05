@@ -98,24 +98,31 @@ class UserHome extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            {this.state.bugs.map((bug, index) => {
-                                return (
-                                    <div key={index} className="bug-details-link">
-                                        Title: 
-                                        <Link
-                                            style={{ color: 'black' }}
-                                            to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                            {bug.title}
-                                        </Link>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <Link className="btn btn-primary" to="/profile">
-                            Account Information
-                        </Link>
+
+                        <div className="big-div">
+                    <p className="title">Reported Pests</p>
+                    <div className="centered-home">
+                        {this.state.bugs.map((bug, index) => {
+                            return (
+                                <div key={index} className="bug-details-link">
+                                    
+                                    <Link
+                                        style={{ color: 'black' }}
+                                        to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                        <strong>Title: </strong>"{bug.title}"
+                                    </Link>
+                                    <div><strong>Company: </strong>"{bug.company}"</div>
+                                    <div><strong>Status: </strong>{bug.status}</div>
+                                    <div><strong>Priority: </strong>{bug.priority}</div>
+                                </div>
+                            );
+                        })}
                     </div>
+                    <Link className="btn btn-primary" to="/profile">
+                        Account Information
+                    </Link>
+                </div>
+                        </div>
                 );
             }
             return (
