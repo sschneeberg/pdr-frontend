@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-
-
 class SubmitStepOne extends Component {
-    state = {
-    };
+    state = {};
 
     continue = (e) => {
         e.preventDefault();
@@ -19,31 +16,36 @@ class SubmitStepOne extends Component {
                 </option>
             );
         });
-        const { product, handleChange, onChangeSelect } = this.props;
+        let product = null;
+        if (this.props.companySelect) {
+            product = this.props.product[this.props.companySelect].map((product, i) => {
+                return (
+                    <option value={product} key={i}>
+                        {product}
+                    </option>
+                );
+            });
+        }
 
+        const { onChangeProductSelect, onChangeSelect } = this.props;
+
+        console.log(this.props.productSelect);
         return (
             <>
                 <h2>Choose a company to submit your bug</h2>
 
                 <label htmlFor="company">Companies: </label>
-                <select
-                    className="form-control"
-                    id="company"
-                    value={this.state.companySelect}
-                    onChange={onChangeSelect}>
+                <select className="form-control" id="company" onChange={onChangeSelect} required>
                     <option>Select a company</option>
                     {company}
                 </select>
 
-                <label>
-                    <input
-                        type="text"
-                        name="product"
-                        value={product}
-                        placeholder="Product"
-                        onChange={handleChange('product')}
-                    />
-                </label>
+                <label>Product: </label>
+                <select className="form-control" type="text" name="product" onChange={onChangeProductSelect} required>
+                    <option>Select a Product</option>
+                    {product}
+                </select>
+
                 <button className="Next" onClick={this.continue}>
                     Next »
                 </button>

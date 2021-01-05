@@ -25,13 +25,14 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [currentUser, setCurrentUser] = useState('');
     const [company, setCompany] = useState('');
+    const [products, setProduct] = useState('');
     const [loading, setLoading] = useState(true);
     const [socket, setSocket] = useState('');
     const [error, setError] = useState(false);
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
-        console.log(process.env)
+        console.log(process.env);
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
@@ -41,6 +42,7 @@ function App() {
                     setRedirect(true);
                 } else {
                     setCompany(response.data.companies);
+                    setProduct(response.data.company_products);
                     setLoading(false);
                 }
             })
@@ -107,7 +109,7 @@ function App() {
         }
     };
 
-    console.log(process.env)
+    console.log(process.env);
 
     if (loading) {
         return <div>Loading....</div>;
@@ -126,7 +128,16 @@ function App() {
                         path="/"
                         exact
                         render={(props) => {
-                            return <SubmitBug {...props} companies={company} user={currentUser}/>;
+                            return (
+                                <SubmitBug
+                                    {...props}
+                                    companies={company}
+                                    products={products}
+                                    user={currentUser}
+                                    nowCurrentUser={nowCurrentUser}
+                                    setIsAuthenticated={setIsAuthenticated}
+                                />
+                            );
                         }}
                     />
                     <Route path="/404" exact component={Error404} />
@@ -157,7 +168,7 @@ function App() {
                     <Route
                         exact
                         path="/home"
-                        render={() => {
+                        render={({ location }) => {
                             if (currentUser.permissions === 'admin') {
                                 return <AdminHome user={currentUser} socket={socket} setSocket={setCurrSocket} />;
                             } else if (currentUser.permissions === 'dev') {
@@ -170,6 +181,7 @@ function App() {
                                         companies={company}
                                         socket={socket}
                                         setSocket={setSocket}
+                                        location={location}
                                     />
                                 );
                             }
