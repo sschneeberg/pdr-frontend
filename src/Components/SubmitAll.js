@@ -90,7 +90,7 @@ class SubmitAll extends Component {
     render() {
         console.log('REDIRECT', this.state.redirect);
         console.log('USER', this.props.createdBy);
-        const { companySelect, company, product, title, description } = this.props;
+        const { companySelect, company, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (
             <>
@@ -119,7 +119,7 @@ class SubmitAll extends Component {
                         <h2>Here is the information you entered:</h2>
                         Company: <b>{companySelect}</b>
                         <br />
-                        Product: <b>{product}</b>
+                        Product: <b>{this.props.product}</b>
                         <br />
                         Title: <b>{title}</b>
                         <br />

@@ -12,7 +12,8 @@ export class SubmitBug extends Component {
             // step 1
             company: props.companies,
             companySelect: '',
-            product: '',
+            productSelect: '',
+            product: props.products,
             titleColor: 'white',
             descColor: 'white',
             // step 2
@@ -62,6 +63,12 @@ export class SubmitBug extends Component {
     onChangeSelect = (e) => {
         this.setState({ companySelect: e.target.value });
     };
+
+    onChangeProductSelect = (e) => {
+        console.log(e.target.value);
+        this.setState({ productSelect: e.target.value });
+    };
+
     showStep = () => {
         const { step, company, product, title, description, imageUrl, companySelect, createdBy } = this.state;
         if (step === 1)
@@ -70,10 +77,11 @@ export class SubmitBug extends Component {
                     nextStep={this.nextStep}
                     handleChange={this.handleChange}
                     onChangeSelect={this.onChangeSelect}
+                    onChangeProductSelect={this.onChangeProductSelect}
                     company={company}
+                    productSelect={this.state.productSelect}
                     companySelect={companySelect}
                     product={product}
-                    onChange={this.handleDropDown}
                 />
             );
         if (step === 2)
@@ -92,7 +100,7 @@ export class SubmitBug extends Component {
             return (
                 <SubmitAll
                     companySelect={companySelect}
-                    product={product}
+                    product={this.state.productSelect}
                     title={title}
                     description={description}
                     createdBy={createdBy}

@@ -25,6 +25,7 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [currentUser, setCurrentUser] = useState('');
     const [company, setCompany] = useState('');
+    const [products, setProduct] = useState('');
     const [loading, setLoading] = useState(true);
     const [socket, setSocket] = useState('');
     const [error, setError] = useState(false);
@@ -41,6 +42,7 @@ function App() {
                     setRedirect(true);
                 } else {
                     setCompany(response.data.companies);
+                    setProduct(response.data.company_products);
                     setLoading(false);
                 }
             })
@@ -130,6 +132,7 @@ function App() {
                                 <SubmitBug
                                     {...props}
                                     companies={company}
+                                    products={products}
                                     user={currentUser}
                                     nowCurrentUser={nowCurrentUser}
                                     setIsAuthenticated={setIsAuthenticated}
