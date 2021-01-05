@@ -28,14 +28,17 @@ class SubmitAll extends Component {
 
     submit = (e) => {
         e.preventDefault();
+        let creator = this.props.createdBy;
+        if (this.props.user) creator = this.props.user.id;
         const newTicket = {
             title: this.props.title,
             company: this.props.companySelect,
             product: this.props.product,
             picture: this.state.imageUrl,
             description: this.props.description,
-            createdBy: this.props.createdBy || this.props.user.id
+            id: creator
         };
+        console.log(newTicket);
         axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then((newTicket) => {
             console.log(newTicket);
             if (typeof newTicket.data.msg === 'string') {
@@ -92,7 +95,7 @@ class SubmitAll extends Component {
 
     render() {
         console.log('REDIRECT', this.state.redirect);
-        console.log('USER', this.props.createdBy);
+        console.log('USER', this.props.user);
         const { companySelect, company, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (
