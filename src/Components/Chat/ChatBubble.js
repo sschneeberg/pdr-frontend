@@ -93,6 +93,15 @@ class Chat extends Component {
         this.setState({ socket });
     }
 
+    scrollToBottom = () => {
+        window.scrollTo({ top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
+    };
+
+    componentDidUpdate() {
+        const objDiv = document.getElementById('scroll');
+        if (objDiv) objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
     expandChat = () => {
         //if closing this chat, clear the messages
         if (!this.state.hide) {
@@ -194,7 +203,7 @@ class Chat extends Component {
                     <div className="chatWindow">
                         {this.state.user ? (
                             <>
-                                <div className="messageWindow">
+                                <div id="scroll" className="messageWindow">
                                     <ul className="messages">{msgList}</ul>
                                     {this.state.company ? null : companyForm}
                                 </div>
