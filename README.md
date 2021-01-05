@@ -2,7 +2,7 @@
 
 A bug tracking program that keeps up with bugs on your website! Users can submit bugs, chat directly with representatives, and comment on bugs they have submitted. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted, comment on bugs, delete comments, and assign bugs to developers to fix. 
 
-## Live Site Link
+## Live [Site](https://pestdamagereport.herokuapp.com/)
 
 ## Backend [Repo](https://github.com/sschneeberg/pdr-backend)
 
