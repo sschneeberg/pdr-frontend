@@ -1,6 +1,6 @@
 # PDR (Pest Damage Report)
 
-A bug tracking program that keeps up with bugs on your website! Users can submit bugs, chat directly with representatives, and comment on bugs they have submitted. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted, comment on bugs, delete comments, and assign bugs to developers to fix. 
+A bug tracking program that keeps up with bugs on your website! Users can submit bugs, chat directly with representatives, and comment on bugs they have submitted. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted, comment on bugs, delete comments, and assign bugs to developers to fix.
 
 ## Live [Site](https://pestdamagereport.herokuapp.com/)
 
@@ -20,25 +20,23 @@ As a `software company` I want to sign up developers under my company name to ma
 
 ## Models
 
-![Signup](/images/logo.png)
-
-![Login](/images/logo.png)
-
-![Landing](/images/logo.png)
-
-![Landing 2](/images/logo.png)
-
-![Admin Home](/images/logo.png)
-
-![Dev Home](/images/logo.png)
+![ERD](erd.png)
 
 ## Wireframes
 
+![Signup](signup.png)
+
+![Login](login.png)
+
+![Landing](Landing.png)
+
+![Landing 2](landingoption2.png)
+
+![Admin Home](adminhome.png)
+
+![Dev Home](devhome.png)
+
 ## Styling
-
-## Routes ?
-
-## Middleware ?
 
 ## Available Scripts
 
