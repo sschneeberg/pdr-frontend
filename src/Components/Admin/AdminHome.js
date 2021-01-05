@@ -84,6 +84,11 @@ class AdminHome extends Component {
     };
 
     displaybugs = () => {
+        const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+
+        const devMap = {};
+        this.state.devs.forEach((dev) => (devMap[dev._id] = dev.username));
+
         return this.state.bugs.map((bug, index) => {
             return (
                 <div key={index} className="bug-list-container">
@@ -95,8 +100,12 @@ class AdminHome extends Component {
                         <p className="bug-p">Title: {bug.title}</p>
                         <p className="bug-p">Product: {bug.product}</p>
                         <p className="bug-p">Status: {bug.status}</p>
-                        <p className="bug-p">Assigned To: {bug.assignedTo}</p>
-                        <p className="bug-p">Priority: {bug.priority}</p>
+                        <p className="bug-p">
+                            Assigned To: {devMap[bug.assignedTo] ? devMap[bug.assignedTo] : 'Unassigned'}
+                        </p>
+                        <p className="bug-p">
+                            Priority: {priorityMap[bug.priority] ? priorityMap[bug.priority] : 'Unassigned'}
+                        </p>
                     </Link>
                     <form action="" onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)} className="bug-p">
                         <select name="assignedTo" id="dev" required={true} onChange={this.onChangeDev}>
