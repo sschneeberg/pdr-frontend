@@ -1,4 +1,4 @@
-#PDR (Pest Damage Report)
+# PDR (Pest Damage Report)
 
 A bug tracking program that keeps up with bugs on your website! Users can submit bugs and chat directly with representatives. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted and assign those bugs to developers to fix. 
 
