@@ -4,7 +4,7 @@ A bug tracking program that keeps up with bugs on your website! Users can submit
 
 ## Live Site Link
 
-## Backend ([Repo](https://github.com/sschneeberg/pdr-backend))
+## Backend [Repo](https://github.com/sschneeberg/pdr-backend)
 
 ## User Stories
 
