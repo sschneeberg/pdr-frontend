@@ -1,6 +1,44 @@
-# Getting Started with Create React App
+# PDR (Pest Damage Report)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A bug tracking program that keeps up with bugs on your website! Users can submit bugs, chat directly with representatives, and comment on bugs they have submitted. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted, comment on bugs, delete comments, and assign bugs to developers to fix. 
+
+## Live [Site](https://pestdamagereport.herokuapp.com/)
+
+## Backend [Repo](https://github.com/sschneeberg/pdr-backend)
+
+## User Stories
+
+As a `customer` i want to submit bug reports to the companies whose product that I use, comment on bugs i have submitted, chat directly with representitives and if logged in get feeback on my bugs. I want to be able to see the tickets I have submitted, their current status, and any related comments.
+
+As a `software company` I want to sign up developers under my company name to manage and address customer submitted bug reports. I want to have admin users who can manage ticket assignment and support accounts (like Devs and Support) who will address bugs, interact with the customers and close out tickets.
+
+## Features
+
+## Installation
+
+## Dependencies
+
+## Models
+
+![Signup](/images/logo.png)
+
+![Login](/images/logo.png)
+
+![Landing](/images/logo.png)
+
+![Landing 2](/images/logo.png)
+
+![Admin Home](/images/logo.png)
+
+![Dev Home](/images/logo.png)
+
+## Wireframes
+
+## Styling
+
+## Routes ?
+
+## Middleware ?
 
 ## Available Scripts
 
@@ -38,33 +76,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
