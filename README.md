@@ -18,7 +18,15 @@ As a `software company` I want to sign up developers under my company name to ma
 
 ## Dependencies
 
-## Models
+* API Requests: axios
+* Database: MongoDB
+* Messaging: socket.io-client
+* Dragging & Dropping: react-beautiful-dnd
+* Authentication and Protection: jwt-decode, dotenv
+* Styling: react-Bootstrap
+* React Functionality: react, react-dom, react-form-input-validation, react-router-dom, react-scripts
+
+## Model
 
 ![ERD](erd.png)
 
@@ -37,6 +45,8 @@ As a `software company` I want to sign up developers under my company name to ma
 ![Dev Home](devhome.png)
 
 ## Styling
+
+`IMAGES OF FINISHED SITE`
 
 ## Available Scripts
 
