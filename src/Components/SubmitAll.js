@@ -9,7 +9,8 @@ class SubmitAll extends Component {
         imageUrl: undefined,
         imageAlt: undefined,
         redirect: false,
-        show: false
+        show: false,
+        error: false
     };
 
     back = (e) => {
@@ -38,9 +39,9 @@ class SubmitAll extends Component {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tickets`, newTicket).then((newTicket) => {
             console.log(newTicket);
             if (typeof newTicket.data.msg === 'string') {
-                this.setState({ redirect: true });
+                this.setState({ redirect: true, error: false });
             } else {
-                console.log(newTicket.data.msg);
+                this.setState({ error: true });
             }
         });
     };
@@ -60,12 +61,12 @@ class SubmitAll extends Component {
             .then((res) => {
                 this.setState({
                     imageUrl: res.secure_url,
-                    imageAlt: `An image of ${res.original_filename}`
+                    imageAlt: `An image of ${res.original_filename}`,
+                    error: false
                 });
-
                 console.log('hello', res.secure_url);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => this.setState({ error: true }));
     };
 
     openWidget = () => {
@@ -76,10 +77,12 @@ class SubmitAll extends Component {
                     uploadPreset: 'knw1rnnh'
                 },
                 (error, { event, info }) => {
+                    if (error) this.setState({ error: true });
                     if (event === 'success') {
                         this.setState({
                             imageUrl: info.secure_url,
-                            imageAlt: `An image of ${info.original_filename}`
+                            imageAlt: `An image of ${info.original_filename}`,
+                            error: false
                         });
                     }
                 }
@@ -94,20 +97,14 @@ class SubmitAll extends Component {
         const { imageUrl, imageAlt } = this.state;
         return (
             <>
+                {this.state.error ? (
+                    <p>
+                        An error occured, please try submitting your report again or contact us if the problem persists.
+                    </p>
+                ) : null}
                 <main className="Images">
                     <section className="left-side">
                         <form>
-                            {/* <div className="form-group">
-                <input type="file" />
-              </div>
-
-              <button
-                type="button"
-                className="btn"
-                onClick={this.handleImageUpload}
-              >
-                Submit
-              </button> */}
                             <label>Upload a picture of your bug here.</label>
                             <button type="button" className="btn widget-btn" onClick={this.openWidget}>
                                 Upload
