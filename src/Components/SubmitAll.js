@@ -96,44 +96,12 @@ class SubmitAll extends Component {
         const { companySelect, company, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (
-            <>
-                {this.state.error ? (
-                    <p>
-                        An error occured, please try submitting your report again or contact us if the problem persists.
-                    </p>
-                ) : null}
-                <main className="Images">
-                    <section className="left-side">
-                        <form>
-                            <label>Upload a picture of your bug here.</label>
-                            <button type="button" className="btn widget-btn" onClick={this.openWidget}>
-                                Upload
-                            </button>
-                        </form>
-                    </section>
-                    <section className="right-side">
-                        {imageUrl && <img src={imageUrl} alt={imageAlt} className="displayed-image" />}
-                        <h2>Here is the information you entered:</h2>
-                        Company: <b>{companySelect}</b>
-                        <br />
-                        Product: <b>{this.props.product}</b>
-                        <br />
-                        Title: <b>{title}</b>
-                        <br />
-                        Description: <b>{description}</b>
-                        <br />
-                    </section>
-                </main>
-                {this.state.redirect ? (
-                    <>
-                        {this.props.createdBy || this.props.user.id ? (
-                            <Redirect to={{ pathname: '/home', state: { bugSubmitted: true } }} />
-                        ) : (
-                            <Redirect to="/formSubmitted" />
-                        )}
-                    </>
-                ) : null}
 
+            <form class="form-wrapper">
+            <fieldset class="section is-active">
+            <>                       
+             <h3>Here is the information you entered:</h3>
+             <p> If you would like to recieve feedback, please log in before you submit.</p>
                 {this.props.user ? null : (
                     <div>
                         <Button variant="outline-primary" onClick={this.handleShow}>
@@ -152,7 +120,45 @@ class SubmitAll extends Component {
                             </Modal.Body>
                         </Modal>
                     </div>
-                )}
+                )}  {this.state.error ? (
+                    <p>
+                        An error occured, please try submitting your report again or contact us if the problem persists.
+                    </p>
+                ) : null}
+                <main className="Images">
+                    <section className="left-side">
+                        <form>
+                            <label>Upload a picture of your bug here.</label>
+                            <button type="button" className="btn widget-btn" onClick={this.openWidget}>
+                                Upload
+                            </button>
+                        </form>
+                    </section>
+                    <section className="right-side">
+                        {imageUrl && <img src={imageUrl} alt={imageAlt} className="displayed-image" />}
+
+                        Company: <b>{companySelect}</b>
+                        <br />
+                        Product: <b>{this.props.product}</b>
+                        <br />
+                        Title: <b>{title}</b>
+                        <br />
+                        Description: <b>{description}</b>
+                        <br />
+                    </section>
+                </main>
+                
+                {this.state.redirect ? (
+                    <>
+                        {this.props.createdBy || this.props.user.id ? (
+                            <Redirect to={{ pathname: '/home', state: { bugSubmitted: true } }} />
+                        ) : (
+                            <Redirect to="/formSubmitted" />
+                        )}
+                    </>
+                ) : null}
+
+              
 
                 <button className="Back" onClick={this.back}>
                     « Back
@@ -160,7 +166,10 @@ class SubmitAll extends Component {
                 <button className="Submit" onClick={this.submit}>
                     Submit
                 </button>
-            </>
+            </>  
+            </fieldset>
+            </form >
+          
         );
     }
 }
