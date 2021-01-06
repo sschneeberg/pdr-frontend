@@ -86,11 +86,6 @@ form.admin select:hover {
     color: rgba(106, 163, 180);
 }
 
-#submit-btn:hover {
-    border: 1px solid #e2e2e2;
-    color: #e2e2e2;
-}
-
 .adminNav {
     width: 200px;
     position: fixed;
