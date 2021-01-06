@@ -111,20 +111,19 @@ export class SubmitBug extends Component {
     render() {
         const { step } = this.state;
         return (
-            <>
-            <div class="container">
-            <div class="wrapper">
+  
+<div class="wrapper fadeInDown">
+  <div id="formContent">
 
-     
+  <div class="fadeIn first">
             <ul class="steps">
             <li class="is-active"><h2>Step {step} of 3.</h2></li>
-
             </ul>
-
+ </div>
                 {this.showStep()}
 
-            </div></div>
-            </>
+            </div>
+            </div>
         );
     }
 }

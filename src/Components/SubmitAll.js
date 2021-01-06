@@ -96,15 +96,13 @@ class SubmitAll extends Component {
         const { companySelect, company, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (
-
-            <form class="form-wrapper">
-            <fieldset class="section is-active">
+            <div class="wrapit">
             <>                       
-             <h3>Here is the information you entered:</h3>
-             <p> If you would like to recieve feedback, please log in before you submit.</p>
+             <h3><b>Check your info</b></h3>
+             
                 {this.props.user ? null : (
-                    <div>
-                        <Button variant="outline-primary" onClick={this.handleShow}>
+                    <div><p class="feedback"> If you would like to recieve feedback,<br /> please log in before you submit.</p>
+                        <Button variant="outline-primary" className="loginsub" onClick={this.handleShow}>
                             Login
                         </Button>
                         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -125,29 +123,27 @@ class SubmitAll extends Component {
                         An error occured, please try submitting your report again or contact us if the problem persists.
                     </p>
                 ) : null}
-                <main className="Images">
-                    <section className="left-side">
+                
                         <form>
-                            <label>Upload a picture of your bug here.</label>
-                            <button type="button" className="btn widget-btn" onClick={this.openWidget}>
+                           
+                            <button type="button" className="upload" onClick={this.openWidget}>
                                 Upload
-                            </button>
+                            </button> <label><h5>image of bug. </h5></label>
                         </form>
-                    </section>
-                    <section className="right-side">
-                        {imageUrl && <img src={imageUrl} alt={imageAlt} className="displayed-image" />}
 
+                        
+        <div className="info">
                         Company: <b>{companySelect}</b>
                         <br />
                         Product: <b>{this.props.product}</b>
                         <br />
                         Title: <b>{title}</b>
                         <br />
-                        Description: <b>{description}</b>
+                      Description: <b>{description}</b>
                         <br />
-                    </section>
-                </main>
-                
+                      Picture: {imageUrl && <img src={imageUrl} alt={imageAlt} className="displayed-image" />}
+                        <br />
+        </div>
                 {this.state.redirect ? (
                     <>
                         {this.props.createdBy || this.props.user.id ? (
@@ -160,16 +156,14 @@ class SubmitAll extends Component {
 
               
 
-                <button className="Back" onClick={this.back}>
+                <button className="Backs" onClick={this.back}>
                     « Back
                 </button>
-                <button className="Submit" onClick={this.submit}>
+                <button className="Submits" onClick={this.submit}>
                     Submit
                 </button>
             </>  
-            </fieldset>
-            </form >
-          
+          </div>
         );
     }
 }
