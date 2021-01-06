@@ -87,6 +87,7 @@ We hope to continue working on this again in a few weeks.  Here are the things w
 
 - Live video chat options between customer and support
 - Embeddable bug submit for companies to include in their sites
+- Google OAuth interation
 - Search tickets feature in Admin Dashboard
 - Removing older, completed tickets from Company dashboards (but not from the database)
 - Code refactoring for efficiency
