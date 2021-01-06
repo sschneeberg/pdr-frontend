@@ -139,7 +139,7 @@ class AdminHome extends Component {
                             <option value="3">High</option>
                             <option value="4">Critical</option>
                         </select>
-                        <input className="form-control" type="submit" />
+                        <input className="form-control" id="admin-submit" type="submit" />
                     </form>
                 </div>
             );

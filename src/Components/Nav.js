@@ -5,14 +5,14 @@ function Nav(props) {
     return (
         <div className="">
             <nav className=" navbar nav-color  ">
-                <Link className="navbar-brand" id='brand' to="/" style={{fontFamily: "bebas neue"}}>
+                <Link className="navbar-brand" id='brand' to="/" style={{fontFamily: "bebas-neue"}}>
                     Pest Damage Report
                 </Link>
             </nav>
             <div className="nav" id="navbarsExample07">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item ">
-                        <NavLink className="nav-link" id='submit-bug' exact to="/" style={{fontFamily: "bebas neue"}}>
+                        <NavLink className="nav-link" id='submit-bug' exact to="/" style={{fontFamily: "Helvetica"}}>
                             Submit Bug
                         </NavLink>
                     </li>
@@ -26,18 +26,18 @@ function Nav(props) {
                     <ul className="">
                         {props.user.permissions ? (
                             <li className="nav-item">
-                                <NavLink className="nav-link" id='customer-support' to="/chat" style={{fontFamily: "bebas neue"}}>
+                                <NavLink className="nav-link" id='customer-support' to="/chat" style={{fontFamily: "Helvetica"}}>
                                     Customer Support
                                 </NavLink>
                             </li>
                         ) : null}
                         <li className="nav-item">
-                            <NavLink className="nav-link" id='dashboard' to="/home" style={{fontFamily: "bebas neue"}}>
+                            <NavLink className="nav-link" id='dashboard' to="/home" style={{fontFamily: "Helvetica"}}>
                                 Dashboard
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link logout-link" id='logout' onClick={props.handleLogout} to="/" style={{fontFamily: "bebas neue"}}>
+                            <NavLink className="nav-link logout-link" id='logout' onClick={props.handleLogout} to="/" style={{fontFamily: "Helvetica"}}>
                                 Logout
                             </NavLink>
                         </li>
@@ -45,12 +45,12 @@ function Nav(props) {
                 ) : (
                     <ul className="nav2">
                         <li className="nav-item">
-                            <NavLink className="nav-link" id='create-account' to="/signup" style={{fontFamily: "bebas neue"}}>
+                            <NavLink className="nav-link" id='create-account' to="/signup" style={{fontFamily: "Helvetica"}}>
                                 Create Account
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" id='login' to="/login" style={{fontFamily: "bebas neue"}}>
+                            <NavLink className="nav-link" id='login' to="/login" style={{fontFamily: "Helvetica"}}>
                                 Login
                             </NavLink>
                         </li>
