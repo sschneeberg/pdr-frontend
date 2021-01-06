@@ -101,7 +101,7 @@ class BugDetails extends Component {
     async componentDidMount() {
         this._isMounted = true;
         this.setState({ loading: true });
-        await this.getComments();
+        this.getComments();
         return (this._isMounted = false);
     }
 
