@@ -111,7 +111,7 @@ class UserHome extends Component {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div className="toast-body">
+                                <div className="toast-body" style={{fontFamily: "Helvetica"}}>
                                     "{this.state.title}" has been completed! Thank you for your submission.
                                 </div>
                             </div>
@@ -122,16 +122,19 @@ class UserHome extends Component {
                             <div className="centered-home">
                                 {this.state.bugs.map((bug, index) => {
                                     return (
-                                        <div key={index} className="bug-details-link">
-                                            <Link
-                                                style={{ color: 'black' }}
-                                                to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                                <strong>Title: </strong>"{bug.title}"
-                                            </Link>
+                                        <>
+                                        <Link
+                                            style={{ color: 'black', textDecoration: 'none'}}
+                                            to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                            <div key={index} className="bug-details-link">
+                                                <div>
+                                                <p><strong>Title: </strong>"{bug.title}"</p>
+                                                </div>
                                             <div>
-                                                <strong>Company: </strong>"{bug.company}"
+                                                <p><strong>Company: </strong>"{bug.company}"</p>
                                             </div>
                                             <div>
+
                                                 <strong>Status: </strong>
                                                 {statusMap[bug.status]}
                                             </div>
@@ -139,19 +142,19 @@ class UserHome extends Component {
                                                 <div>
                                                     <strong>Priority: </strong>
                                                     {priorityMap[bug.priority]}
+
                                                 </div>
                                             ) : (
                                                 <div>
-                                                    <strong>Priority: </strong>Unassigned
+                                                    <p><strong>Priority: </strong>Unassigned</p>
                                                 </div>
                                             )}
-                                        </div>
+                                            </div>
+                                        </Link>
+                                        </>
                                     );
                                 })}
                             </div>
-                            <Link className="btn btn-primary" to="/profile">
-                                Account Information
-                            </Link>
                         </div>
                     </div>
                 );
@@ -165,17 +168,19 @@ class UserHome extends Component {
                     <div className="centered-home">
                         {this.state.bugs.map((bug, index) => {
                             return (
-                                <div key={index} className="bug-details-link">
+                                <>
                                     <Link
-                                        style={{ color: 'black' }}
-                                        to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                        <strong>Title: </strong>"{bug.title}"
-                                    </Link>
-
+                                    style={{ color: 'black', textDecoration: 'none'}}
+                                    to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                    <div key={index} className="bug-details-link">
+                                        <div>
+                                        <p><strong>Title: </strong>"{bug.title}"</p>
+                                        </div>
                                     <div>
-                                        <strong>Company: </strong>"{bug.company}"
+                                        <p><strong>Company: </strong>"{bug.company}"</p>
                                     </div>
                                     <div>
+
                                         <strong>Status: </strong>
                                         {statusMap[bug.status]}
                                     </div>
@@ -183,19 +188,19 @@ class UserHome extends Component {
                                         <div>
                                             <strong>Priority: </strong>
                                             {priorityMap[bug.status]}
+
                                         </div>
                                     ) : (
                                         <div>
-                                            <strong>Priority: </strong>Unassigned
+                                            <p><strong>Priority: </strong>Unassigned</p>
                                         </div>
                                     )}
-                                </div>
+                                    </div>
+                                    </Link>
+                                </>
                             );
                         })}
                     </div>
-                    <Link className="btn btn-primary" to="/profile">
-                        Account Information
-                    </Link>
                 </div>
             );
         };
@@ -206,6 +211,9 @@ class UserHome extends Component {
                     <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
                 ) : null}
                 {this.state.loading ? <p>Loading...</p> : null}
+                <Link className="btn btn-primary" style={{float: "right", marginTop: "0"}} to="/profile"> 
+                        Account Information
+                    </Link>
                 <OverlayTrigger
                     trigger="click"
                     placement="right"
