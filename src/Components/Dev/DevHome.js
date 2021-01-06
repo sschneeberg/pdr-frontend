@@ -45,6 +45,7 @@ function DevHome(props) {
             .then((response) => {
                 if (response.data.msg === 'updated') {
                     setLoading(false);
+                    setError(false);
                 } else {
                     setError(true);
                     setLoading(false);
@@ -128,6 +129,7 @@ function DevHome(props) {
                     displaybugs(data);
                     mapBugs(data);
                     setLoading(false);
+                    setError(true);
                 }
             })
             .catch((e) => {
