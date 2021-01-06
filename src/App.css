@@ -160,6 +160,9 @@ body {
 }
 .nav-color {
   background-color: #fada9e;
+  position: fixed;
+  width: 100%;
+  opacity: 97%;
 }
 #submit-bug {
   position: fixed;
