@@ -125,7 +125,7 @@ class Profile extends Component {
         const userData = (
             <>
                 <div className="userInfo">
-                    <h1>Account Information</h1>
+                    <h1 id='act'>Account Information</h1>
                     {this.state.loading ? (
                         <p>Loading User Information ... </p>
                     ) : (
