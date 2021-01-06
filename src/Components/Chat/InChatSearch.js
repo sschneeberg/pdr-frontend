@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
+import './ChatSearch.css';
+
 class ChatSearch extends Component {
     constructor(props) {
         super(props);
@@ -74,10 +76,12 @@ class ChatSearch extends Component {
         if (typeof this.state.tickets === 'object') {
             tickets = this.state.tickets.map((ticket) => {
                 return (
-                    <li key={ticket.id} className="searchTicket">
+                    <li key={ticket.id} className="searchedTicket">
                         <h3>{ticket.title}</h3>
-                        <p>Status: {status[ticket.status]}</p>
-                        <p>Assigned To: {ticket.assignedTo}</p>
+                        <div>
+                            <p>Status: {status[ticket.status]}</p>
+                            <p>Assigned To: {ticket.assignedTo}</p>
+                        </div>
                     </li>
                 );
             });
@@ -100,12 +104,13 @@ class ChatSearch extends Component {
                             <>
                                 <form onSubmit={(e) => this.searchTickets(e)}>
                                     <input
+                                        className="searchTickets"
                                         type="text"
                                         id="search"
                                         value={this.state.searchParam}
                                         onChange={(e) => this.setState({ searchParam: e.target.value })}
                                     />
-                                    <input type="submit" value="Go" />
+                                    <input className="btn go" type="submit" value="Go" />
                                     <small id="searchHelpBlock" className="form-text text-muted">
                                         Search submitted reports by customer username
                                     </small>

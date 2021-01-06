@@ -1,88 +1,89 @@
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 @font-face {
-    font-family: 'bebas-neue';
-    src: local('BebasNeue'), url(./fonts/bebasneue-regular-webfont.woff) format('woff');
+  font-family: "bebas-neue";
+  src: local("BebasNeue"),
+    url(./fonts/bebasneue-regular-webfont.woff) format("woff");
 }
 
 body {
-    margin-bottom: 40px; /* Margin bottom by footer height */
+  margin-bottom: 40px;
+  padding-bottom: 100px; /* Margin bottom by footer height */
 }
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 40px; /* Set the fixed height of the footer here */
-    line-height: 40px; /* Vertically center the text there */
-    background-color: #fada9e;
-    z-index: 10;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 40px; /* Set the fixed height of the footer here */
+  line-height: 40px; /* Vertically center the text there */
+  background-color: #fada9e;
+  z-index: 10;
 }
 
 #return-container {
-    display: flex;
-    justify-content: center;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
 }
 
 #name {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #cloudinaryImg {
-    width: 300px;
+  width: 300px;
 }
 
-
 .big-div {
-    width: 100%;
-    text-align: center;
-    position: relative;
+  width: 100%;
+  text-align: center;
+  position: relative;
 }
 
 .centered-home {
-    text-align: center;
-    position: absolute;
-    margin: 0;
-    padding: 3px;
-    top: 90%;
-    left: 10%;
+  text-align: center;
+  position: absolute;
+  margin: 0;
+  padding: 3px;
+  top: 90%;
+  left: -15%;
 }
 
 .title {
-    text-align: center;
-    font-size: 50px;
-    font-family: 'bebas-neue';
+  text-align: center;
+  font-size: 50px;
+  font-family: "bebas-neue";
 }
 
 .btn {
-    background-color: #e2e2e2;
-    border: solid 1px #888888;
-    color: #050609;
-    font-family: Helvetica;
+  background-color: #e2e2e2;
+  border: solid 1px #888888;
+  color: #050609;
+  font-family: Helvetica;
 }
 
 p {
-    font-family: Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
 }
 
 .btn:hover {
-    background-color: rgba(106, 163, 180, 0.6);
-    border: solid 1px #888888;
-    color: #050609;
+  background-color: rgba(106, 163, 180, 0.6);
+  border: solid 1px #888888;
+  color: #050609;
 }
 
 .bug-details-link {
-    border: 1px solid #888888;
-    width: 800px;
-    height: 50px;
-    margin: 40px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-evenly;
+  border: 1px solid #888888;
+  width: 800px;
+  height: 50px;
+  margin: 40px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 /* .loader {
@@ -95,193 +96,223 @@ p {
 } */
 
 
-
 /* STEPS */
 
 .steps {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    text-align: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  text-align: center;
 }
 
 .steps li {
-    display: inline-block;
-    margin: 20px;
-    color: #ccc;
-    padding-bottom: 5px;
+  display: inline-block;
+  margin: 20px;
+  color: #ccc;
+  padding-bottom: 5px;
 }
 
 .steps li.is-active {
-    border-bottom: 1px solid #3498db;
-    color: #3498db;
+  border-bottom: 1px solid #3498db;
+  color: #3498db;
 }
-
 
 #account-info {
-    position: fixed;
-    bottom: 55px;
-    left: 15px;
+  position: fixed;
+  bottom: 55px;
+  left: 15px;
 }
 #acct-info {
-    background-color: #6aa3b4;
-    color: white;
+  background-color: #6aa3b4;
+  color: white;
 }
 .nav-color {
-    background-color: #fada9e;
-    position: fixed;
-    width: 100%;
-    z-index: 10;
+  background-color: #fada9e;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 }
 .nav-link {
-    z-index: 11;
+  z-index: 11;
 }
 #submit-bug {
-    position: fixed;
-    left: 233px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  left: 178px;
+  top: 9px;
+  color: #050609;
 }
 #about {
-    position: fixed;
-    left: 330px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  left: 282px;
+  top: 9px;
+  color: #050609;
 }
 #create-account {
-    position: fixed;
-    left: 402px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  left: 335px;
+  top: 9px;
+  color: #050609;
 }
 #login {
-    position: fixed;
-    right: 70px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  right: 70px;
+  top: 9px;
+  color: #050609;
 }
 ul {
-    list-style-type: none;
+  list-style-type: none;
 }
 #customer-support {
-    position: fixed;
-    left: 330px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  left: 434px;
+  top: 9px;
+  color: #050609;
 }
 #dashboard {
-    position: fixed;
-    left: 491px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  left: 334px;
+  top: 9px;
+  color: #050609;
 }
 #logout {
-    position: fixed;
-    right: 70px;
-    top: 9px;
-    color: #050609;
+  position: fixed;
+  right: 70px;
+  top: 9px;
+  color: #050609;
 }
 
 #brand {
-    color: #050609;
+  color: #050609;
+}
+
+
+.about-section {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 0 auto;
+  margin-left: 12vw;
 }
 
 .bug-details-link:hover {
-    background-color: rgba(106, 163, 180, 0.6);
+  background-color: rgba(106, 163, 180, 0.6);
 }
 
 .left-half {
-    float: left;
-    margin: 30px;
-    padding: 10px;
-    width: 30em;
+  margin: 30px;
+  margin-left: -25vw;
+  padding: 10px;
+  width: 30em;
 }
 
 .right-half {
-    float: right;
-    margin: 30px;
-    padding: 10px;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 10px;
 }
 
 .codeblock {
-    background-color: #e2e2e2;
-    padding: 5px;
-    text-align: center;
-    border-radius: 10px;
-    width: 105%;
+  background-color: #e2e2e2;
+  padding: 5px;
+  text-align: center;
+  border-radius: 10px;
+  width: 105%;
 }
 
 .gitIcon {
-    text-decoration: none;
-    color: #fada9e;
+  text-decoration: none;
+  color: #fada9e;
 }
 
 .gitIcon:hover {
-    color: rgba(106, 163, 180, 0.6);
+  color: rgba(106, 163, 180, 0.6);
 }
 
 #orcas {
-    border: 2px solid #888888;
-    border-radius: 60%;
-    margin: 10px;
+  border: 2px solid #888888;
+  border-radius: 60%;
+  margin: 10px;
 }
 
 .orca-lineup {
-    display: flex;
-    justify-content: space-evenly;
-    margin: 70px 0px 150px 20px;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 70px 0px 150px 20px;
 }
 
 .about-us {
-    text-align: center;
-    padding: 30px;
-    font-family: 'bebas-neue';
+  text-align: center;
+  padding: 30px;
+  font-family: "bebas-neue";
 }
 
 .orca-jobs {
-    font-size: 11px;
-    font-family: Helvetica;
+  font-size: 11px;
+  font-family: Helvetica;
 }
 
 .orca-names {
-    font-size: 17px;
-    border-bottom: 1px solid #040609;
-    font-family: Helvetica;
+  font-size: 17px;
+  border-bottom: 1px solid #040609;
+  font-family: Helvetica;
 }
 
 .edrees-img {
-    padding: 20px;
-    min-width: 250px;
-    text-align: center;
+  padding: 20px;
+  min-width: 250px;
+  text-align: center;
 }
 
 .simone-img {
-    padding: 20px;
-    min-width: 250px;
-    text-align: center;
+  padding: 20px;
+  min-width: 250px;
+  text-align: center;
 }
 
 .jax-img {
-    padding: 20px;
-    min-width: 250px;
-    text-align: center;
+  padding: 20px;
+  min-width: 250px;
+  text-align: center;
 }
 
 .nicole-img {
-    padding: 20px;
-    min-width: 250px;
-    text-align: center;
+  padding: 20px;
+  min-width: 250px;
+  text-align: center;
 }
 
 .orca-names {
-    font-size: 17px;
-    border-bottom: 1px solid #040609;
-    font-family: Helvetica;
+  font-size: 17px;
+  border-bottom: 1px solid #040609;
+  font-family: Helvetica;
 }
 #footer-color {
-    color: #050609;
-    z-index: 12;
+  color: #050609;
+  z-index: 12;
+}
+.userInfo {
+  text-align: center;
+  border: 2px solid black;
+  position: relative;
+  width: 700px;
+}
+#users {
+  margin-right: 45px;
+}
+#uai {
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+}
+#buttonz {
+  display: flex;
+  width: 67%;
+  justify-content: space-between;
+}
+
+#act {
+  font-family: "bebas-neue";
 }
 
 
