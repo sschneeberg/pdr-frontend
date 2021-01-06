@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import './AdminControls.css'
 
 class AdminControls extends Component {
     constructor(props) {
@@ -55,24 +56,26 @@ class AdminControls extends Component {
     render() {
         const users = this.state.users.map((user, index) => {
             return (
-                <div key={`user ${index}`} style={{ display: 'inline' }}>
+                <div key={`user ${index}`} style={{ display: 'inline' }} id="map-users">
                     <form onSubmit={(e) => this.handleSubmit(e)}>
-                        <p>
+                        <p style={{fontSize: "20px"}}>
                             {user.username}
                             {' ['}
                             {user.permissions.slice(0, 1).toUpperCase() +
                                 user.permissions.slice(1, user.permissions.length)}
                             {']'}
                         </p>
-                        <label htmlFor="permissions">Change Permissions: </label>
+                        <label htmlFor="permissions" id="change-permissions">Change Permissions: </label>
                         <select name="permissions">
                             <option value="admin">Administrator</option>
                             <option value="dev">Developer</option>
                         </select>
                         <input type="hidden" value={user._id} />
-                        <Button variant="outline-secondary" size="sm" onClick={(e) => this.handleDelete(e, user._id)}>
+                        <br></br>
+                        <Button variant="outline-secondary" style={{margin: "5px"}}  size="sm" onClick={(e) => this.handleDelete(e, user._id)}>
                             Remove User
                         </Button>
+                        <br></br>
                         <Button variant="outline-primary" size="sm" type="submit">
                             Save
                         </Button>
@@ -85,7 +88,7 @@ class AdminControls extends Component {
         const controlPanel = (
             <div className="changeInfo">
                 {this.state.loading ? <p>Loading...</p> : null}
-                <Button variant="primary" onClick={this.handleShow}>
+                <Button variant="primary" onClick={this.handleShow} >
                     Company Details
                 </Button>
 
