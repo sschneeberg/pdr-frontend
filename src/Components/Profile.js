@@ -145,23 +145,24 @@ class Profile extends Component {
 
                                     {this.state.user.permissions === 'admin' ? (
                                         <>
+                                            <strong>Products: </strong>
                                             <p>
-                                                <strong>Products: </strong>
                                                 {this.props.location.state.products.join(', ')}
                                             </p>
-                                            <p>
-                                                <strong>Users: </strong> {this.displayDevs()}
+                                            <strong>Users: </strong> 
+                                            <p id='users'>
+                                                {this.displayDevs()}
                                             </p>
                                         </>
                                     ) : null}
                                 </>
                             ) : null}
                             {this.state.user.permissions === 'admin' ? (
-                                <>
+                                <div id='buttonz'>
                                     <CompanyKey user={this.state.user} />
                                     <DeleteCompany user={this.state.user} handleLogout={this.props.handleLogout} />
                                     <AdminControls users={this.props.location.state.users} user={this.state.user} />
-                                </>
+                                </div>
                             ) : null}
                         </>
                     )}
@@ -174,11 +175,11 @@ class Profile extends Component {
                     {this.state.error.toString().includes('Email') ? (
                         <p style={{ color: 'red' }}>{this.state.error}</p>
                     ) : null}
-                </div>
                 <div className="changeInfo">
-                    <Button variant="primary" onClick={this.handleShow}>
+                    <Button variant="primary" id='uai' onClick={this.handleShow}>
                         Update Account Information
                     </Button>
+                </div>
 
                     <Modal show={this.state.show} onHide={this.handleClose}>
                         <Modal.Header closeButton>

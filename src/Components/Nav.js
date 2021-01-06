@@ -17,7 +17,7 @@ function Nav(props) {
                         </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" id='about' to="/about" style={{fontFamily: "bebas neue"}}>
+                        <NavLink className="nav-link" id='about' to="/about" style={{fontFamily: "Helvetica"}}>
                             About
                         </NavLink>
                     </li>

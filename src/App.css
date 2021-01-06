@@ -400,19 +400,19 @@ fieldset {
 }
 #submit-bug {
   position: fixed;
-  left: 210px;
+  left: 178px;
   top: 9px;
   color: #050609;
 }
 #about {
   position: fixed;
-  left: 310px;
+  left: 282px;
   top: 9px;
   color: #050609;
 }
 #create-account {
   position: fixed;
-  left: 360px;
+  left: 335px;
   top: 9px;
   color: #050609;
 }
@@ -427,13 +427,13 @@ ul {
 }
 #customer-support {
   position: fixed;
-  left: 454px;
+  left: 434px;
   top: 9px;
   color: #050609;
 }
 #dashboard {
   position: fixed;
-  left: 360px;
+  left: 334px;
   top: 9px;
   color: #050609;
 }
@@ -543,4 +543,23 @@ ul {
 #footer-color {
   color: #050609;
   z-index: 12;
+}
+.userInfo {
+  text-align: center;
+  border: 2px solid black;
+  position: relative;
+  width: 700px;
+}
+#users {
+  margin-right: 45px;
+}
+#uai {
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+}
+#buttonz {
+  display: flex;
+  width: 67%;
+  justify-content: space-between;
 }
