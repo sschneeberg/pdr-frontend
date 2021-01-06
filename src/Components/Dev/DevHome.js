@@ -45,9 +45,13 @@ function DevHome(props) {
             .then((response) => {
                 if (response.data.msg === 'updated') {
                     setLoading(false);
+                    setError(false);
+                    
                 } else {
                     setError(true);
                     setLoading(false);
+                    console.log("ERROR")
+                    console.log(response.data)
                 }
             })
             .catch((e) => {
@@ -123,11 +127,13 @@ function DevHome(props) {
                 if (response.data.msg) {
                     setLoading(false);
                     setError(true);
+                    console.log("ERROR")
                 } else {
                     const data = response.data.tickets;
                     displaybugs(data);
                     mapBugs(data);
                     setLoading(false);
+                    setError(false)
                 }
             })
             .catch((e) => {
@@ -155,21 +161,6 @@ function DevHome(props) {
 
     return (
         <>
-            <div className="float-right" style={{ display: 'flex' }}>
-                <OverlayTrigger
-                    trigger="click"
-                    placement="left"
-                    overlay={
-                        <Popover>
-                            <Popover.Title as="h3">Dashboard Help</Popover.Title>
-                            <Popover.Content>{devDashHelp}</Popover.Content>
-                        </Popover>
-                    }>
-                    <Button variant="outline-secondary" style={{ borderRadius: '60%' }}>
-                        ?
-                    </Button>
-                </OverlayTrigger>
-            </div>
             <div id="return-container">
                 {redirect ? <Redirect to="/" /> : null}
                 <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
@@ -252,7 +243,21 @@ function DevHome(props) {
                         );
                     })}
                 </DragDropContext>
-
+                <div className="float-left" >
+                <OverlayTrigger
+                    trigger="click"
+                    placement="left"
+                    overlay={
+                        <Popover>
+                            <Popover.Title as="h3">Dashboard Help</Popover.Title>
+                            <Popover.Content>{devDashHelp}</Popover.Content>
+                        </Popover>
+                    }>
+                    <Button variant="outline-secondary" style={{ borderRadius: '60%' }}>
+                        ?
+                    </Button>
+                </OverlayTrigger>
+            </div>
                 <div id="account-info">
                     {user.permissions === 'dev' ? (
                         <Link className="btn" id="acct-info" to="/profile">

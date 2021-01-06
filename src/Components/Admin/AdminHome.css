@@ -63,6 +63,12 @@ h2 {
     width: 100%;
 }
 
+#admin-submit:hover {
+    border: 1px solid #e2e2e2;
+    color: #e2e2e2;
+    cursor: pointer;
+}
+
 .bug-info-a p,
 .bug-info-b p {
     margin-right: 30px;
