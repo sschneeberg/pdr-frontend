@@ -155,17 +155,17 @@ class BugDetails extends Component {
                 <div className="Ticket">
                     <h2>{bug.title}</h2>
                     <div className="details">
-                        <p>Priority: {priorityMap[bug.priority]}</p>
-                        <p>Status: {statusMap[bug.status]}</p>
-                        <p>Product: {bug.product}</p>
+                        <p><strong>Priority: </strong>{priorityMap[bug.priority]}</p>
+                        <p><strong>Status: </strong>{statusMap[bug.status]}</p>
+                        <p><strong>Product: </strong>{bug.product}</p>
                     </div>
                     <p>{bug.description}</p>
-                    <p className="date">Created: {this.makeDate(bug.createdAt).join('/')}</p>
+                    <p className="date"><strong>Created: </strong>{this.makeDate(bug.createdAt).join('/')}</p>
                     <img src={bug.picture} alt="" id="cloudinaryImg" />
                 </div>
                 <div className="commentForm">
                     <form onSubmit={this.handleSubmit}>
-                        <label htmlFor="comment">Comment: </label>
+                        <label htmlFor="comment" style={{fontFamily: "Helvetica"}}>Comment: </label>
                         <textarea
                             type="text"
                             name="comment"
