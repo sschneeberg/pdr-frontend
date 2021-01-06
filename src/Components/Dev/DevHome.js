@@ -216,7 +216,7 @@ function DevHome(props) {
                                                                         }}>
                                                                         {/* Link to bug details page */}
                                                                         <Link
-                                                                            style={{ color: 'white' }}
+                                                                            style={{ color: 'white' , fontFamily: "Helvetica"}}
                                                                             to={{
                                                                                 pathname: `/bugdetails/${item._id}`,
                                                                                 state: item
