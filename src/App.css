@@ -196,6 +196,15 @@ p {
   
 }
 
+.gitIcon {
+    text-decoration: none;
+    color: #fada9e;
+}
+
+.gitIcon:hover {
+    color:  rgba(106, 163, 180, 0.6)
+}
+
 #orcas {
   border: 2px solid #888888;
   border-radius: 60%;
