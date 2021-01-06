@@ -14,11 +14,51 @@ As a `software company` I want to sign up developers under my company name to ma
 
 ## Features
 
+### Submit a bug
+
+Users can submit a bug on the homepage of the site with the following feilds: title, description, company, product, image.
+
+### Admin Account
+
+When logged into an admin account, the admin can see all bugs submitted to their company, comment on bugs, delete comments, set the severity of the bug, assign bugs to developers, and chat directly with customers.
+
+### Developer Account
+
+When logged into a developer account, the developer can see all bugs assigned to them, set the status of the bug assiged to them by dragging and dropping the bug into the corresponding column, comment on bugs, and chat directly with customers.
+
+### User Account
+
+When logged into a user account, the user can see and comment on all bugs they have submitted and chat directly with representives. 
+
 ## Installation
+
+### Frontend Setup
+
+1. Fork and Clone this directory (And the [backend directory](https://github.com/sschneeberg/pdr-backend)) to your local machine
+2. Run `npm install` to download dependencies
+3. Set up your .env file with `REACT_APP_SERVER_URL=http://localhost:8000`
+
+### Backend Setup
+
+1. Follow steps on Mongo Atlas to connect databse with repository
+2. paste link given to you inside of the repository
+
+### Final steps
+
+1. Run `npm start` on both repositories
+2. Go to `http://localhost:3000` to see the website
 
 ## Dependencies
 
-## Models
+* API Requests: axios
+* Database: MongoDB
+* Messaging: socket.io-client
+* Dragging & Dropping: react-beautiful-dnd
+* Authentication and Protection: jwt-decode, dotenv
+* Styling: react-Bootstrap
+* React Functionality: react, react-dom, react-form-input-validation, react-router-dom, react-scripts
+
+## Model
 
 ![ERD](erd.png)
 
@@ -37,6 +77,8 @@ As a `software company` I want to sign up developers under my company name to ma
 ![Dev Home](devhome.png)
 
 ## Styling
+
+`IMAGES OF FINISHED SITE`
 
 ## Available Scripts
 

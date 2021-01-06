@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import Chat from '../Chat/ChatBubble';
-import FormSubmitted from '../FormSubmitted'
+import FormSubmitted from '../FormSubmitted';
+import { userDashHelp } from './HelpText';
+import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
 
 class UserHome extends Component {
     constructor(props) {
@@ -17,7 +19,6 @@ class UserHome extends Component {
             title: null,
             ticketUser: null,
             error: false,
-            redirect: false,
             redirectLogout: false
         };
     }
@@ -25,8 +26,9 @@ class UserHome extends Component {
     componentDidMount() {
         // Gets all tickets for user
         this.setState({ loading: true });
+        this.axiosCancelSource = axios.CancelToken.source();
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`, { cancelToken: this.axiosCancelSource.token })
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
@@ -45,7 +47,11 @@ class UserHome extends Component {
                 console.log(err);
             });
     }
-    
+
+    componentWillUnmount() {
+        this.axiosCancelSource.cancel('request canceled.');
+    }
+
     resetNote = () => {
         return this.setState({ notification: false, title: null, ticketUser: null });
     };
@@ -60,11 +66,21 @@ class UserHome extends Component {
     };
 
     render() {
+        if (!this.props.user) {
+            this.props.handleLogout();
+            return <Redirect to="/" />;
+        }
+
+        const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+        const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
+
         const pageDisplay = () => {
             if (this.state.notification) {
                 return (
                     <div>
-                        {FormSubmitted}
+                        {this.props.location.state ? (
+                            <>{this.props.location.state.bugSubmitted ? <FormSubmitted /> : null}</>
+                        ) : null}
                         <div
                             aria-live="polite"
                             aria-atomic="true"
@@ -95,63 +111,96 @@ class UserHome extends Component {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div className="toast-body">
+                                <div className="toast-body" style={{fontFamily: "Helvetica"}}>
                                     "{this.state.title}" has been completed! Thank you for your submission.
                                 </div>
                             </div>
                         </div>
 
                         <div className="big-div">
-                    <p className="title">Reported Pests</p>
-                    <div className="centered-home">
-                        {this.state.bugs.map((bug, index) => {
-                            return (
-                                <div key={index} className="bug-details-link">
-                                    
-                                    <Link
-                                        style={{ color: 'black' }}
-                                        to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                        <strong>Title: </strong>"{bug.title}"
-                                    </Link>
-                                    <div><strong>Company: </strong>"{bug.company}"</div>
-                                    <div><strong>Status: </strong>{bug.status}</div>
-                                    <div><strong>Priority: </strong>{bug.priority}</div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    <Link className="btn btn-primary" to="/profile">
-                        Account Information
-                    </Link>
-                </div>
+                            <p className="title">Reported Pests</p>
+                            <div className="centered-home">
+                                {this.state.bugs.map((bug, index) => {
+                                    return (
+                                        <>
+                                        <Link
+                                            style={{ color: 'black', textDecoration: 'none'}}
+                                            to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                            <div key={index} className="bug-details-link">
+                                                <div>
+                                                <p><strong>Title: </strong>"{bug.title}"</p>
+                                                </div>
+                                            <div>
+                                                <p><strong>Company: </strong>"{bug.company}"</p>
+                                            </div>
+                                            <div>
+
+                                                <strong>Status: </strong>
+                                                {statusMap[bug.status]}
+                                            </div>
+                                            {bug.priority ? (
+                                                <div>
+                                                    <strong>Priority: </strong>
+                                                    {priorityMap[bug.priority]}
+
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <p><strong>Priority: </strong>Unassigned</p>
+                                                </div>
+                                            )}
+                                            </div>
+                                        </Link>
+                                        </>
+                                    );
+                                })}
+                            </div>
                         </div>
+                    </div>
                 );
             }
             return (
-
                 <div className="big-div">
                     <p className="title">Reported Pests</p>
-                    {FormSubmitted}
+                    {this.props.location.state ? (
+                        <>{this.props.location.state.bugSubmitted ? <FormSubmitted /> : null} </>
+                    ) : null}
                     <div className="centered-home">
                         {this.state.bugs.map((bug, index) => {
                             return (
-                                <div key={index} className="bug-details-link">
-                                    
+                                <>
                                     <Link
-                                        style={{ color: 'black' }}
-                                        to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
-                                        <strong>Title: </strong>"{bug.title}"
+                                    style={{ color: 'black', textDecoration: 'none'}}
+                                    to={{ pathname: `/bugdetails/${bug._id}`, state: bug }}>
+                                    <div key={index} className="bug-details-link">
+                                        <div>
+                                        <p><strong>Title: </strong>"{bug.title}"</p>
+                                        </div>
+                                    <div>
+                                        <p><strong>Company: </strong>"{bug.company}"</p>
+                                    </div>
+                                    <div>
+
+                                        <strong>Status: </strong>
+                                        {statusMap[bug.status]}
+                                    </div>
+                                    {bug.priority ? (
+                                        <div>
+                                            <strong>Priority: </strong>
+                                            {priorityMap[bug.status]}
+
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <p><strong>Priority: </strong>Unassigned</p>
+                                        </div>
+                                    )}
+                                    </div>
                                     </Link>
-                                    <div><strong>Company: </strong>"{bug.company}"</div>
-                                    <div><strong>Status: </strong>{bug.status}</div>
-                                    <div><strong>Priority: </strong>{bug.priority}</div>
-                                </div>
+                                </>
                             );
                         })}
                     </div>
-                    <Link className="btn btn-primary" to="/profile">
-                        Account Information
-                    </Link>
                 </div>
             );
         };
@@ -162,6 +211,23 @@ class UserHome extends Component {
                     <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
                 ) : null}
                 {this.state.loading ? <p>Loading...</p> : null}
+                <Link className="btn btn-primary" style={{float: "right", marginTop: "0"}} to="/profile"> 
+                        Account Information
+                    </Link>
+                <OverlayTrigger
+                    trigger="click"
+                    placement="right"
+                    overlay={
+                        <Popover>
+                            <Popover.Title as="h3">Dashboard Help</Popover.Title>
+                            <Popover.Content>{userDashHelp}</Popover.Content>
+                        </Popover>
+                    }>
+                    <Button variant="outline-secondary" style={{ borderRadius: '60%' }}>
+                        ?
+                    </Button>
+                </OverlayTrigger>
+
                 {pageDisplay()}
                 {this.state.redirectLogout ? <Redirect to="/" /> : null}
                 {this.state.redirect ? <Redirect to="/404" /> : null}

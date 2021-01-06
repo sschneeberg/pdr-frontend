@@ -4,6 +4,8 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import Chat from '../Chat/ChatBubble';
 import { Link, Redirect } from 'react-router-dom';
+import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import {devDashHelp} from '../User/HelpText'
 
 // Columns
 function DevHome(props) {
@@ -144,6 +146,23 @@ function DevHome(props) {
     }, []);
 
     return (
+        <>
+        <div className="float-right" style={{ display: 'flex' }}>
+                            
+            <OverlayTrigger
+                trigger="click"
+                placement="left"
+                overlay={
+                    <Popover>
+                        <Popover.Title as="h3">Dashboard Help</Popover.Title>
+                        <Popover.Content>{devDashHelp}</Popover.Content>
+                    </Popover>
+                }>
+                <Button variant="outline-secondary" style={{ borderRadius: '60%'}}>
+                    ?
+                </Button>
+            </OverlayTrigger>
+        </div>
         <div id="return-container">
             {error ? (
                 <p>An error occurred, please reload the page and try again. Contact us if the problem persists.</p>
@@ -224,6 +243,7 @@ function DevHome(props) {
                     );
                 })}
             </DragDropContext>
+            
             <div id="account-info">
                 {user.permissions === 'dev' ? (
                     <Link className="btn" id='acct-info' to="/profile">
@@ -233,6 +253,7 @@ function DevHome(props) {
                 <Chat user={props.user} socket={props.socket} setSocket={props.setSocket} />
             </div>
         </div>
+        </>
     );
 }
 

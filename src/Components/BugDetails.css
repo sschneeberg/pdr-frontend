@@ -1,0 +1,74 @@
+div.Ticket {
+    border: 1px solid black;
+    padding: 30px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.Ticket div.details {
+    display: flex;
+    padding: 10px;
+    margin-bottom: 15px;
+    height: 4rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e2e2e2;
+    border-radius: 12px;
+}
+
+div.details p {
+    margin: 0;
+}
+
+p.date {
+    margin-top: 15px;
+    margin-bottom: 0;
+    align-self: flex-end;
+}
+
+.DashLink {
+    margin: 20px 0 20px 0;
+    color: #6aa3b6;
+}
+
+div.Comment {
+    border: 1px solid black;
+    padding: 30px;
+    border-radius: 6px;
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+div.Comment p span {
+    color: #888888;
+    margin-right: 20px;
+}
+
+div.Comment Button {
+    background-color: white;
+}
+
+div.commentForm {
+    padding: 30px;
+    border-radius: 6px;
+    border-radius: 12px;
+}
+
+div.commentForm form {
+    display: flex;
+    flex-direction: column;
+}
+
+div.commentForm textarea {
+    width: 100%;
+    min-height: 10vh;
+}
+
+div.commentForm input {
+    width: 200px;
+    align-self: flex-end;
+    margin: 20px 0 0 0;
+}
