@@ -4,7 +4,6 @@ import simone from './imgs/simonebug.jpg'
 import nicole from './imgs/nikkibug.jpg'
 import jax from './imgs/jaxbug.jpg'
 import sidePic from './imgs/aboutuspic.jpeg'
-import gitIcon from './imgs/giticon.png'
 
 
 function About() {
