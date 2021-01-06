@@ -8,9 +8,14 @@
     align-content: center;
 }
 
+select, option {
+    font-family: Helvetica, sans-serif;
+}
+
 .title.admin {
     text-align: center;
     font-size: 30px;
+    font-family: "bebas-neue";
 }
 
 .bug-details-link.admin {
@@ -24,12 +29,18 @@
     padding: 30px;
     display: flex;
     justify-content: space-between;
+    text-decoration: none;
+}
+
+h2 {
+    font-family: "bebas-neue"
 }
 
 .bug-link.admin {
     display: flex;
     flex-direction: column;
     width: 100%;
+    text-decoration: none;
 }
 
 .bug-link.admin h2 {
@@ -73,6 +84,11 @@ form.admin input:hover {
 form.admin select:hover {
     border-color: rgba(106, 163, 180);
     color: rgba(106, 163, 180);
+}
+
+#submit-btn:hover {
+    border: 1px solid #e2e2e2;
+    color: #e2e2e2;
 }
 
 .adminNav {
