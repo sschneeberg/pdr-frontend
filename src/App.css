@@ -2,6 +2,11 @@ html {
     position: relative;
     min-height: 100%;
 }
+@font-face {
+    font-family: "bebas-neue";
+    src: local('BebasNeue'), url(./fonts/bebasneue-regular-webfont.woff) format('woff');
+}
+
 body {
     margin-bottom: 40px; /* Margin bottom by footer height */
 }
@@ -136,29 +141,119 @@ body {
 
 .title {
     text-align: center;
-    font-size: 30px;
+    font-size: 50px;
+    font-family: "bebas-neue";
+}
+
+.btn {
+    background-color: #e2e2e2;
+    border: solid 1px #888888;
+    color: #050609;
+    font-family: Helvetica;
+}
+
+p {
+    font-family: Helvetica, sans-serif;
+}
+
+.btn:hover {
+    background-color: rgba(106, 163, 180, 0.6);
+    border: solid 1px #888888;
+    color: #050609;
 }
 
 .bug-details-link {
   border: 1px solid #888888;
   width: 800px;
   height: 50px;
-  margin: 20px;
+  margin: 40px;
   padding: 10px;
   display: flex;
   justify-content: space-evenly;
+}
+
+.bug-details-link:hover {
+    background-color: rgba(106, 163, 180, 0.6);
 }
 
 .left-half{
   float: left;
   margin: 30px;
   padding: 10px;
+  width: 30em;
 }
 
 .right-half{
   float: right;
   margin: 30px;
   padding: 10px;
+}
+
+.codeblock {
+  background-color: #e2e2e2;
+  padding: 5px;
+  text-align: center;
+  border-radius: 10px;
+  
+}
+
+#orcas {
+  border: 2px solid #888888;
+  border-radius: 60%;
+  margin: 10px
+}
+
+.orca-lineup {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 70px 0px 150px 20px;
+}
+
+.about-us {
+    text-align: center;
+    padding: 30px;
+    font-family: "bebas-neue";
+}
+
+.orca-jobs {
+    font-size: 11px;
+    font-family: Helvetica;
+}
+
+.orca-names {
+    font-size: 17px; 
+    border-bottom: 1px solid #040609; 
+    font-family: Helvetica;
+}
+
+.edrees-img {
+    padding: 20px;
+    min-width: 250px;
+    text-align: center;
+}
+
+.simone-img {
+    padding: 20px;
+    min-width: 250px;
+    text-align: center;
+}
+
+.jax-img {
+    padding: 20px;
+    min-width: 250px;
+    text-align: center;
+}
+
+.nicole-img {
+    padding: 20px;
+    min-width: 250px;
+    text-align: center;
+}
+
+.orca-names {
+    font-size: 17px;
+    border-bottom: 1px solid #040609;
+    font-family: Helvetica;
 }
 
 /* .loader {
