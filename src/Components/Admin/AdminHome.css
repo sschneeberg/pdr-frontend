@@ -1,0 +1,96 @@
+.big-div.admin {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.title.admin {
+    text-align: center;
+    font-size: 30px;
+}
+
+.bug-details-link.admin {
+    border: 1px solid #888888;
+    width: 800px;
+    height: fit-content;
+    height: -moz-fit-content;
+    height: -webkit-fit-content;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bug-link.admin {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.bug-link.admin h2 {
+    align-self: flex-start;
+    color: rgba(106, 163, 180);
+}
+
+.bug-link.admin h2 span {
+    align-self: flex-start;
+    color: #adadad;
+    margin-left: 15px;
+    font-size: 0.75em;
+}
+
+.bug-info-a,
+.bug-info-b {
+    display: flex;
+    width: 100%;
+}
+
+.bug-info-a p,
+.bug-info-b p {
+    margin-right: 30px;
+    color: black;
+}
+
+form.admin {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+form.admin input:hover {
+    background-color: rgba(106, 163, 180, 0.6);
+    border-color: rgba(106, 163, 180);
+    color: rgba(106, 163, 180);
+}
+
+form.admin select:hover {
+    border-color: rgba(106, 163, 180);
+    color: rgba(106, 163, 180);
+}
+
+.adminNav {
+    width: 200px;
+    position: fixed;
+    left: 30px;
+}
+.adminNav .btn {
+    width: 200px;
+    background: rgba(106, 163, 180, 0.6) 2px solid;
+    border-color: rgba(106, 163, 180);
+    color: rgba(106, 163, 180);
+    margin-bottom: 35px;
+}
+
+@media (max-width: 1200px) {
+    .adminNav {
+        position: static;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+}
