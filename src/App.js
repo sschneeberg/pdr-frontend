@@ -32,6 +32,7 @@ function App() {
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
+        console.log(process.env);
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/tickets/companies`)
             .then((response) => {
@@ -67,6 +68,7 @@ function App() {
     }, []);
 
     useEffect(() => {
+        console.log('use effect');
         handleExpiration();
     });
 
@@ -98,12 +100,16 @@ function App() {
     };
 
     const handleExpiration = () => {
+        console.log(currentUser.exp * 1000 - Date.now());
         //check session end
         if (currentUser.exp * 1000 - Date.now() < 0) {
+            console.log('logout');
             handleLogout();
             alert('Session ended, please log in again');
         }
     };
+
+    console.log(process.env);
 
     if (loading) {
         return <div>Loading....</div>;
