@@ -101,9 +101,9 @@ class BugDetails extends Component {
         e.preventDefault();
         this.setState({ loading: true });
         let { comment } = this.state;
-        const permissionsMap = { dev: 'Support', admin: 'Admin' };
+        const permissionsMap = { dev: '[Support]', admin: '[Admin]' };
         let userTag = permissionsMap[this.props.user.permissions] || '';
-        comment = '[' + userTag + '] ' + comment;
+        comment = userTag + comment;
         axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${this.props.match.params.id}/comments`, { comment })
             .then((response) => {
