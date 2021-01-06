@@ -1,8 +1,8 @@
 function Footer() {
     return (
-        <footer className="footer bg-dark">
+        <footer className="footer">
             <div className="container text-center">
-                <span className="text-muted">
+                <span id='footer-color'>
                     @2020 Orca inc.
                 </span>
             </div>

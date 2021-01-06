@@ -28,8 +28,7 @@ class SubmitStepOne extends Component {
         }
 
         const { onChangeProductSelect, onChangeSelect } = this.props;
-
-        console.log(this.props.productSelect);
+        
         return (
             <>
                 <h2>Choose a company to submit your bug</h2>
