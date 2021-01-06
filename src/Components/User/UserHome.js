@@ -23,6 +23,7 @@ class UserHome extends Component {
     }
 
     componentDidMount() {
+        // Gets all tickets for user
         this.setState({ loading: true });
         axios
             .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
@@ -32,7 +33,6 @@ class UserHome extends Component {
                 } else {
                     const data = response.data.tickets;
                     this.setState({ bugs: data, loading: false, error: false });
-                    console.log(this.state.bugs)
                 }
             })
             .catch((err) => {

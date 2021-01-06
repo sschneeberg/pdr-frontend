@@ -18,6 +18,7 @@ class AdminHome extends Component {
         };
     }
 
+    // Gets all company ifro from database
     getAdminDash = () => {
         this.setState({ loading: true });
         axios
@@ -45,6 +46,7 @@ class AdminHome extends Component {
         this.getAdminDash();
     }
 
+    // Updates priority and assigned dev in database
     assignDevAndUpdatePriority = (e, id) => {
         e.preventDefault();
         axios
@@ -61,6 +63,7 @@ class AdminHome extends Component {
             });
     };
 
+    // Gets all devs from database
     getDevOptions = () => {
         return this.state.devs.map((dev, index) => {
             return (
@@ -71,6 +74,7 @@ class AdminHome extends Component {
         });
     };
 
+    // Sets state of priority and who the bug was assigned to
     onChangeDev = (e) => {
         this.setState({
             assignedTo: e.target.value
@@ -83,6 +87,7 @@ class AdminHome extends Component {
         });
     };
 
+    // Displays bug properties and form to update assigned to and priority
     displaybugs = () => {
         return this.state.bugs.map((bug, index) => {
             return (
@@ -120,6 +125,7 @@ class AdminHome extends Component {
         });
     };
 
+    // Shows all devs in company
     displaydevs = () => {
         return this.state.devs.map((dev, index) => {
             return (
@@ -133,6 +139,7 @@ class AdminHome extends Component {
         });
     };
 
+    // Shows all products in company
     displayProducts = () => {
         return this.state.products.map((product, index) => {
             return (

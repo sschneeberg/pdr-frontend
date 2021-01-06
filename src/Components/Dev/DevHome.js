@@ -5,6 +5,7 @@ import axios from 'axios';
 import Chat from '../Chat/ChatBubble';
 import { Link, Redirect } from 'react-router-dom';
 
+// Columns
 function DevHome(props) {
     const columnsFromBackend = {
         [1]: {
@@ -27,13 +28,10 @@ function DevHome(props) {
     const [user, setUser] = useState(props.user);
     const [redirect, setRedirect] = useState(false);
 
-    // Route to update status of ticket
+    // Route to update status of ticket on the backend
     const updateTicket = (id, status) => {
         let socket = props.socket;
-        console.log('HELLOOOOOO');
-        console.log(bugMap);
         if (status === '3') {
-            console.log(bugMap);
             socket.emit('statusUpdated', {
                 ticket: bugMap[id]
             });
@@ -43,7 +41,6 @@ function DevHome(props) {
             .put(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}`, { status })
             .then((response) => {
                 if (response.data.msg === 'updated') {
-                    console.log(response.data.msg);
                     setLoading(false);
                 } else {
                     setError(true);
@@ -55,6 +52,7 @@ function DevHome(props) {
             });
     };
 
+    // Function to move tickets from one column to the next (re-orders all items)
     const onDragEnd = (result, columns, setColumns) => {
         if (!result.destination) return;
         const { source, destination } = result;
@@ -92,6 +90,7 @@ function DevHome(props) {
         }
     };
 
+    // Displaying bugs in columns based on the status
     const displaybugs = (bugs) => {
         const updatedColumns = { ...columns };
         bugs.forEach((bug) => {
@@ -106,6 +105,7 @@ function DevHome(props) {
         setColumns(updatedColumns);
     };
 
+    // Getting all bugs assigned to dev
     const getBugs = () => {
         setLoading(true);
         axios
@@ -126,6 +126,7 @@ function DevHome(props) {
             });
     };
 
+    // Displaying contents of bugs
     const mapBugs = (bugs) => {
         let map = {};
         bugs.forEach((bug) => {
@@ -155,22 +156,26 @@ function DevHome(props) {
                         <div id="name" key={id}>
                             <h2>{column.name}</h2>
                             <div style={{ margin: 8 }}>
+                                {/* Area that can be dropped into */}
                                 <Droppable droppableId={id} key={id}>
                                     {(provided, snapshot) => {
                                         return (
                                             <div
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
+                                                className='kanban'
                                                 style={{
-                                                    background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
+                                                    background: snapshot.isDraggingOver ? '#FADA9E' : '#E2E2E2',
                                                     padding: 4,
                                                     width: 250,
                                                     minHeight: 550,
                                                     maxHeight: 550,
-                                                    overflow: 'scroll'
+                                                    overflow: 'scroll',
+                                                    borderRadius: 5
                                                 }}>
                                                 {column.items.map((item, index) => {
                                                     return (
+                                                        // What is being dragged around
                                                         <Draggable key={index} draggableId={item._id} index={item._id}>
                                                             {(provided, snapshot) => {
                                                                 return (
@@ -183,12 +188,14 @@ function DevHome(props) {
                                                                             padding: 16,
                                                                             margin: '0 0 8px 0',
                                                                             minHeight: '50px',
+                                                                            borderRadius: 5,
                                                                             backgroundColor: snapshot.isDragging
-                                                                                ? '#263B4A'
-                                                                                : '#456C86',
+                                                                                ? '#6aa3b4'
+                                                                                : '#6aa3b4',
                                                                             textAlign: 'center',
                                                                             ...provided.draggableProps.style
                                                                         }}>
+                                                                        {/* Link to bug details page */}
                                                                         <Link
                                                                             style={{ color: 'white' }}
                                                                             to={{
@@ -219,7 +226,7 @@ function DevHome(props) {
             </DragDropContext>
             <div id="account-info">
                 {user.permissions === 'dev' ? (
-                    <Link className="btn btn-primary float-left" to="/profile">
+                    <Link className="btn" id='acct-info' to="/profile">
                         Account Information
                     </Link>
                 ) : null}
