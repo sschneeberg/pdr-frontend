@@ -31,25 +31,31 @@ class SubmitStepOne extends Component {
 
         console.log(this.props.productSelect);
         return (
+            <form class="form-wrapper">
+            <fieldset class="section is-active">
+
             <>
-                <h2>Choose a company to submit your bug</h2>
+                <h3>Choose a company to submit your bug</h3>
 
                 <label htmlFor="company">Companies: </label>
-                <select className="form-control" id="company" onChange={onChangeSelect} required>
+                <select className="form-control" id="company" id="name" onChange={onChangeSelect} required>
                     <option>Select a company</option>
                     {company}
                 </select>
 
                 <label>Product: </label>
-                <select className="form-control" type="text" name="product" onChange={onChangeProductSelect} required>
+                <select className="form-control" type="text" id="email" name="product" onChange={onChangeProductSelect} required>
                     <option>Select a Product</option>
                     {product}
                 </select>
-
+               
                 <button className="Next" onClick={this.continue}>
                     Next »
                 </button>
             </>
+         
+            </fieldset>
+             </form>
         );
     }
 }

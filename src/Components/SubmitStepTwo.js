@@ -13,22 +13,26 @@ class SubmitStepTwo extends Component {
     render() {
         const { title, description, handleChange } = this.props;
         return (
+            <form class="form-wrapper">
+            <fieldset class="section is-active">
+
             <>
                 <h2>Enter your ticket information:</h2>
-                <label>Title: </label>
+                <label> <h5> Title: </h5> </label>
                 <input
                     type="text"
                     name="Title"
                     value={title}
                     onChange={handleChange('title')}
                     style={{ backgroundColor: this.props.titleColor }}
+                    maxLength={30}
                     required
                 />
                 <small>
                     {'('}30 Characters Maximum{')'}
                 </small>
-
-                <label>Description: </label>
+<br />
+                <label><h5> Description: </h5> </label>
                 <input
                     type="text"
                     name="description"
@@ -47,7 +51,10 @@ class SubmitStepTwo extends Component {
                 <button className="Next" onClick={this.continue}>
                     Next »
                 </button>
-            </>
+                </>
+         
+         </fieldset>
+          </form>
         );
     }
 }

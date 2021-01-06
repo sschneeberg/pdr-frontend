@@ -116,8 +116,18 @@ export class SubmitBug extends Component {
         const { step } = this.state;
         return (
             <>
-                <h2>Step {step} of 3.</h2>
+            <div class="container">
+            <div class="wrapper">
+
+     
+            <ul class="steps">
+            <li class="is-active"><h2>Step {step} of 3.</h2></li>
+
+            </ul>
+
                 {this.showStep()}
+
+            </div></div>
             </>
         );
     }
