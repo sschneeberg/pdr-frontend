@@ -106,6 +106,21 @@ class Profile extends Component {
         }
     };
 
+    displayDevs = () => {
+        const devTitles = { admin: 'Administrator', dev: 'Developer' };
+        return this.props.location.state.users.map((dev, index) => {
+            return (
+                <div key={index}>
+                    <ul>
+                        <li className="devs">
+                            {dev.username}, {devTitles[dev.permissions]}
+                        </li>
+                    </ul>
+                </div>
+            );
+        });
+    };
+
     render() {
         const userData = (
             <>
@@ -116,16 +131,30 @@ class Profile extends Component {
                     ) : (
                         <>
                             <p>
-                                <strong>Username:</strong> {this.state.user.username}
+                                <strong>Username: </strong> {this.state.user.username}
                             </p>
                             <p>
-                                <strong>Email:</strong> {this.state.user.email}
+                                <strong>Email: </strong> {this.state.user.email}
                             </p>
 
                             {this.state.user.company ? (
-                                <p>
-                                    <strong>Company:</strong> {this.state.user.company}
-                                </p>
+                                <>
+                                    <p>
+                                        <strong>Company: </strong> {this.state.user.company}
+                                    </p>
+
+                                    {this.state.user.permissions === 'admin' ? (
+                                        <>
+                                            <p>
+                                                <strong>Products: </strong>
+                                                {this.props.location.state.products.join(', ')}
+                                            </p>
+                                            <p>
+                                                <strong>Users: </strong> {this.displayDevs()}
+                                            </p>
+                                        </>
+                                    ) : null}
+                                </>
                             ) : null}
                             {this.state.user.permissions === 'admin' ? (
                                 <>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import FormField from './FormField';
+import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import {companySignupHelp} from './User/HelpText'
 
 class CompanySignup extends Component {
     constructor(props) {
@@ -77,8 +79,25 @@ class CompanySignup extends Component {
         });
 
         return (
+            <>
+            <div className="float-right" style={{ display: 'flex' }}>
+                    <OverlayTrigger
+                        trigger="click"
+                        placement="left"
+                        overlay={
+                            <Popover>
+                                <Popover.Title as="h3">Signup Help</Popover.Title>
+                                <Popover.Content>{companySignupHelp}</Popover.Content>
+                            </Popover>
+                        }>
+                        <Button variant="outline-secondary" style={{ borderRadius: '60%'}}>
+                            ?
+                        </Button>
+                    </OverlayTrigger>
+                </div>
             <div className="row mt-4">
                 {this.state.loading ? <p>Loading...</p> : null}
+                
                 <div className="col-md-7 offset-md-3">
                     <div className="card card-body">
                         <h2>Sign Up with your company</h2>
@@ -177,6 +196,7 @@ class CompanySignup extends Component {
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 }

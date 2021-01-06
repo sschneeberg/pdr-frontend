@@ -28,8 +28,7 @@ class SubmitStepOne extends Component {
         }
 
         const { onChangeProductSelect, onChangeSelect } = this.props;
-
-        console.log(this.props.productSelect);
+        
         return (
             <form class="form-wrapper">
             <fieldset class="section is-active">

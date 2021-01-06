@@ -4,62 +4,53 @@ import { NavLink, Link } from 'react-router-dom';
 function Nav(props) {
     return (
         <div className="">
-            <nav className=" navbar navbar-dark bg-dark  ">
-                <Link className="navbar-brand" to="/">
+            <nav className=" navbar nav-color  ">
+                <Link className="navbar-brand" id='brand' to="/" style={{fontFamily: "bebas neue"}}>
                     Pest Damage Report
                 </Link>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarsExample07"
-                    aria-controls="#navbarsExample07"
-                    aria-label="Toggle Navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
             </nav>
-            <div className="collapse navbar-collapse bg-dark" id="navbarsExample07">
+            <div className="nav" id="navbarsExample07">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <NavLink className="nav-link" exact to="/">
+                    <li className="nav-item ">
+                        <NavLink className="nav-link" id='submit-bug' exact to="/" style={{fontFamily: "bebas neue"}}>
                             Submit Bug
                         </NavLink>
                     </li>
                 </ul>
                 {props.isAuth ? (
-                    <ul className="navbar-nav ml-auto">
+                    <ul className="">
                         {props.user.permissions ? (
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/chat">
+                                <NavLink className="nav-link" id='customer-support' to="/chat" style={{fontFamily: "bebas neue"}}>
                                     Customer Support
                                 </NavLink>
                             </li>
                         ) : null}
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/home">
+                            <NavLink className="nav-link" id='dashboard' to="/home" style={{fontFamily: "bebas neue"}}>
                                 Dashboard
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link logout-link" onClick={props.handleLogout} to="/">
+                            <NavLink className="nav-link logout-link" id='logout' onClick={props.handleLogout} to="/" style={{fontFamily: "bebas neue"}}>
                                 Logout
                             </NavLink>
                         </li>
                     </ul>
                 ) : (
-                    <ul className="navbar-nav ml-auto">
+                    <ul className="nav2">
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/about">
+                            <NavLink className="nav-link" id='about' to="/about" style={{fontFamily: "bebas neue"}}>
                                 About
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/signup">
+                            <NavLink className="nav-link" id='create-account' to="/signup" style={{fontFamily: "bebas neue"}}>
                                 Create Account
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/login">
+                            <NavLink className="nav-link" id='login' to="/login" style={{fontFamily: "bebas neue"}}>
                                 Login
                             </NavLink>
                         </li>

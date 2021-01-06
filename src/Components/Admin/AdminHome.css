@@ -1,0 +1,110 @@
+.big-div.admin {
+    width: 800px;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+select,
+option {
+    font-family: Helvetica, sans-serif;
+}
+
+.title.admin {
+    text-align: center;
+    font-size: 30px;
+    font-family: 'bebas-neue';
+}
+
+.bug-details-link.admin {
+    border: 1px solid #888888;
+    width: 800px;
+    height: fit-content;
+    height: -moz-fit-content;
+    height: -webkit-fit-content;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;
+}
+
+h2 {
+    font-family: 'bebas-neue';
+}
+
+.bug-link.admin {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-decoration: none;
+}
+
+.bug-link.admin h2 {
+    align-self: flex-start;
+    color: rgba(106, 163, 180);
+    margin-bottom: 30px;
+}
+
+.bug-link.admin h2 span {
+    align-self: flex-start;
+    color: #adadad;
+    margin-left: 15px;
+    font-size: 0.75em;
+}
+
+.bug-info-a,
+.bug-info-b {
+    display: flex;
+    width: 100%;
+}
+
+.bug-info-a p,
+.bug-info-b p {
+    margin-right: 30px;
+    margin-bottom: 10px;
+    color: black;
+}
+
+form.admin {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+form.admin input:hover {
+    background-color: rgba(106, 163, 180, 0.6);
+    border-color: rgba(106, 163, 180);
+    color: rgba(106, 163, 180);
+}
+
+form.admin select:hover {
+    border-color: rgba(106, 163, 180);
+    color: rgba(106, 163, 180);
+}
+
+.adminNav {
+    width: 200px;
+    position: fixed;
+    left: 30px;
+}
+.adminNav .btn.admin {
+    width: 200px;
+    background: rgba(106, 163, 180, 0.6) 2px solid;
+    border-color: rgba(106, 163, 180);
+    color: rgba(106, 163, 180);
+    margin-bottom: 35px;
+}
+
+@media (max-width: 1350px) {
+    .adminNav {
+        position: static;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+}

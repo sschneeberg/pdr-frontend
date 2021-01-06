@@ -1,6 +1,6 @@
 # PDR (Pest Damage Report)
 
-A bug tracking program that keeps up with bugs on your website! Users can submit bugs, chat directly with representatives, and comment on bugs they have submitted. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted, comment on bugs, delete comments, and assign bugs to developers to fix. 
+A bug tracking program that keeps up with bugs on your website! Users can submit bugs, chat directly with representatives, and comment on bugs they have submitted. if the user has an account they can keep up with all the bugs they have submitted and get updates on said bugs. Admins of the website can see all bugs submitted, comment on bugs, delete comments, and assign bugs to developers to fix.
 
 ## Live [Site](https://pestdamagereport.herokuapp.com/)
 
@@ -14,31 +14,71 @@ As a `software company` I want to sign up developers under my company name to ma
 
 ## Features
 
+### Submit a bug
+
+Users can submit a bug on the homepage of the site with the following feilds: title, description, company, product, image.
+
+### Admin Account
+
+When logged into an admin account, the admin can see all bugs submitted to their company, comment on bugs, delete comments, set the severity of the bug, assign bugs to developers, and chat directly with customers.
+
+### Developer Account
+
+When logged into a developer account, the developer can see all bugs assigned to them, set the status of the bug assiged to them by dragging and dropping the bug into the corresponding column, comment on bugs, and chat directly with customers.
+
+### User Account
+
+When logged into a user account, the user can see and comment on all bugs they have submitted and chat directly with representives. 
+
 ## Installation
+
+### Frontend Setup
+
+1. Fork and Clone this directory (And the [backend directory](https://github.com/sschneeberg/pdr-backend)) to your local machine
+2. Run `npm install` to download dependencies
+3. Set up your .env file with `REACT_APP_SERVER_URL=http://localhost:8000`
+
+### Backend Setup
+
+1. Follow steps on Mongo Atlas to connect databse with repository
+2. paste link given to you inside of the repository
+
+### Final steps
+
+1. Run `npm start` on both repositories
+2. Go to `http://localhost:3000` to see the website
 
 ## Dependencies
 
-## Models
+* API Requests: axios
+* Database: MongoDB
+* Messaging: socket.io-client
+* Dragging & Dropping: react-beautiful-dnd
+* Authentication and Protection: jwt-decode, dotenv
+* Styling: react-Bootstrap
+* React Functionality: react, react-dom, react-form-input-validation, react-router-dom, react-scripts
 
-![Signup](/images/logo.png)
+## Model
 
-![Login](/images/logo.png)
-
-![Landing](/images/logo.png)
-
-![Landing 2](/images/logo.png)
-
-![Admin Home](/images/logo.png)
-
-![Dev Home](/images/logo.png)
+![ERD](erd.png)
 
 ## Wireframes
 
+![Signup](signup.png)
+
+![Login](login.png)
+
+![Landing](Landing.png)
+
+![Landing 2](landingoption2.png)
+
+![Admin Home](adminhome.png)
+
+![Dev Home](devhome.png)
+
 ## Styling
 
-## Routes ?
-
-## Middleware ?
+`IMAGES OF FINISHED SITE`
 
 ## Available Scripts
 

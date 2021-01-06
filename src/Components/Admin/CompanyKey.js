@@ -17,7 +17,7 @@ class CompanyKey extends Component {
     }
 
     componentDidMount() {
-        //get company key
+        // get company key
         this.setState({ loading: true });
         axios.get(`${process.env.REACT_APP_SERVER_URL}/api/company`).then((response) => {
             if (response.data.msg) {

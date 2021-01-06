@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Chat from '../Chat/ChatBubble';
+import './AdminHome.css';
 
 class AdminHome extends Component {
     constructor(props) {
@@ -83,64 +84,68 @@ class AdminHome extends Component {
         });
     };
 
+    makeDate(date) {
+        let dateArray = date.toString().split('T')[0].split('-');
+        return [dateArray[1], dateArray[2], dateArray[0]];
+    }
+
     displaybugs = () => {
-        return this.state.bugs.map((bug, index) => {
-            return (
-                <div key={index} className='bug-list-container'>
-                        <Link
-                            to={{
-                                pathname: `/bugdetails/${bug._id}`,
-                                state: bug
-                            }}>
-                            <p className='bug-p'>Title: {bug.title}</p>
-                            <p className='bug-p'>Product: {bug.product}</p>
-                            <p className='bug-p'>Status: {bug.status}</p>
-                            <p className='bug-p'>Assigned To: {bug.assignedTo}</p>
-                            <p className='bug-p'>Priority: {bug.priority}</p>
-                        </Link>
-                            <form
-                                action=""
-                                onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)}
-                                className="bug-p">
-                                <select name="assignedTo" id="dev" required={true} onChange={this.onChangeDev}>
-                                    <option>Assign Dev To Ticket</option>
-                                    {this.getDevOptions()}
-                                </select>
-                                <select name="priority" id="ticket" required={true} onChange={this.onChangePriority}>
-                                    <option>Set Priority</option>
-                                    <option value="1">Low</option>
-                                    <option value="2">Medium</option>
-                                    <option value="3">High</option>
-                                    <option value="4">Critical</option>
-                                </select>
-                                <input type="submit" />
-                            </form>
-                </div>
-            );
-        });
-    };
+        const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+        const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
 
-    displaydevs = () => {
-        return this.state.devs.map((dev, index) => {
-            return (
-                <div key={index}>
-                    <ul>
-                        <li className="devs">{dev.username}</li>
-                        <li className="devs">{dev.permissions}</li>
-                    </ul>
-                </div>
-            );
-        });
-    };
+        const devMap = {};
+        this.state.devs.forEach((dev) => (devMap[dev._id] = dev.username));
 
-    displayProducts = () => {
-        return this.state.products.map((product, index) => {
+        const bugLinks = this.state.bugs.map((bug, index) => {
             return (
-                <div key={index} id='products-map'>
-                    {product}
+                <div key={index} className="bug-details-link admin">
+                    <Link
+                        className="bug-link admin"
+                        to={{
+                            pathname: `/bugdetails/${bug._id}`,
+                            state: bug
+                        }}>
+                        <h2>
+                            {bug.title} <span>{this.makeDate(bug.createdAt).join('/')}</span>
+                        </h2>
+                        <div class="bug-info-a">
+                            <p>Status: {statusMap[bug.status]}</p>
+                            <p>Product: {bug.product}</p>
+                        </div>
+                        <div className="bug-info-b">
+                            <p>Assigned To: {devMap[bug.assignedTo] ? devMap[bug.assignedTo] : 'Unassigned'}</p>
+                            <p>Priority: {priorityMap[bug.priority] ? priorityMap[bug.priority] : 'Unassigned'}</p>
+                        </div>
+                    </Link>
+                    <form className="admin" action="" onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)}>
+                        <select
+                            className="form-control"
+                            name="assignedTo"
+                            id="dev"
+                            required={true}
+                            onChange={this.onChangeDev}>
+                            <option>Assign Dev To Ticket</option>
+                            {this.getDevOptions()}
+                        </select>
+                        <select
+                            className="form-control"
+                            name="priority"
+                            id="ticket"
+                            required={true}
+                            onChange={this.onChangePriority}>
+                            <option>Set Priority</option>
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3">High</option>
+                            <option value="4">Critical</option>
+                        </select>
+                        <input className="form-control" type="submit" />
+                    </form>
                 </div>
             );
         });
+
+        return bugLinks.reverse();
     };
 
     render() {
@@ -148,39 +153,31 @@ class AdminHome extends Component {
             return <Redirect to="/404" />;
         }
         return (
-            <div>
-                <Link className="btn btn-primary" id="account-info" to={{ pathname: '/profile', state: { users: this.state.devs } }}>
-                    Account Information
-                </Link>
+            <>
+                <div className="adminNav">
+                    <Link
+                        className="btn admin"
+                        to={{ pathname: '/profile', state: { users: this.state.devs, products: this.state.products } }}>
+                        Account Information
+                    </Link>
+
+                    <Link className="btn admin" to="/devhome">
+                        Developer Dashboard
+                    </Link>
+                </div>
                 {this.state.error ? (
                     <p>An error occurred, please reload the page to try again. Contact us if the problem persists.</p>
                 ) : null}
 
                 {this.state.loading ? <p>Loading...</p> : null}
-                <div className="products">
-                    <div>
-                        Products: {this.displayProducts()}
-                    </div>
+
+                <div className="big-div admin" id="bug-container">
+                    <h2>All Tickets:</h2>
+                    {this.displaybugs()}
                 </div>
-                <div>
-                    Devs:
-                    <div>
-                        {this.displaydevs()}
-                    </div>
-                </div>
-                <div id='bug-container'>
-                    Tickets
-                    <div className="bugs">
-                       {this.displaybugs()}
-                    </div>
-                </div>
-                <div id="dev-dashboard">
-                    <Link className="btn btn-primary" to="/devhome">
-                        Developer Dashboard
-                    </Link>
-                </div>
+
                 <Chat user={this.props.user} socket={this.props.socket} setSocket={this.props.setSocket} />
-            </div>
+            </>
         );
     }
 }

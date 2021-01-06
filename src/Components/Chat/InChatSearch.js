@@ -64,6 +64,7 @@ class ChatSearch extends Component {
         //search for tickets with user Id
         if (this.state.ticketMap[this.state.searchParam]) matchedTickets = this.state.ticketMap[this.state.searchParam];
         this.setState({ tickets: matchedTickets });
+        this.setState({ searchParam: '' });
     };
 
     render() {

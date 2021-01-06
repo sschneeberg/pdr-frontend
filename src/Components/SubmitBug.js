@@ -6,7 +6,6 @@ import SubmitAll from './SubmitAll';
 export class SubmitBug extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = {
             step: 1,
             // step 1
@@ -22,16 +21,13 @@ export class SubmitBug extends Component {
             imageUrl: '',
             createdBy: ''
         };
-        console.log(this.props.user);
     }
 
     componentDidMount = () => {
         if (this.props.user === '') {
             this.setState({ createdBy: null });
-            console.log('user is null');
         } else {
             this.setState({ createdBy: this.props.user.id });
-            console.log(this.state.createdBy);
         }
     };
 
