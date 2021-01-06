@@ -35,6 +35,7 @@
 .bug-link.admin h2 {
     align-self: flex-start;
     color: rgba(106, 163, 180);
+    margin-bottom: 30px;
 }
 
 .bug-link.admin h2 span {
@@ -53,6 +54,7 @@
 .bug-info-a p,
 .bug-info-b p {
     margin-right: 30px;
+    margin-bottom: 10px;
     color: black;
 }
 
