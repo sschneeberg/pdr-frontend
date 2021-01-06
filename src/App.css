@@ -239,6 +239,7 @@ ul {
   top: 9px;
   color: #050609;
 }
+
 #brand {
   color: #050609;
 }
@@ -267,6 +268,15 @@ ul {
   border-radius: 10px;
   width: 105%;
 
+}
+
+.gitIcon {
+    text-decoration: none;
+    color: #fada9e;
+}
+
+.gitIcon:hover {
+    color:  rgba(106, 163, 180, 0.6)
 }
 
 #orcas {
