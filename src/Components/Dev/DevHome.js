@@ -46,12 +46,9 @@ function DevHome(props) {
                 if (response.data.msg === 'updated') {
                     setLoading(false);
                     setError(false);
-                    
                 } else {
                     setError(true);
                     setLoading(false);
-                    console.log("ERROR")
-                    console.log(response.data)
                 }
             })
             .catch((e) => {

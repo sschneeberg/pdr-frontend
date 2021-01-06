@@ -1,0 +1,23 @@
+.searchedTicket {
+    list-style: none;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 10px;
+}
+
+.searchTickets {
+    width: 60%;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.InChatSearch form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.searchTickets:focus,
+.go:focus {
+    outline-color: #6aa3b8;
+}

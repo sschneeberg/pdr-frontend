@@ -10,13 +10,13 @@ class MessagePanel extends Component {
                   let msg = segmented;
                   if (tag === 'c') {
                       return (
-                          <li key={index} style={{ backgroundColor: 'lightgrey' }}>
+                          <li key={index} style={{ backgroundColor: '#e2e2e2', textAlign: 'left' }}>
                               {msg}
                           </li>
                       );
                   } else {
                       return (
-                          <li key={index} style={{ backgroundColor: 'whitesmoke' }}>
+                          <li key={index} style={{ backgroundColor: 'whitesmoke', textAlign: 'right' }}>
                               {msg}
                           </li>
                       );
@@ -26,7 +26,7 @@ class MessagePanel extends Component {
         return (
             <div className="MessagePanel">
                 <ul className="messages">
-                    <li className="customerChat" style={{ backgroundColor: 'lightblue' }}>
+                    <li className="customerChat" style={{ backgroundColor: 'rgba(106, 163, 180, 0.6)' }}>
                         {this.props.activeChat ? this.props.activeChat.name : 'No conversation selected'}
                     </li>
                     {messages}
