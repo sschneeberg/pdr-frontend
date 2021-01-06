@@ -124,7 +124,7 @@ class BugDetails extends Component {
         this._isMounted = true;
         if (!this.props.user) this.setState({ redirect: true });
         this.setState({ loading: true });
-        await this.getComments();
+        this.getComments();
         return (this._isMounted = false);
     }
 

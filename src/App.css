@@ -171,6 +171,67 @@ p {
   justify-content: space-evenly;
 }
 
+#account-info {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+}
+#acct-info {
+  background-color: #6aa3b4;
+  color: white;
+}
+.nav-color {
+  background-color: #fada9e;
+}
+#submit-bug {
+  position: fixed;
+  left: 233px;
+  top: 9px;
+  color: #050609;
+}
+#about {
+  position: fixed;
+  left: 330px;
+  top: 9px;
+  color: #050609;
+}
+#create-account {
+  position: fixed;
+  left: 402px;
+  top: 9px;
+  color: #050609;
+}
+#login {
+  position: fixed;
+  right: 70px;
+  top: 9px;
+  color: #050609;
+}
+ul {
+  list-style-type: none;
+}
+#customer-support {
+  position: fixed;
+  left: 330px;
+  top: 9px;
+  color: #050609;
+}
+#dashboard {
+  position: fixed;
+  left: 491px;
+  top: 9px;
+  color: #050609;
+}
+#logout {
+  position: fixed;
+  right: 70px;
+  top: 9px;
+  color: #050609;
+}
+#brand {
+  color: #050609;
+}
+
 .bug-details-link:hover {
     background-color: rgba(106, 163, 180, 0.6);
 }

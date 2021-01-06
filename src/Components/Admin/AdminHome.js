@@ -19,6 +19,7 @@ class AdminHome extends Component {
         };
     }
 
+    // Gets all company ifro from database
     getAdminDash = () => {
         this.setState({ loading: true });
         axios
@@ -46,6 +47,7 @@ class AdminHome extends Component {
         this.getAdminDash();
     }
 
+    // Updates priority and assigned dev in database
     assignDevAndUpdatePriority = (e, id) => {
         e.preventDefault();
         axios
@@ -62,6 +64,7 @@ class AdminHome extends Component {
             });
     };
 
+    // Gets all devs from database
     getDevOptions = () => {
         return this.state.devs.map((dev, index) => {
             return (
@@ -72,6 +75,7 @@ class AdminHome extends Component {
         });
     };
 
+    // Sets state of priority and who the bug was assigned to
     onChangeDev = (e) => {
         this.setState({
             assignedTo: e.target.value
@@ -89,14 +93,10 @@ class AdminHome extends Component {
         return [dateArray[1], dateArray[2], dateArray[0]];
     }
 
+// Displays bug properties and form to update assigned to and priority
     displaybugs = () => {
         const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
         const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
-
-        const devMap = {};
-        this.state.devs.forEach((dev) => (devMap[dev._id] = dev.username));
-
-        const bugLinks = this.state.bugs.map((bug, index) => {
             return (
                 <div key={index} className="bug-details-link admin">
                     <Link

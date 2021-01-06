@@ -25,7 +25,7 @@ class AdminControls extends Component {
     handleSubmit(e) {
         e.preventDefault();
         this.setState({ loading: true });
-        //save user's permissions, send to backend
+        // save user's permissions, send to backend
         axios
             .put(`${process.env.REACT_APP_SERVER_URL}/api/users/permissions/${e.target[1].value}`, {
                 permissions: e.target[0].value
@@ -43,7 +43,7 @@ class AdminControls extends Component {
     handleDelete(e, id) {
         e.preventDefault();
         axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/users/${id}`).then((response) => {
-            //handle errors
+            // handle errors
             if (typeof response.data.msg === 'string' && response.data.msg.includes('deleted')) {
                 this.setState({ error: false, changed: true, loading: false });
             } else {
