@@ -41,7 +41,7 @@ class BugDetails extends Component {
     };
 
     displayComments = () => {
-        return this.state.comments.map((comment, index) => {
+        const comments = this.state.comments.map((comment, index) => {
             return (
                 <>
                     {comment.commentBy === this.props.user.id ? (
@@ -71,6 +71,7 @@ class BugDetails extends Component {
                 </>
             );
         });
+        return comments.reverse();
     };
 
     handleDelete = (id) => {
@@ -99,7 +100,7 @@ class BugDetails extends Component {
         e.preventDefault();
         this.setState({ loading: true });
         let { comment } = this.state;
-        const permissionsMap = { dev: '[Support]', admin: '[Admin]' };
+        const permissionsMap = { dev: '[Support] ', admin: '[Admin] ' };
         let userTag = permissionsMap[this.props.user.permissions] || '';
         comment = userTag + comment;
         axios
