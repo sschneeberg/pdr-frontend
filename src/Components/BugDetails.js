@@ -37,13 +37,11 @@ class BugDetails extends Component {
                 } else {
                     this.setState({ loading: false, error: true, redirect: true });
                 }
-                console.log(err);
             });
     };
 
     displayComments = () => {
         return this.state.comments.map((comment, index) => {
-            console.log(comment.commentBy === this.props.user.id);
             return (
                 <>
                     {comment.commentBy === this.props.user.id ? (
