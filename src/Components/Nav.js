@@ -16,6 +16,11 @@ function Nav(props) {
                             Submit Bug
                         </NavLink>
                     </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" id='about' to="/about" style={{fontFamily: "bebas neue"}}>
+                            About
+                        </NavLink>
+                    </li>
                 </ul>
                 {props.isAuth ? (
                     <ul className="">
@@ -39,11 +44,6 @@ function Nav(props) {
                     </ul>
                 ) : (
                     <ul className="nav2">
-                        <li className="nav-item">
-                            <NavLink className="nav-link" id='about' to="/about" style={{fontFamily: "bebas neue"}}>
-                                About
-                            </NavLink>
-                        </li>
                         <li className="nav-item">
                             <NavLink className="nav-link" id='create-account' to="/signup" style={{fontFamily: "bebas neue"}}>
                                 Create Account
