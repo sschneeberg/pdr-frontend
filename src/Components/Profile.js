@@ -142,12 +142,18 @@ class Profile extends Component {
                                     <p>
                                         <strong>Company: </strong> {this.state.user.company}
                                     </p>
-                                    <p>
-                                        <strong>Products: </strong> {this.props.location.state.products.join(', ')}
-                                    </p>
-                                    <p>
-                                        <strong>Users: </strong> {this.displayDevs()}
-                                    </p>
+
+                                    {this.state.user.permissions === 'admin' ? (
+                                        <>
+                                            <p>
+                                                <strong>Products: </strong>
+                                                {this.props.location.state.products.join(', ')}
+                                            </p>
+                                            <p>
+                                                <strong>Users: </strong> {this.displayDevs()}
+                                            </p>
+                                        </>
+                                    ) : null}
                                 </>
                             ) : null}
                             {this.state.user.permissions === 'admin' ? (
