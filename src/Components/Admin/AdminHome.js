@@ -19,7 +19,6 @@ class AdminHome extends Component {
         };
     }
 
-    // Gets all company ifro from database
     getAdminDash = () => {
         this.setState({ loading: true });
         axios
@@ -47,7 +46,6 @@ class AdminHome extends Component {
         this.getAdminDash();
     }
 
-    // Updates priority and assigned dev in database
     assignDevAndUpdatePriority = (e, id) => {
         e.preventDefault();
         axios
@@ -64,7 +62,6 @@ class AdminHome extends Component {
             });
     };
 
-    // Gets all devs from database
     getDevOptions = () => {
         return this.state.devs.map((dev, index) => {
             return (
@@ -75,7 +72,6 @@ class AdminHome extends Component {
         });
     };
 
-    // Sets state of priority and who the bug was assigned to
     onChangeDev = (e) => {
         this.setState({
             assignedTo: e.target.value
@@ -93,10 +89,14 @@ class AdminHome extends Component {
         return [dateArray[1], dateArray[2], dateArray[0]];
     }
 
-// Displays bug properties and form to update assigned to and priority
     displaybugs = () => {
         const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
         const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
+
+        const devMap = {};
+        this.state.devs.forEach((dev) => (devMap[dev._id] = dev.username));
+
+        const bugLinks = this.state.bugs.map((bug, index) => {
             return (
                 <div key={index} className="bug-details-link admin">
                     <Link
@@ -109,12 +109,12 @@ class AdminHome extends Component {
                             {bug.title} <span>{this.makeDate(bug.createdAt).join('/')}</span>
                         </h2>
                         <div class="bug-info-a">
-                            <p><strong>Status:</strong> {statusMap[bug.status]}</p>
-                            <p><strong>Product:</strong> {bug.product}</p>
+                            <p>Status: {statusMap[bug.status]}</p>
+                            <p>Product: {bug.product}</p>
                         </div>
                         <div className="bug-info-b">
-                            <p><strong>Assigned To:</strong> {devMap[bug.assignedTo] ? devMap[bug.assignedTo] : 'Unassigned'}</p>
-                            <p><strong>Priority:</strong> {priorityMap[bug.priority] ? priorityMap[bug.priority] : 'Unassigned'}</p>
+                            <p>Assigned To: {devMap[bug.assignedTo] ? devMap[bug.assignedTo] : 'Unassigned'}</p>
+                            <p>Priority: {priorityMap[bug.priority] ? priorityMap[bug.priority] : 'Unassigned'}</p>
                         </div>
                     </Link>
                     <form className="admin" action="" onSubmit={(e) => this.assignDevAndUpdatePriority(e, bug._id)}>
@@ -139,7 +139,7 @@ class AdminHome extends Component {
                             <option value="3">High</option>
                             <option value="4">Critical</option>
                         </select>
-                        <input className="form-control" type="submit" id="submit-btn"/>
+                        <input className="form-control" type="submit" />
                     </form>
                 </div>
             );
@@ -162,7 +162,7 @@ class AdminHome extends Component {
                         Account Information
                     </Link>
 
-                    <Link className="btn" to="/devhome" > 
+                    <Link className="btn" to="/devhome">
                         Developer Dashboard
                     </Link>
                 </div>
@@ -173,7 +173,7 @@ class AdminHome extends Component {
                 {this.state.loading ? <p>Loading...</p> : null}
 
                 <div className="big-div admin" id="bug-container">
-                    <h2 style={{fontFamily: "bebas-neue"}}>All Tickets:</h2>
+                    <h2>All Tickets:</h2>
                     {this.displaybugs()}
                 </div>
 
