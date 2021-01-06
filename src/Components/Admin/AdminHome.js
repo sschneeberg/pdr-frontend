@@ -153,16 +153,15 @@ class AdminHome extends Component {
             return <Redirect to="/404" />;
         }
         return (
-            <div>
+            <>
                 <div className="adminNav">
                     <Link
-                        className="btn"
-                        id="account-info"
+                        className="btn admin"
                         to={{ pathname: '/profile', state: { users: this.state.devs, products: this.state.products } }}>
                         Account Information
                     </Link>
 
-                    <Link className="btn" to="/devhome">
+                    <Link className="btn admin" to="/devhome">
                         Developer Dashboard
                     </Link>
                 </div>
@@ -178,7 +177,7 @@ class AdminHome extends Component {
                 </div>
 
                 <Chat user={this.props.user} socket={this.props.socket} setSocket={this.props.setSocket} />
-            </div>
+            </>
         );
     }
 }

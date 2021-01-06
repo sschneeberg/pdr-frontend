@@ -1,5 +1,5 @@
 .big-div.admin {
-    width: 100%;
+    width: 800px;
     text-align: center;
     position: relative;
     margin: 0 auto;
@@ -8,14 +8,15 @@
     align-content: center;
 }
 
-select, option {
+select,
+option {
     font-family: Helvetica, sans-serif;
 }
 
 .title.admin {
     text-align: center;
     font-size: 30px;
-    font-family: "bebas-neue";
+    font-family: 'bebas-neue';
 }
 
 .bug-details-link.admin {
@@ -33,7 +34,7 @@ select, option {
 }
 
 h2 {
-    font-family: "bebas-neue"
+    font-family: 'bebas-neue';
 }
 
 .bug-link.admin {
@@ -91,7 +92,7 @@ form.admin select:hover {
     position: fixed;
     left: 30px;
 }
-.adminNav .btn {
+.adminNav .btn.admin {
     width: 200px;
     background: rgba(106, 163, 180, 0.6) 2px solid;
     border-color: rgba(106, 163, 180);
@@ -99,7 +100,7 @@ form.admin select:hover {
     margin-bottom: 35px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
     .adminNav {
         position: static;
         width: 100%;
