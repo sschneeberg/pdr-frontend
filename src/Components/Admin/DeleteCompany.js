@@ -50,6 +50,7 @@ class DeleteCompany extends Component {
                 </p>
                 <input
                     type="text"
+                    className='form-control'
                     value={this.state.confirm}
                     onChange={(e) => {
                         this.setState({ confirm: e.target.value });
