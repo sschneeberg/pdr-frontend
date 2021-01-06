@@ -17,11 +17,13 @@ body {
     height: 40px; /* Set the fixed height of the footer here */
     line-height: 40px; /* Vertically center the text there */
 }
+
 #return-container {
     display: flex;
     justify-content: center;
     height: 100%;
 }
+
 #name {
     display: flex;
     flex-direction: column;
@@ -193,7 +195,7 @@ p {
   padding: 5px;
   text-align: center;
   border-radius: 10px;
-  
+  width: 105%;
 }
 
 #orcas {
