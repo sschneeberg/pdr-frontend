@@ -9,7 +9,8 @@ html {
 }
 
 body {
-  bottom: 10000px; /* Margin bottom by footer height */
+  margin-bottom: 40px;
+  padding-bottom: 100px; /* Margin bottom by footer height */
 }
 
 .footer {
