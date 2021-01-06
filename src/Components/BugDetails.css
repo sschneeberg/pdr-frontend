@@ -5,6 +5,7 @@ div.Ticket {
     display: flex;
     flex-direction: column;
     margin: 20px;
+    font-family: Helvetica
 }
 
 .Ticket div.details {
@@ -40,6 +41,7 @@ div.Comment {
     margin: 20px;
     display: flex;
     justify-content: space-between;
+    font-family: Helvetica;
 }
 
 div.Comment p span {
@@ -49,6 +51,7 @@ div.Comment p span {
 
 div.Comment Button {
     background-color: white;
+    font-family: Helvetica;
 }
 
 div.commentForm {

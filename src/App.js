@@ -116,7 +116,6 @@ function App() {
     return (
         <div className="App">
             <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
-            <Footer />
             <div className="container mt-5">
                 <Switch>
                     <Route
@@ -218,6 +217,8 @@ function App() {
                     <Route path="*" component={Error404} />
                 </Switch>
             </div>
+            <div><br></br><br></br><br></br></div>
+            <Footer />
         </div>
     );
 }
