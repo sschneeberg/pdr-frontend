@@ -141,7 +141,7 @@ class BugDetails extends Component {
         const { bug } = this.state;
 
         const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
-        const statusMap = { 1: 'Assigned', 2: 'In Review', 3: 'Closed' };
+        const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
 
         return (
             <div>

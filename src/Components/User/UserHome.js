@@ -72,7 +72,7 @@ class UserHome extends Component {
         }
 
         const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
-        const statusMap = { 1: 'Assigned', 2: 'In Review', 3: 'Closed' };
+        const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
 
         const pageDisplay = () => {
             if (this.state.notification) {
