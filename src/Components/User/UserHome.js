@@ -25,8 +25,9 @@ class UserHome extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
+        this.axiosCancelSource = axios.CancelToken.source();
         axios
-            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`)
+            .get(`${process.env.REACT_APP_SERVER_URL}/api/dashboard`, { cancelToken: this.axiosCancelSource.token })
             .then((response) => {
                 if (response.data.msg) {
                     this.setState({ loading: false, error: true, redirect: true });
@@ -47,6 +48,10 @@ class UserHome extends Component {
             });
     }
 
+    componentWillUnmount() {
+        this.axiosCancelSource.cancel('request canceled.');
+    }
+
     resetNote = () => {
         return this.setState({ notification: false, title: null, ticketUser: null });
     };
@@ -61,6 +66,14 @@ class UserHome extends Component {
     };
 
     render() {
+        if (!this.props.user) {
+            this.props.handleLogout();
+            return <Redirect to="/" />;
+        }
+
+        const priorityMap = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+        const statusMap = { 1: 'Received', 2: 'In Review', 3: 'Closed' };
+
         const pageDisplay = () => {
             if (this.state.notification) {
                 return (
@@ -121,15 +134,15 @@ class UserHome extends Component {
                                                 <p><strong>Company: </strong>"{bug.company}"</p>
                                             </div>
                                             <div>
-                                                {bug.status === 1 ? (<p><strong>Status: </strong>Low</p>) 
-                                                : bug.status === 2 ? (<p><strong>Status: </strong>Medium</p>)
-                                                : bug.status === 3 ? (<p><strong>Status: </strong>High</p>) 
-                                                : (<p><strong>Status: </strong>Critical</p>)}
+
+                                                <strong>Status: </strong>
+                                                {statusMap[bug.status]}
                                             </div>
                                             {bug.priority ? (
                                                 <div>
-                                                    <p><strong>Priority: </strong>
-                                                    {bug.priority}</p>
+                                                    <strong>Priority: </strong>
+                                                    {priorityMap[bug.priority]}
+
                                                 </div>
                                             ) : (
                                                 <div>
@@ -167,15 +180,15 @@ class UserHome extends Component {
                                         <p><strong>Company: </strong>"{bug.company}"</p>
                                     </div>
                                     <div>
-                                        {bug.status === 1 ? (<p><strong>Status: </strong>Low</p>) 
-                                        : bug.status === 2 ? (<p><strong>Status: </strong>Medium</p>)
-                                        : bug.status === 3 ? (<p><strong>Status: </strong>High</p>) 
-                                        : (<p><strong>Status: </strong>Critical</p>)}
+
+                                        <strong>Status: </strong>
+                                        {statusMap[bug.status]}
                                     </div>
                                     {bug.priority ? (
                                         <div>
-                                            <p><strong>Priority: </strong>
-                                            {bug.priority}</p>
+                                            <strong>Priority: </strong>
+                                            {priorityMap[bug.status]}
+
                                         </div>
                                     ) : (
                                         <div>

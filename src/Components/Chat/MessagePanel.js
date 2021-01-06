@@ -31,21 +31,41 @@ class MessagePanel extends Component {
                     </li>
                     {messages}
                 </ul>
-                <form onSubmit={(e) => this.props.sendMessage(e)} className="messageBar">
-                    <input
-                        className="messageInput"
-                        type="text"
-                        onChange={(e) => this.props.handleChange(e)}
-                        value={this.props.message}
-                    />
-                    <input className="messageSend" type="submit" value="Send" />
-                    <input
-                        className="conversationEnd"
-                        type="button"
-                        value="Close"
-                        onClick={() => this.props.endChat()}
-                    />
-                </form>
+                {this.props.activeChat ? (
+                    <form onSubmit={(e) => this.props.sendMessage(e)} className="messageBar">
+                        <input
+                            className="messageInput"
+                            type="text"
+                            onChange={(e) => this.props.handleChange(e)}
+                            value={this.props.message}
+                        />
+                        <input className="messageSend" type="submit" value="Send" />
+                        <input
+                            className="conversationEnd"
+                            type="button"
+                            value="Close"
+                            onClick={() => this.props.endChat()}
+                        />
+                    </form>
+                ) : (
+                    <form onSubmit={(e) => this.props.sendMessage(e)} className="messageBar">
+                        <input
+                            className="messageInput"
+                            type="text"
+                            onChange={(e) => this.props.handleChange(e)}
+                            value={this.props.message}
+                            disabled
+                        />
+                        <input className="messageSend" type="submit" value="Send" disabled />
+                        <input
+                            className="conversationEnd"
+                            type="button"
+                            value="Close"
+                            onClick={() => this.props.endChat()}
+                            disabled
+                        />
+                    </form>
+                )}
             </div>
         );
     }
