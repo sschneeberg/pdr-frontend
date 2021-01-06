@@ -80,7 +80,19 @@ When logged into a user account, the user can see and comment on all bugs they h
 
 `IMAGES OF FINISHED SITE`
 
-## Available Scripts
+
+## Stretch goals
+
+We hope to continue working on this again in a few weeks.  Here are the things we would like to include:
+
+- Live video chat options between customer and support
+- Embeddable bug submit for companies to include in their sites
+- Search tickets feature in Admin Dashboard
+- Removing older, completed tickets from Company dashboards (but not from the database)
+- Code refactoring for efficiency
+- And Some small tweaks like adding more products after a company signs up, switching instead of adding developers as assigned to tickets, including a count of how many tickets a developer has to effectively delegate 
+
+## REACT: Available Scripts
 
 In the project directory, you can run:
 
