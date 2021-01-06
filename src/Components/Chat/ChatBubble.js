@@ -159,11 +159,11 @@ class Chat extends Component {
     render() {
         const msgList = this.state.messages.map((m, index) => {
             return this.state.user.id === m.id ? (
-                <li key={index} style={{ backgroundColor: 'slategray', textAlign: 'right' }}>
+                <li key={index} style={{ backgroundColor: '#e2e2e2', textAlign: 'right' }}>
                     {m.text}
                 </li>
             ) : (
-                <li key={index} style={{ backgroundColor: 'lightblue' }}>
+                <li key={index} style={{ backgroundColor: 'rgba(106, 163, 180, 0.6)' }}>
                     {m.text}
                 </li>
             );
@@ -216,20 +216,22 @@ class Chat extends Component {
                                             <>
                                                 <input
                                                     type="text"
+                                                    className="typeBar"
                                                     onChange={(e) => this.handleChange(e)}
                                                     value={this.state.message}
                                                 />
-                                                <input type="submit" value="Send" />{' '}
+                                                <input type="submit" className="sendMsg btn" value="Send" />{' '}
                                             </>
                                         ) : (
                                             <>
                                                 <input
                                                     type="text"
+                                                    className="typeBar"
                                                     onChange={(e) => this.handleChange(e)}
                                                     value={this.state.message}
                                                     disabled
                                                 />
-                                                <input type="submit" value="Send" disabled />{' '}
+                                                <input type="submit" className="sendMsg btn" value="send" disabled />{' '}
                                             </>
                                         )}
                                     </form>
@@ -243,11 +245,11 @@ class Chat extends Component {
 
                 <button
                     className="btn btn-info float-right"
-                    style={{ borderRadius: '45%' }}
+                    style={{ borderRadius: '45%', borderColor: 'rgba(106, 163, 180)' }}
                     type="button"
                     onClick={() => this.expandChat()}>
                     <svg
-                        style={{ paddingTop: '3px' }}
+                        style={{ paddingTop: '4px', color: '#888888' }}
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"

@@ -108,15 +108,21 @@ class ChatPortal extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container chatContainer">
                 {this.state.user.permissions && this.props.socket ? (
                     <>
                         {this.state.online ? (
-                            <Button variant="outline-danger" onClick={() => this.toggleOnline()}>
+                            <Button
+                                className="availability danger"
+                                variant="outline-danger"
+                                onClick={() => this.toggleOnline()}>
                                 End Session
                             </Button>
                         ) : (
-                            <Button variant="outline-success" onClick={() => this.toggleOnline()}>
+                            <Button
+                                className="availability success"
+                                variant="outline-success"
+                                onClick={() => this.toggleOnline()}>
                                 Available
                             </Button>
                         )}
@@ -132,7 +138,10 @@ class ChatPortal extends Component {
                                         <Popover.Content>{CustomerChatHelp}</Popover.Content>
                                     </Popover>
                                 }>
-                                <Button variant="outline-secondary" style={{ borderRadius: '60%'}}>
+                                <Button
+                                    variant="outline-secondary"
+                                    className="searchInChat"
+                                    style={{ borderRadius: '60%' }}>
                                     ?
                                 </Button>
                             </OverlayTrigger>

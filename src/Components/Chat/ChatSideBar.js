@@ -21,8 +21,8 @@ class ChatSideBar extends Component {
         return (
             <div className="sideBar">
                 <ul className="chats">
-                    <li className="customerChat" style={{ backgroundColor: 'lightblue' }}>
-                        Active Customer Conversations
+                    <li className="customerChat" style={{ backgroundColor: 'rgba(106, 163, 180, 0.6)' }}>
+                        Active Conversations
                     </li>
                     {openChats}
                 </ul>

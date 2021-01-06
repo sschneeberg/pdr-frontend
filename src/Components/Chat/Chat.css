@@ -2,14 +2,18 @@ div.chat {
     position: fixed;
     right: 50px;
     bottom: 100px;
+    font-family: Helvetica, sans-serif;
 }
 
 div.chatWindow {
     position: relative;
     height: 300px;
     width: 230px;
-    background-color: aliceblue;
-    border: 2px solid grey;
+    background-color: honeydew;
+    border: 2px solid #6aa3b8;
+    border-radius: 6px;
+    font-family: Helvetica, sans-serif;
+    margin-bottom: 10px;
 }
 
 div.messageWindow {
@@ -25,6 +29,7 @@ ul.messages {
 
 ul.messages li {
     width: 100%;
+    padding: 3px;
 }
 
 form.chatBar,
@@ -33,6 +38,23 @@ form.messageBar {
     bottom: 0;
     width: 100%;
     display: flex;
+}
+
+form.chatBar input {
+    border-radius: 3px;
+    border-color: #888888;
+}
+
+form.chatBar input.typeBar {
+    width: 77%;
+}
+
+form.chatBar input.btn {
+    background-color: white;
+}
+
+form.chatBar input.typeBar:focus {
+    outline-color: #6aa3b8;
 }
 
 button.notificationsBubble {
@@ -51,22 +73,34 @@ button.notificationsBubble p {
     bottom: 115px;
 }
 
+.container.chatContainer {
+    margin-top: 10vh;
+    width: 90vw;
+}
+
 .ChatPortal {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 2fr 4fr;
     grid-template-rows: 1fr;
+    gap: 1em;
     height: 70vh;
+    width: 100%;
+    border-radius: 6px;
+    margin-top: 20px;
+    text-align: center;
 }
 
 .sideBar {
     height: 100%;
-    border: 2px solid grey;
+    border: 1px solid #888888;
+    border-radius: 6px;
 }
 
 .MessagePanel {
     height: 100%;
-    border: 2px solid grey;
+    border: 1px solid #888888;
     position: relative;
+    border-radius: 6px;
 }
 
 ul.chats {
@@ -77,14 +111,51 @@ ul.chats {
 .customerChat {
     list-style: none;
     line-height: 40px;
-    border: 1px lightgrey solid;
+    border-bottom: 1px #888888 solid;
+    font-size: 16px;
 }
 
 .messageInput {
-    width: 76%;
+    width: 75%;
+    border-radius: 3px;
+    border-color: #e2e2e2;
 }
 
 .messageSend,
 .conversationEnd {
-    width: 12%;
+    width: 13%;
+    border-radius: 3px;
+    border-color: #e2e2e2;
+}
+
+.messageInput:focus,
+.messageSend:focus,
+.conversationEnd:focus {
+    outline-color: #6aa3b8;
+}
+
+.searchInChat {
+    margin-left: 10px;
+}
+
+Button.availability.success {
+    background-color: white;
+    border-color: green;
+    color: green;
+}
+
+Button.availability.danger {
+    background-color: white;
+    border-color: red;
+    color: red;
+}
+
+Button.availability.success:hover {
+    background-color: green;
+    color: white;
+}
+
+Button.availability.danger:hover {
+    background-color: red;
+    color: white;
 }

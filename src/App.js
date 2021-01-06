@@ -217,6 +217,7 @@ function App() {
                     <Route path="*" component={Error404} />
                 </Switch>
             </div>
+            <div><br></br><br></br><br></br></div>
             <Footer />
         </div>
     );
