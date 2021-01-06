@@ -67,7 +67,6 @@ class SubmitAll extends Component {
                     imageAlt: `An image of ${res.original_filename}`,
                     error: false
                 });
-                console.log('hello', res.secure_url);
             })
             .catch((err) => this.setState({ error: true }));
     };
@@ -94,8 +93,6 @@ class SubmitAll extends Component {
     };
 
     render() {
-        console.log('REDIRECT', this.state.redirect);
-        console.log('USER', this.props.user);
         const { companySelect, company, title, description } = this.props;
         const { imageUrl, imageAlt } = this.state;
         return (

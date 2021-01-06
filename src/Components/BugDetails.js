@@ -80,7 +80,6 @@ class BugDetails extends Component {
         axios
             .delete(`${process.env.REACT_APP_SERVER_URL}/api/tickets/${id}/comments`)
             .then((response) => {
-                console.log(response);
                 if (typeof response.data.msg === 'string') {
                     this.setState({ loading: false, error: false });
                     this.getComments();
@@ -124,7 +123,7 @@ class BugDetails extends Component {
         this._isMounted = true;
         if (!this.props.user) this.setState({ redirect: true });
         this.setState({ loading: true });
-        await this.getComments();
+        this.getComments();
         return (this._isMounted = false);
     }
 
