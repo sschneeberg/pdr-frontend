@@ -28,7 +28,7 @@ When logged into a developer account, the developer can see all bugs assigned to
 
 ### User Account
 
-When logged into a user account, the user can see and comment on all bugs they have submitted and chat directly with representives. 
+When logged into a user account, the user can see and comment on all bugs they have submitted and chat directly with representives.
 
 ## Installation
 
@@ -50,13 +50,13 @@ When logged into a user account, the user can see and comment on all bugs they h
 
 ## Dependencies
 
-* API Requests: axios
-* Database: MongoDB
-* Messaging: socket.io-client
-* Dragging & Dropping: react-beautiful-dnd
-* Authentication and Protection: jwt-decode, dotenv
-* Styling: react-Bootstrap
-* React Functionality: react, react-dom, react-form-input-validation, react-router-dom, react-scripts
+-   API Requests: axios
+-   Database: MongoDB
+-   Messaging: socket.io-client
+-   Dragging & Dropping: react-beautiful-dnd
+-   Authentication and Protection: jwt-decode, dotenv
+-   Styling: react-Bootstrap
+-   React Functionality: react, react-dom, react-form-input-validation, react-router-dom, react-scripts
 
 ## Model
 
@@ -80,20 +80,19 @@ When logged into a user account, the user can see and comment on all bugs they h
 
 `IMAGES OF FINISHED SITE`
 
-
 ## Stretch goals
 
-We hope to continue working on this again in a few weeks.  Here are the things we would like to include:
+We hope to continue working on this again in a few weeks. Here are the things we would like to include:
 
-- Live video chat options between customer and support
-- Embeddable bug submit for companies to include in their sites
-- Google OAuth interation
-- Search tickets feature in Admin Dashboard
-- Removing older, completed tickets from Company dashboards (but not from the database)
-- Code refactoring for efficiency
-- And Some small tweaks like adding more products after a company signs up, switching instead of adding developers as assigned to tickets, including a count of how many tickets a developer has to effectively delegate 
+-   Live video chat options between customer and support
+-   Embeddable bug submit for companies to include in their sites
+-   Google OAuth interation
+-   Search tickets feature in Admin Dashboard
+-   Removing older, completed tickets from Company dashboards (but not from the database)
+-   Code refactoring for efficiency
+-   And Some small tweaks like adding more products after a company signs up, switching instead of adding developers as assigned to tickets, including a count of how many tickets a developer has to effectively delegate
 
-## REACT: Available Scripts
+## From React: Available Scripts
 
 In the project directory, you can run:
 
