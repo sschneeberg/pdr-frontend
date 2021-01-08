@@ -78,7 +78,25 @@ When logged into a user account, the user can see and comment on all bugs they h
 
 ## Styling
 
-`IMAGES OF FINISHED SITE`
+Landing Page: Submit a Bug (Public)
+
+![Landing](pdrLanding.png)
+
+User Home (Private):
+
+![UserHome](pdrUser.png)
+
+Dev/Support Home (Private):
+
+![DevHome](prdDev.png)
+
+Admin Home (Private):
+
+![AdminHome](pdrAdmin.png)
+
+Customer Support Chat (Private):
+
+![Chat](pdrChat.png)
 
 ## Stretch goals
 
