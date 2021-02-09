@@ -11,11 +11,13 @@ function Nav(props) {
             </nav>
             <div className="nav" id="navbarsExample07">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item ">
-                        <NavLink className="nav-link" id='submit-bug' exact to="/" style={{fontFamily: "Helvetica"}}>
-                            Submit Bug
-                        </NavLink>
-                    </li>
+                    {props.user.permissions ?  (
+                        null
+                    ) : <li className="nav-item ">
+                            <NavLink className="nav-link" id='submit-bug' exact to="/" style={{fontFamily: "Helvetica"}} >
+                                Submit Bug
+                            </NavLink>
+                        </li>}
                     <li className="nav-item">
                         <NavLink className="nav-link" id='about' to="/about" style={{fontFamily: "Helvetica"}}>
                             About

@@ -109,8 +109,6 @@ function App() {
         }
     };
 
-    console.log(process.env);
-
     if (loading) {
         return <div>Loading....</div>;
     }
@@ -118,10 +116,11 @@ function App() {
     if (redirect) {
         return <Redirect to="/404" />;
     }
+    console.log(currentUser)
 
     return (
         <div className="App">
-            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} />
+            <Nav handleLogout={handleLogout} isAuth={isAuthenticated} user={currentUser} socket={socket} user={currentUser} />
             <div className="container mt-5">
                 <Switch>
                     <Route
