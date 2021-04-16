@@ -112,6 +112,8 @@ We hope to continue working on this again in a few weeks. Here are the things we
 
 ## From React: Available Scripts
 
+This app was initiated with `npx create-react-app`
+
 In the project directory, you can run:
 
 ### `npm start`
